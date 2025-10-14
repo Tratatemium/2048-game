@@ -33,34 +33,46 @@
         }
 
         return result;
-    }
+    };
+
+    const addNumberAtRundom = () => {
+        let emptySpaces = [];
+
+        for (let i = 0; i < gameArray.length; i++) {
+            for (let j = 0; j < gameArray.length; j++) {
+                if (gameArray[i][j] === 0) emptySpaces.push([i, j]);
+            }
+        }
+
+        if (emptySpaces.length > 0) {
+            const randomSpace = Math.floor(Math.random() * emptySpaces.length);
+            const randomIndexes = emptySpaces[randomSpace];
+
+            gameArray[randomIndexes[0]][randomIndexes[1]] = Math.random() > 0.3 ? 2 : 4;
+        }
+    };
 
 
-        const onKeyDown = (event) => {
+    const onKeyDown = (event) => {
 
         let somethingMoved = false;
 
         switch (event.key) {
             case 'ArrowLeft':
-                console.log('ArrowLeft')
                 for (let i = 0; i < gameArray.length; i++) {
                     const lineBefore = [...gameArray[i]];
                     gameArray[i] = slideAndMerge(gameArray[i]);
                     if (gameArray[i].some((element, index) => element !== lineBefore[index])) somethingMoved = true;
                 }
-                updateGameField()
                 break;
             case 'ArrowRight':
-                console.log('ArrowRight')
                 for (let i = 0; i < gameArray.length; i++) {
                     const lineBefore = [...gameArray[i]];
                     gameArray[i] = slideAndMerge(gameArray[i].reverse()).reverse();
                     if (gameArray[i].some((element, index) => element !== lineBefore[index])) somethingMoved = true;
                 }
-                updateGameField()
                 break;
             case 'ArrowUp':
-                console.log('ArrowUp')
                 for (let j = 0; j < gameArray.length; j++) {
                     let column = gameArray.map((row) => row[j]);
                     const lineBefore = [... column];
@@ -68,10 +80,8 @@
                     if (column.some((element, index) => element !== lineBefore[index])) somethingMoved = true;
                     for (let i = 0; i < gameArray.length; i ++) gameArray[i][j] = column[i];
                 }
-                updateGameField()
                 break;
             case 'ArrowDown':
-                console.log('ArrowDown')
                 for (let j = 0; j < gameArray.length; j++) {
                     let column = gameArray.map((row) => row[j]);
                     const lineBefore = [... column];
@@ -79,15 +89,14 @@
                     if (column.some((element, index) => element !== lineBefore[index])) somethingMoved = true;
                     for (let i = 0; i < gameArray.length; i ++) gameArray[i][j] = column[i];
                 }
-                updateGameField()
                 break;
             default:
         }
 
-    if (somethingMoved) {
-        console.log('Something moved');
-    }
-
+        if (somethingMoved) {
+            addNumberAtRundom();
+            updateGameField();
+        }
     };
 
 
