@@ -76,4 +76,24 @@ textarea:not([rows]) {
 
 /* #endregion CSS RESET */
 
+.game-field{
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
 
+.row{
+    display: flex;
+    flex-direction: row;
+    gap: 0.1rem;
+}
+
+.element{
+    display: flex;
+    border: 1px solid gray;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin: 0;
+}
