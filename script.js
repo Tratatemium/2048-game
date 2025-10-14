@@ -9,97 +9,88 @@
                 if (!gameElement) {
                     console.log('⚠️ updateGameField() failed to select game element!')
                 } else {
-                    gameElement.textContent = gameArray[i][j];
+                    gameElement.textContent = gameArray[i][j] === 0 ? '' : gameArray[i][j];
                 }
             }
         }
     };
 
-    const onKeyDown = (event) => {
+
+    const slideAndMerge = (line) => {
+        let result = line.filter((element) => element !== 0);
+
+        for (let i = 0; i < result.length - 1; i++) {
+            if (result[i] === result[i + 1]) {
+                result[i] = result[i] * 2;
+                result[i + 1] = 0;
+            }
+        }
+
+        result = result.filter((element) => element !== 0);
+
+        while (result.length < line.length) {
+            result.push(0);
+        }
+
+        return result;
+    }
+
+
+        const onKeyDown = (event) => {
+
+        let somethingMoved = false;
 
         switch (event.key) {
             case 'ArrowLeft':
                 console.log('ArrowLeft')
                 for (let i = 0; i < gameArray.length; i++) {
-                    let indexMerged;
-                    for (let j = 1; j < gameArray[i].length; j++) {                        
-                        let jLocal = j;
-                        while(gameArray[i][jLocal] !== 0 && gameArray[i][jLocal - 1] === 0) {
-                            [gameArray[i][jLocal - 1], gameArray[i][jLocal]] = [gameArray[i][jLocal], gameArray[i][jLocal - 1]];
-                            jLocal = jLocal > 1 ? jLocal - 1 : jLocal;
-                        }
-                        if (gameArray[i][jLocal] !== 0 && jLocal - 1 !== indexMerged && gameArray[i][jLocal] === gameArray[i][jLocal - 1]) {
-                            gameArray[i][jLocal - 1] = gameArray[i][jLocal - 1] * 2;
-                            gameArray[i][jLocal] = 0;
-                            indexMerged = jLocal - 1;
-                        }
-                    }
+                    const lineBefore = [...gameArray[i]];
+                    gameArray[i] = slideAndMerge(gameArray[i]);
+                    if (gameArray[i].some((element, index) => element !== lineBefore[index])) somethingMoved = true;
                 }
                 updateGameField()
                 break;
             case 'ArrowRight':
                 console.log('ArrowRight')
                 for (let i = 0; i < gameArray.length; i++) {
-                    let indexMerged;
-                    for (let j = gameArray[i].length - 2; j >= 0; j--) {
-                        let jLocal = j;
-                        while(gameArray[i][jLocal] !== 0 && gameArray[i][jLocal + 1] === 0) {
-                            [gameArray[i][jLocal + 1], gameArray[i][jLocal]] = [gameArray[i][jLocal], gameArray[i][jLocal + 1]];
-                            jLocal = jLocal < gameArray[i].length - 2 ? jLocal + 1 : jLocal;
-                        }
-                        if (gameArray[i][jLocal] !== 0 && jLocal + 1 !== indexMerged && gameArray[i][jLocal] === gameArray[i][jLocal + 1]) {
-                            gameArray[i][jLocal + 1] = gameArray[i][jLocal + 1] * 2;
-                            gameArray[i][jLocal] = 0;
-                            indexMerged = jLocal + 1;
-                        }
-                    }
+                    const lineBefore = [...gameArray[i]];
+                    gameArray[i] = slideAndMerge(gameArray[i].reverse()).reverse();
+                    if (gameArray[i].some((element, index) => element !== lineBefore[index])) somethingMoved = true;
                 }
                 updateGameField()
                 break;
             case 'ArrowUp':
                 console.log('ArrowUp')
-                for (let j = 0; j < gameArray[0].length; j++) {
-                    let indexMerged;
-                    for (let i = 1; i < gameArray.length; i++) {
-                        let iLocal = i;
-                        while(gameArray[iLocal][j] !== 0 && gameArray[iLocal - 1][j] === 0) {
-                            [gameArray[iLocal - 1][j], gameArray[iLocal][j]] = [gameArray[iLocal][j], gameArray[iLocal - 1][j]];
-                            iLocal = iLocal > 1 ? iLocal - 1 : iLocal;
-                        }
-                        if (gameArray[iLocal][j] !== 0 && iLocal - 1 !== indexMerged && gameArray[iLocal][j] === gameArray[iLocal - 1][j]) {
-                            gameArray[iLocal - 1][j] = gameArray[iLocal - 1][j] * 2;
-                            gameArray[iLocal][j] = 0;
-                            indexMerged = iLocal - 1;
-                        }
-                    }
+                for (let j = 0; j < gameArray.length; j++) {
+                    let column = gameArray.map((row) => row[j]);
+                    const lineBefore = [... column];
+                    column = slideAndMerge(column);
+                    if (column.some((element, index) => element !== lineBefore[index])) somethingMoved = true;
+                    for (let i = 0; i < gameArray.length; i ++) gameArray[i][j] = column[i];
                 }
                 updateGameField()
                 break;
             case 'ArrowDown':
                 console.log('ArrowDown')
-                for (let j = 0; j < gameArray[0].length; j++) {
-                    let indexMerged;
-                    for (let i = gameArray.length - 2; i >= 0; i--) {
-                        let iLocal = i;
-                        while(gameArray[iLocal][j] !== 0 && gameArray[iLocal + 1][j] === 0) {
-                            [gameArray[iLocal + 1][j], gameArray[iLocal][j]] = [gameArray[iLocal][j], gameArray[iLocal + 1][j]];
-                            iLocal = iLocal < gameArray.length - 2 ? iLocal + 1 : iLocal;
-                        }
-                        if (gameArray[iLocal][j] !== 0 && iLocal - 1 !== indexMerged && gameArray[iLocal][j] === gameArray[iLocal + 1][j]) {
-                            gameArray[iLocal + 1][j] = gameArray[iLocal + 1][j] * 2;
-                            gameArray[iLocal][j] = 0;
-                            indexMerged = iLocal + 1;
-                        }
-                    }
+                for (let j = 0; j < gameArray.length; j++) {
+                    let column = gameArray.map((row) => row[j]);
+                    const lineBefore = [... column];
+                    column = slideAndMerge(column.reverse()).reverse();
+                    if (column.some((element, index) => element !== lineBefore[index])) somethingMoved = true;
+                    for (let i = 0; i < gameArray.length; i ++) gameArray[i][j] = column[i];
                 }
                 updateGameField()
                 break;
             default:
         }
 
-
+    if (somethingMoved) {
+        console.log('Something moved');
+    }
 
     };
+
+
 
 // #endregion FUNCTIONS
 
@@ -110,12 +101,24 @@
 //     [0, 0, 0, 0]
 // ]
 
+
 gameArray = [
     [4, 0, 4, 8],
     [0, 2, 0, 8],
-    [0, 0, 2, 2],
+    [0, 2, 2, 2],
     [2, 0, 0, 0]
 ]
+
+// gameArray = [
+//     [2, 4, 8, 16, 32, 64, 128, 256],
+//     [0, 2, 4, 8, 16, 32, 64, 128],
+//     [2, 0, 2, 0, 2, 0, 2, 0],
+//     [4, 4, 8, 8, 16, 16, 32, 32],
+//     [0, 0, 0, 0, 0, 0, 0, 0],
+//     [2, 2, 4, 4, 8, 8, 16, 16],
+//     [0, 4, 0, 8, 0, 16, 0, 32],
+//     [256, 128, 64, 32, 16, 8, 4, 2]
+// ]
 
 updateGameField();
 
