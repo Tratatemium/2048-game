@@ -103,20 +103,20 @@
 
 // #endregion FUNCTIONS
 
-// gameArray = [
-//     [0, 0, 0, 0],
-//     [0, 0, 0, 0], 
-//     [0, 0, 0, 0],
-//     [0, 0, 0, 0]
-// ]
-
-
 gameArray = [
-    [4, 0, 4, 8],
-    [0, 2, 0, 8],
-    [0, 2, 2, 2],
-    [2, 0, 0, 0]
+    [0, 0, 0, 0],
+    [0, 0, 0, 0], 
+    [0, 0, 0, 0],
+    [0, 0, 0, 0]
 ]
+
+
+// gameArray = [
+//     [4, 0, 4, 8],
+//     [0, 2, 0, 8],
+//     [0, 2, 2, 2],
+//     [2, 0, 0, 0]
+// ]
 
 // gameArray = [
 //     [2, 4, 8, 16, 32, 64, 128, 256],
@@ -129,6 +129,8 @@ gameArray = [
 //     [256, 128, 64, 32, 16, 8, 4, 2]
 // ]
 
+addNumberAtRundom();
+addNumberAtRundom();
 updateGameField();
 
 const gameField = document.querySelector('.game-field');
