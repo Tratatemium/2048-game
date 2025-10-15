@@ -76,24 +76,102 @@ textarea:not([rows]) {
 
 /* #endregion CSS RESET */
 
-.game-field{
+
+:root {
+  /* General UI */
+  --background: #0D001A;
+  --background-board: #1A0033;
+  --empty-slot: #2E1065;
+  --border-color: #9333EA;
+  --font-primary: #E9D5FF;
+  --font-secondary: #C084FC;
+  --button-bg: #4C1D95;
+  --button-hover: #9333EA;
+  --button-text: #F5F3FF;
+
+  /* Tile Colors */
+  --tile-2-bg: #5B21B6;
+  --tile-2-text: #F5F3FF;
+  --tile-2-glow: #7C3AED;
+
+  --tile-4-bg: #6D28D9;
+  --tile-4-text: #F5F3FF;
+  --tile-4-glow: #8B5CF6;
+
+  --tile-8-bg: #7E22CE;
+  --tile-8-text: #FDF4FF;
+  --tile-8-glow: #A855F7;
+
+  --tile-16-bg: #9333EA;
+  --tile-16-text: #FDF4FF;
+  --tile-16-glow: #C084FC;
+
+  --tile-32-bg: #A855F7;
+  --tile-32-text: #FDF4FF;
+  --tile-32-glow: #D946EF;
+
+  --tile-64-bg: #C084FC;
+  --tile-64-text: #FFFFFF;
+  --tile-64-glow: #E879F9;
+
+  --tile-128-bg: #D946EF;
+  --tile-128-text: #FFFFFF;
+  --tile-128-glow: #F0ABFC;
+
+  --tile-256-bg: #E879F9;
+  --tile-256-text: #FFFFFF;
+  --tile-256-glow: #F0ABFC;
+
+  --tile-512-bg: #F0ABFC;
+  --tile-512-text: #1A0033;
+  --tile-512-glow: #FCE7F3;
+
+  --tile-1024-bg: #F5D0FE;
+  --tile-1024-text: #1A0033;
+  --tile-1024-glow: #FDF4FF;
+
+  --tile-2048-bg: #FCE7F3;
+  --tile-2048-text: #1A0033;
+  --tile-2048-glow: #FFFFFF;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-family: "Rubik", Arial, system-ui, sans-serif;
+
+  background: var(--background);
+}
+
+main{
+  
+}  
+
+.game-field {
+    margin: auto;
     display: flex;
     flex-direction: column;
+
+    background: var(--background-board);
     gap: 0.1rem;
 }
 
-.row{
+.row {
     display: flex;
     flex-direction: row;
     gap: 0.1rem;
 }
 
-.element{
+.element {
     display: flex;
     border: 1px solid gray;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 4rem;
+    height: 4rem;
     margin: 0;
+    font-size: 1rem;
+    font-weight: bold;
 }
