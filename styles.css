@@ -97,62 +97,62 @@ textarea:not([rows]) {
   --neon-shadow: 0 0 8px 2px #9333EA88, 0 0 0 1px #C084FC55 inset;
 
   /* Indigo Tiles */
-  --tile-2-bg: linear-gradient(135deg, #c08bd9, #a66bc7);
-  --tile-2-text: #1A001F;
+  --tile-2-bg: linear-gradient(135deg, #e4c7f5, #8a4a9e);
+  --tile-2-text: #0D001A;
   --tile-2-text-shadow: ;
-  --tile-2-shadow: ;
+  --tile-2-shadow: 0 0 8px 2px #e4c7f588, 0 0 0 1px #8a4a9e55 inset;
 
-  --tile-4-bg: linear-gradient(135deg, #8e659f, #774b87);
+  --tile-4-bg: linear-gradient(135deg, #b58ac7, #5a3968);
   --tile-4-text: #1A001F
   --tile-4-text-shadow: ;
-  --tile-4-shadow: ;
+  --tile-4-shadow: 0 0 8px 2px #b58ac788, 0 0 0 1px #5a396855 inset;
 
   /* Violet Tiles */
-  --tile-8-bg: linear-gradient(135deg, #5c3f65, #4a3351);
+  --tile-8-bg: linear-gradient(135deg, #8a5a96, #2f1a35);
   --tile-8-text: #F5E0FF;
   --tile-8-text-shadow: ;
-  --tile-8-shadow: ;
+  --tile-8-shadow: 0 0 8px 2px #8a5a9688, 0 0 0 1px #2f1a3555 inset;
 
-  --tile-16-bg: linear-gradient(135deg, #3b263e, #2f1f32);
+  --tile-16-bg: linear-gradient(135deg, #6b4570, #1a0d1f);
   --tile-16-text: #F5E0FF;
   --tile-16-text-shadow: ;
-  --tile-16-shadow: ;
+  --tile-16-shadow: 0 0 8px 2px #6b457088, 0 0 0 1px #1a0d1f55 inset;
 
-  --tile-32-bg: linear-gradient(135deg, #502949, #422138);
+  --tile-32-bg: linear-gradient(135deg, #7a4269, #261020);
   --tile-32-text: #F5E0FF;
   --tile-32-text-shadow: ;
-  --tile-32-shadow: ;
+  --tile-32-shadow: 0 0 8px 2px #7a426988, 0 0 0 1px #26102055 inset;
 
-  --tile-64-bg: linear-gradient(135deg, #6c2e57, #582546);
+  --tile-64-bg: linear-gradient(135deg, #a54f7a, #3d1a2f);
   --tile-64-text: #F5E0FF;
   --tile-64-text-shadow: ;
-  --tile-64-shadow: ;
+  --tile-64-shadow: 0 0 8px 2px #a54f7a88, 0 0 0 1px #3d1a2f55 inset;
 
   /* Pink → Yellow Tiles */
-  --tile-128-bg: linear-gradient(135deg, #8f3468, #7a2d57);
+  --tile-128-bg: linear-gradient(135deg, #c85490, #4a1f35);
   --tile-128-text: #F5E0FF;
   --tile-128-text-shadow: ;
-  --tile-128-shadow: ;
+  --tile-128-shadow: 0 0 8px 2px #c8549088, 0 0 0 1px #4a1f3555 inset;
 
-  --tile-256-bg: linear-gradient(135deg, #ab3876, #932f64);
+  --tile-256-bg: linear-gradient(135deg, #e670a8, #5a2642);
   --tile-256-text: #F5E0FF;
   --tile-256-text-shadow: ;
-  --tile-256-shadow: ;
+  --tile-256-shadow: 0 0 8px 2px #e670a888, 0 0 0 1px #5a264255 inset;
 
-  --tile-512-bg: linear-gradient(135deg, #d25295, #bf477f);
+  --tile-512-bg: linear-gradient(135deg, #ff7bc2, #7a2c55);
   --tile-512-text: #F5E0FF;
   --tile-512-text-shadow: ;
-  --tile-512-shadow: ;
+  --tile-512-shadow: 0 0 8px 2px #ff7bc288, 0 0 0 1px #7a2c5555 inset;
 
-  --tile-1024-bg: linear-gradient(135deg, #f14398, #de3a81);
-  --tile-1024-text: #1A001F;
+  --tile-1024-bg: linear-gradient(135deg, #ff6bb8, #a0174a);
+  --tile-1024-text: #0D001A;
   --tile-1024-text-shadow: ;
-  --tile-1024-shadow: ;
+  --tile-1024-shadow: 0 0 8px 2px #ff6bb888, 0 0 0 1px #a0174a55 inset;
 
-  --tile-2048-bg: linear-gradient(135deg, #f71782, #e0166f);
-  --tile-2048-text: #1A001F;
+  --tile-2048-bg: linear-gradient(135deg, #ff4da6, #cc0d4d);
+  --tile-2048-text: #0D001A;
   --tile-2048-text-shadow: ;
-  --tile-2048-shadow: ;
+  --tile-2048-shadow: 0 0 8px 2px #ff4da688, 0 0 0 1px #cc0d4d55 inset;
 }
 
 body {
