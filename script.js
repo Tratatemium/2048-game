@@ -15,8 +15,6 @@
 
         let tiles = Array.from(document.querySelectorAll('.tile'));
 
-        printArray();
-
         for (const row of gameArray) {
             for (const element of row) {
                 if (element.id) {
@@ -25,12 +23,17 @@
                     if (!tile) {
                         const gameField = document.querySelector('.game-field');
                         tile = document.createElement('div');
-                        tile.textContent = element.value;
-                        tile.className = `tile tile-${element.value}`;
+                        tile.className = `tile`;
                         tile.id = element.id;
                         tile.style.setProperty('--x', element.x);
                         tile.style.setProperty('--y', element.y);
                         gameField.appendChild(tile);
+
+                        const tileInner = document.createElement('div');
+                        tileInner.textContent = element.value;
+                        tileInner.className = `tile-inner tile-${element.value}`;
+                        tile.appendChild(tileInner);
+                        
                     } else {
                         tile.style.setProperty('--x', element.x);
                         tile.style.setProperty('--y', element.y);
@@ -180,8 +183,8 @@ gameArray = Array.from({ length: 4 }, (_, i) =>
     Array.from({ length: 4 }, (_, j) => ({
         id: null,
         value: 0,
-        x: i,
-        y: j
+        x: j,
+        y: i
     }))
 );
 
