@@ -46,9 +46,18 @@
 
         if (emptySpaces.length > 0) {
             const randomSpace = Math.floor(Math.random() * emptySpaces.length);
-            const randomIndexes = emptySpaces[randomSpace];
+            const [randomX, randomY] = emptySpaces[randomSpace];
 
-            gameArray[randomIndexes[0]][randomIndexes[1]] = Math.random() > 0.3 ? 2 : 4;
+            const newValue = Math.random() > 0.3 ? 2 : 4;
+            gameArray[randomX][randomY] = newValue;
+
+            const gameField = document.querySelector('.game-field');
+            const newTile = document.createElement('div');
+            newTile.textContent = newValue;
+            newTile.className = `tile tile-${newValue}`;
+            newTile.style.setProperty('--x', randomX);
+            newTile.style.setProperty('--y', randomY);
+            gameField.appendChild(newTile);
         }
     };
 
@@ -95,7 +104,6 @@
 
         if (somethingMoved) {
             addNumberAtRundom();
-            updateGameField();
         }
     };
 
@@ -109,6 +117,14 @@ gameArray = [
     [0, 0, 0, 0],
     [0, 0, 0, 0]
 ]
+
+
+// gameArray = [
+//     [ {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0}],
+//     [ {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0}], 
+//     [ {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0}],
+//     [ {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0},  {id: null, value: 0}]
+// ]
 
 
 // gameArray = [
