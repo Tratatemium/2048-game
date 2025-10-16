@@ -85,7 +85,6 @@ textarea:not([rows]) {
   --empty-slot: #0F1A33;
   --border-board: #C084FC;
 
-
   --border-color: #9333EA;
   --font-primary: #E9D5FF;
   --font-secondary: #C084FC;
@@ -93,41 +92,59 @@ textarea:not([rows]) {
   --button-hover: #9333EA;
   --button-text: #F5F3FF;
 
+  /* Neon Shadows - Subtle */
+  --neon-shadow: 0 0 8px 2px #9333EA88, 0 0 0 1px #C084FC55 inset;
+  --neon-tile-shadow: 0 0 8px 2px #aa5ab288, 0 0 0 1px #c4aeec55 inset;
+  --neon-violet-shadow: 0 0 8px 2px #5E26E088, 0 0 0 1px #4B1DBF55 inset;
+  --neon-pink-shadow: 0 0 8px 2px #FF6B9C88, 0 0 0 1px #F43F5E55 inset;
+  --neon-yellow-shadow: 0 0 8px 2px #FFD65B88, 0 0 0 1px #F59E0B55 inset;
+
   /* Indigo Tiles */
   --tile-2-bg: linear-gradient(135deg, #c4aeec, #aa5ab2);
   --tile-2-text: #1A001F;
+  --tile-2-shadow: var(--neon-violet-shadow);
 
   --tile-4-bg: linear-gradient(135deg, #452e6e, #6f3c72);
   --tile-4-text: #E9D5FF;
+  --tile-4-shadow: var(--neon-tile-shadow);
 
   /* Violet Tiles */
   --tile-8-bg: linear-gradient(135deg, #4B1DBF, #5E26E0);
   --tile-8-text: #F5E0FF;
+  --tile-8-shadow: var(--neon-violet-shadow);
 
   --tile-16-bg: linear-gradient(135deg, #6D2DF0, #7A3CFF);
   --tile-16-text: #FFFFFF;
+  --tile-16-shadow: var(--neon-violet-shadow);
 
   --tile-32-bg: linear-gradient(135deg, #C026D3, #D13ACC);
   --tile-32-text: #FFF0FF;
+  --tile-32-shadow: var(--neon-violet-shadow);
 
   --tile-64-bg: linear-gradient(135deg, #DB2777, #E63A9A);
   --tile-64-text: #FFF8FF;
+  --tile-64-shadow: var(--neon-pink-shadow);
 
   /* Pink → Yellow Tiles */
   --tile-128-bg: linear-gradient(135deg, #F43F5E, #FF6B9C);
   --tile-128-text: #FFF5F9;
+  --tile-128-shadow: var(--neon-pink-shadow);
 
   --tile-256-bg: linear-gradient(135deg, #FB7185, #FF97A8);
   --tile-256-text: #1A001F;
+  --tile-256-shadow: var(--neon-pink-shadow);
 
   --tile-512-bg: linear-gradient(135deg, #F472B6, #FFB3D9);
   --tile-512-text: #1A001A;
+  --tile-512-shadow: var(--neon-pink-shadow);
 
   --tile-1024-bg: linear-gradient(135deg, #F59E0B, #FFD65B);
   --tile-1024-text: #1A001A;
+  --tile-1024-shadow: var(--neon-yellow-shadow);
 
   --tile-2048-bg: linear-gradient(135deg, #FACC15, #FFF873);
   --tile-2048-text: #0D001A;
+  --tile-2048-shadow: var(--neon-yellow-shadow);
 }
 
 body {
@@ -146,9 +163,9 @@ main{
 
 .game-backgroud.field {
   background-color: var(--border-board);
-
+  box-shadow: var(--neon-shadow);
   position: relative;
-  display: grid; 
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   border-radius: 0.8rem;
@@ -158,6 +175,7 @@ main{
 
 .tile-backgroud {
   background-color: var(--empty-slot);
+  box-shadow: var(--neon-shadow);
   width: 5rem;
   height: 5rem;
   border-radius: 0.5rem;
@@ -179,9 +197,9 @@ main{
     border-radius: 0.5rem;
     margin: 0;
     font-size: 1.5rem;
-    font-weight: bold;    
-
-    transition: transform 0.15s ease;
+    font-weight: bold;
+    box-shadow: var(--neon-shadow);
+    transition: transform 0.15s ease, box-shadow 0.2s;
     transform: translate(
       calc(var(--x) * (5rem + 0.5rem)),
       calc(var(--y) * (5rem + 0.5rem))
@@ -196,6 +214,7 @@ main{
   height: 5.2rem;
   border: 1px solid var(--empty-slot);
   border-radius: 0.5rem;
+  box-shadow: var(--neon-shadow);
   animation: fadeIn 0.3s ease forwards;
 }
 
@@ -217,58 +236,65 @@ main{
 .tile-2 {
   background: var(--tile-2-bg);
   color: var(--tile-2-text);
-  /* border: solid 1px var(--tile-2-glow); */
+  box-shadow: var(--tile-2-shadow);
 }
 
 .tile-4 {
   background: var(--tile-4-bg);
   color: var(--tile-4-text);
-  /* border: solid 1px var(--tile-4-glow); */
+  box-shadow: var(--tile-4-shadow);
 }
 
 .tile-8 {
   background: var(--tile-8-bg);
   color: var(--tile-8-text);
-  /* border: solid 1px var(--tile-8-glow); */
+  box-shadow: var(--tile-8-shadow);
 }
 
 .tile-16 {
   background: var(--tile-16-bg);
   color: var(--tile-16-text);
-  /* border: solid 1px var(--tile-16-glow); */
+  box-shadow: var(--tile-16-shadow);
 }
 
 .tile-32 {
   background: var(--tile-32-bg);
   color: var(--tile-32-text);
+  box-shadow: var(--tile-32-shadow);
 }
 
 .tile-64 {
   background: var(--tile-64-bg);
   color: var(--tile-64-text);
+  box-shadow: var(--tile-64-shadow);
 }
 
 .tile-128 {
   background: var(--tile-128-bg);
   color: var(--tile-128-text);
+  box-shadow: var(--tile-128-shadow);
 }
 
 .tile-256 {
   background: var(--tile-256-bg);
   color: var(--tile-256-text);
+  box-shadow: var(--tile-256-shadow);
 }
 
 .tile-512 {
   background: var(--tile-512-bg);
   color: var(--tile-512-text);
+  box-shadow: var(--tile-512-shadow);
 }
 
 .tile-1024 {
   background: var(--tile-1024-bg);
   color: var(--tile-1024-text);
+  box-shadow: var(--tile-1024-shadow);
 }
 
 .tile-2048 {
   background: var(--tile-2048-bg);
   color: var(--tile-2048-text);
+  box-shadow: var(--tile-2048-shadow);
 }
