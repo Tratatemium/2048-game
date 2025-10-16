@@ -100,7 +100,8 @@ textarea:not([rows]) {
   --neon-pink-shadow: 0 0 6px 1px #ff149366, 0 0 3px 0px #ff69b477, 0 0 0 1px #ff69b433 inset;
 
   /* Light Purple/Indigo Tiles */
-  --tile-2-bg: linear-gradient(135deg, #e4c7f5, #8a4a9e);
+  /* --tile-2-bg: linear-gradient(135deg, #e4c7f5, #8a4a9e); */
+  --tile-2-bg: linear-gradient(135deg, #edd3fc, #aa6bbd);
   --tile-2-text: #0D001A;
   --tile-2-text-shadow: 0 0 6px #e879f9, 0 0 12px #e879f9cc, 0 0 18px #e879f9aa, 0 0 24px #e879f966;
   --tile-2-shadow: var(--neon-magenta-shadow);
