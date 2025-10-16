@@ -124,7 +124,7 @@ textarea:not([rows]) {
 
   --tile-32-bg: linear-gradient(135deg, #7a4269, #261020);
   --tile-32-text: #F5E0FF;
-  --tile-32-text-shadow: 0 0 6px #d946ef, 0 0 12px #d946efcc, 0 0 18px #d946efaa, 0 0 24px #d946ef66;
+  --tile-32-text-shadow: 0 0 6px #c354f3, 0 0 12px #c354f3cc, 0 0 18px #c354f3aa, 0 0 24px #c354f366;
   --tile-32-shadow: var(--neon-magenta-shadow);
 
   --tile-64-bg: linear-gradient(135deg, #a54f7a, #3d1a2f);
