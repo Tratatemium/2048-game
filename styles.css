@@ -81,7 +81,11 @@ textarea:not([rows]) {
   /* General UI */
   --background: #0D001A;
   --background-board: #1A0033;
-  --empty-slot: #2E1065;
+
+  --empty-slot: #0F1A33;
+  --border-board: #C084FC;
+
+
   --border-color: #9333EA;
   --font-primary: #E9D5FF;
   --font-secondary: #C084FC;
@@ -89,50 +93,41 @@ textarea:not([rows]) {
   --button-hover: #9333EA;
   --button-text: #F5F3FF;
 
-  /* Tile Colors */
-  --tile-2-bg: #5B21B6;
-  --tile-2-text: #F5F3FF;
-  --tile-2-glow: #7C3AED;
+  /* Indigo Tiles */
+  --tile-2-bg: linear-gradient(135deg, #c4aeec, #aa5ab2);
+  --tile-2-text: #1A001F;
 
-  --tile-4-bg: #6D28D9;
-  --tile-4-text: #F5F3FF;
-  --tile-4-glow: #8B5CF6;
+  --tile-4-bg: linear-gradient(135deg, #452e6e, #6f3c72);
+  --tile-4-text: #E9D5FF;
 
-  --tile-8-bg: #7E22CE;
-  --tile-8-text: #FDF4FF;
-  --tile-8-glow: #A855F7;
+  /* Violet Tiles */
+  --tile-8-bg: linear-gradient(135deg, #4B1DBF, #5E26E0);
+  --tile-8-text: #F5E0FF;
 
-  --tile-16-bg: #9333EA;
-  --tile-16-text: #FDF4FF;
-  --tile-16-glow: #C084FC;
+  --tile-16-bg: linear-gradient(135deg, #6D2DF0, #7A3CFF);
+  --tile-16-text: #FFFFFF;
 
-  --tile-32-bg: #A855F7;
-  --tile-32-text: #FDF4FF;
-  --tile-32-glow: #D946EF;
+  --tile-32-bg: linear-gradient(135deg, #C026D3, #D13ACC);
+  --tile-32-text: #FFF0FF;
 
-  --tile-64-bg: #C084FC;
-  --tile-64-text: #FFFFFF;
-  --tile-64-glow: #E879F9;
+  --tile-64-bg: linear-gradient(135deg, #DB2777, #E63A9A);
+  --tile-64-text: #FFF8FF;
 
-  --tile-128-bg: #D946EF;
-  --tile-128-text: #FFFFFF;
-  --tile-128-glow: #F0ABFC;
+  /* Pink → Yellow Tiles */
+  --tile-128-bg: linear-gradient(135deg, #F43F5E, #FF6B9C);
+  --tile-128-text: #FFF5F9;
 
-  --tile-256-bg: #E879F9;
-  --tile-256-text: #FFFFFF;
-  --tile-256-glow: #F0ABFC;
+  --tile-256-bg: linear-gradient(135deg, #FB7185, #FF97A8);
+  --tile-256-text: #1A001F;
 
-  --tile-512-bg: #F0ABFC;
-  --tile-512-text: #1A0033;
-  --tile-512-glow: #FCE7F3;
+  --tile-512-bg: linear-gradient(135deg, #F472B6, #FFB3D9);
+  --tile-512-text: #1A001A;
 
-  --tile-1024-bg: #F5D0FE;
-  --tile-1024-text: #1A0033;
-  --tile-1024-glow: #FDF4FF;
+  --tile-1024-bg: linear-gradient(135deg, #F59E0B, #FFD65B);
+  --tile-1024-text: #1A001A;
 
-  --tile-2048-bg: #FCE7F3;
-  --tile-2048-text: #1A0033;
-  --tile-2048-glow: #FFFFFF;
+  --tile-2048-bg: linear-gradient(135deg, #FACC15, #FFF873);
+  --tile-2048-text: #0D001A;
 }
 
 body {
@@ -150,7 +145,7 @@ main{
 }  
 
 .game-backgroud.field {
-  background-color: var(--border-color);
+  background-color: var(--border-board);
 
   position: relative;
   display: grid; 
@@ -183,8 +178,8 @@ main{
     height: 5.2rem;
     border-radius: 0.5rem;
     margin: 0;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 1.5rem;
+    font-weight: bold;    
 
     transition: transform 0.15s ease;
     transform: translate(
@@ -199,72 +194,81 @@ main{
   justify-content: center;
   width: 5.2rem;
   height: 5.2rem;
+  border: 1px solid var(--empty-slot);
   border-radius: 0.5rem;
-  animation: fadeIn 0.25s ease forwards;
+  animation: fadeIn 0.3s ease forwards;
 }
 
 @keyframes fadeIn {
-  from {
+  0% {
     opacity: 0;
-    transform: scale(0.5);
+    transform: scale(0.6);
   }
-  to {
+  70% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  100% {
     opacity: 1;
     transform: scale(1);
   }
 }
 
 .tile-2 {
-  background-color: var(--tile-2-bg);
+  background: var(--tile-2-bg);
   color: var(--tile-2-text);
+  /* border: solid 1px var(--tile-2-glow); */
 }
 
 .tile-4 {
-  background-color: var(--tile-4-bg);
+  background: var(--tile-4-bg);
   color: var(--tile-4-text);
+  /* border: solid 1px var(--tile-4-glow); */
 }
 
 .tile-8 {
-  background-color: var(--tile-8-bg);
+  background: var(--tile-8-bg);
   color: var(--tile-8-text);
+  /* border: solid 1px var(--tile-8-glow); */
 }
 
 .tile-16 {
-  background-color: var(--tile-16-bg);
+  background: var(--tile-16-bg);
   color: var(--tile-16-text);
+  /* border: solid 1px var(--tile-16-glow); */
 }
 
 .tile-32 {
-  background-color: var(--tile-32-bg);
+  background: var(--tile-32-bg);
   color: var(--tile-32-text);
 }
 
 .tile-64 {
-  background-color: var(--tile-64-bg);
+  background: var(--tile-64-bg);
   color: var(--tile-64-text);
 }
 
 .tile-128 {
-  background-color: var(--tile-128-bg);
+  background: var(--tile-128-bg);
   color: var(--tile-128-text);
 }
 
 .tile-256 {
-  background-color: var(--tile-256-bg);
+  background: var(--tile-256-bg);
   color: var(--tile-256-text);
 }
 
 .tile-512 {
-  background-color: var(--tile-512-bg);
+  background: var(--tile-512-bg);
   color: var(--tile-512-text);
 }
 
 .tile-1024 {
-  background-color: var(--tile-1024-bg);
+  background: var(--tile-1024-bg);
   color: var(--tile-1024-text);
 }
 
 .tile-2048 {
-  background-color: var(--tile-2048-bg);
+  background: var(--tile-2048-bg);
   color: var(--tile-2048-text);
 }
