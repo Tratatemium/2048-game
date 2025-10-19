@@ -22,36 +22,46 @@
      */
     const updateGameField = () => {
 
+        // Get all existing tile elements currently in the DOM
         let tiles = Array.from(document.querySelectorAll('.tile'));
 
+        // Process each tile in the game array
         for (const row of gameArray) {
             for (const element of row) {
+                // Only process tiles that have content (non-empty tiles have IDs)
                 if (element.id) {
+                    // Try to find existing DOM element for this tile
                     let tile = tiles.find(tile => tile.id === element.id);
 
                     if (!tile) {
+                        // CREATE NEW TILE: This tile doesn't exist in DOM yet
                         const gameField = document.querySelector('.game-field');
                         tile = document.createElement('div');
-                        tile.className = `tile`;
-                        tile.id = element.id;
-                        tile.style.setProperty('--x', element.x);
-                        tile.style.setProperty('--y', element.y);
+                        tile.className = `tile`;                       // Base tile styling
+                        tile.id = element.id;                          // Unique identifier
+                        tile.style.setProperty('--x', element.x);      // CSS custom property for X position
+                        tile.style.setProperty('--y', element.y);      // CSS custom property for Y position
                         gameField.appendChild(tile);
 
+                        // Create the inner content div with the number and styling
                         const tileInner = document.createElement('div');
-                        tileInner.textContent = element.value;
-                        tileInner.className = `tile-inner tile-${element.value}`;
+                        tileInner.textContent = element.value;         // Display the tile number
+                        tileInner.className = `tile-inner tile-${element.value}`; // Value-specific styling
                         tile.appendChild(tileInner);
                         
                     } else {
-                        tile.style.setProperty('--x', element.x);
-                        tile.style.setProperty('--y', element.y);
+                        // UPDATE EXISTING TILE: Move to new position (triggers CSS animation)
+                        tile.style.setProperty('--x', element.x);      // Update X position
+                        tile.style.setProperty('--y', element.y);      // Update Y position
+                        // Remove this tile from the cleanup list since we're using the list later
                         tiles = tiles.filter(tile => tile.id !== element.id);
                     }
                 }
             }
         }
 
+        // CLEANUP: Remove any tiles that are no longer in the game array
+        // These are tiles that were merged or otherwise eliminated
         tiles.forEach((tile) => {
             tile.remove();
         });
@@ -65,7 +75,11 @@
      * @returns {Array} - Line with empty spaces removed and filled at the end
      */
     const slide = (line) => {
+        // Step 1: Remove all empty tiles (value === 0) to eliminate gaps
         let result = line.filter((element) => element.value !== 0);
+        
+        // Step 2: Fill the remaining positions with empty tiles
+        // This ensures the array maintains its original length
         while (result.length < line.length) {
             result.push({id: null, value: 0});
         }
@@ -80,18 +94,24 @@
      * @returns {Array} - Line with adjacent equal values merged and new empty spaces filled
      */
     const merge = (line) => {
-        let result = [...line];
+        let result = [...line];  // Create a copy to avoid modifying the original
+        
+        // Step 1: Scan for adjacent pairs with matching values
         for (let i = 0; i < result.length - 1; i++) {
-            if (result[i].value === result[i + 1].value) {
-                result[i].value = result[i].value * 2;
-                result[i].id = crypto.randomUUID();
-                result[i + 1].value = 0;
-                result[i + 1].id = null;
+            // Check if current tile and next tile have the same non-zero value
+            if (result[i].value === result[i + 1].value && result[i].value !== 0) {
+                result[i].value = result[i].value * 2;     // Double the first tile's value
+                result[i].id = crypto.randomUUID();        // Generate new ID for merged tile
+                result[i + 1].value = 0;                   // Mark second tile as empty
+                result[i + 1].id = null;                   // Remove second tile's ID
+                // Note: We don't increment i here, so each tile can only merge once per move
             }
         }
 
+        // Step 2: Remove the empty tiles created by merging
         result = result.filter((element) => element.value !== 0);
 
+        // Step 3: Fill remaining positions with empty tiles to maintain array length
         while (result.length < line.length) {
             result.push({id: null, value: 0});
         }
@@ -105,22 +125,32 @@
      * Generates a unique ID for the new tile
      */
     const addNumberAtRundom = () => {
+        // Step 1: Find all empty positions on the board
         let emptySpaces = [];
 
+        // Scan the entire 4x4 grid for empty tiles (value === 0)
         for (let i = 0; i < gameArray.length; i++) {
             for (let j = 0; j < gameArray.length; j++) {
-                if (gameArray[i][j].value === 0) emptySpaces.push([i, j]);
+                if (gameArray[i][j].value === 0) {
+                    emptySpaces.push([i, j]);  // Store coordinates [row, column]
+                }
             }
         }
 
+        // Step 2: Add a new tile if there are empty spaces available
         if (emptySpaces.length > 0) {
+            // Pick a random empty position
             const randomSpace = Math.floor(Math.random() * emptySpaces.length);
             const [randomX, randomY] = emptySpaces[randomSpace];
 
+            // Generate new tile value (80% chance for 2, 20% chance for 4)
             const newValue = Math.random() > 0.2 ? 2 : 4;
+            
+            // Place the new tile in the selected position
             gameArray[randomX][randomY].value = newValue;
-            gameArray[randomX][randomY].id = crypto.randomUUID();
+            gameArray[randomX][randomY].id = crypto.randomUUID();  // Generate unique ID
         }
+        // Note: If no empty spaces exist, the function does nothing (game might be over)
     };
 
 
@@ -132,45 +162,63 @@
      */
     const onKeyDown = (event) => {
 
-        let somethingMerged = false;
-        let somethingSlid = false;
+        // Track if any changes occurred to determine if we need to add a new tile
+        let somethingMerged = false;  // Flag for merge operations
+        let somethingSlid = false;    // Flag for slide operations
 
         switch (event.key) {
+
+            //  ⇐  LEFT  ⇐
             case 'ArrowLeft':
+                // PHASE 1: SLIDE - Move all tiles to the left (remove gaps)
                 for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);
-                    const lineBefore = structuredClone(row);
-                    row = slide(row);
+                    let row = structuredClone(gameArray[i]);           // Copy current row
+                    const lineBefore = structuredClone(row);           // Save original for comparison
+                    row = slide(row);                                  // Apply slide operation
+                    
+                    // Check if anything actually moved during the slide
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
-                        somethingSlid = true;
+                        somethingSlid = true;                          // Mark that tiles moved
+                        // Update the game array with new positions
                         for (let j = 0; j < gameArray.length; j ++) {
                             gameArray[i][j].value = row[j].value;
                             gameArray[i][j].id = row[j].id;
                         }
                     }                    
                 }
+                // If tiles slid, update DOM to trigger slide animation
                 if (somethingSlid) updateGameField();
 
+                // PHASE 2: MERGE - Combine adjacent tiles with same values
                 for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);
-                    const lineBefore = structuredClone(row);
-                    row = merge(row);
+                    let row = structuredClone(gameArray[i]);           // Copy current row state
+                    const lineBefore = structuredClone(row);           // Save for comparison
+                    row = merge(row);                                  // Apply merge operation
+                    
+                    // Check if any merges occurred
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
-                        somethingMerged = true;
+                        somethingMerged = true;                        // Mark that tiles merged
+                        // Update the game array with merged values
                         for (let j = 0; j < gameArray.length; j ++) {
                             gameArray[i][j].value = row[j].value;
                             gameArray[i][j].id = row[j].id;
                         }
                     }
                 }
+                // Update DOM after merge with delay if slide animation happened first
                 if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
                 
                 break;
+
+            //  ⇒  RIGHT  ⇒    
             case 'ArrowRight':
+                // PHASE 1: SLIDE - Move all tiles to the right
+                // Trick: reverse row, slide left, then reverse back to simulate right slide
                 for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);
-                    const lineBefore = structuredClone(row);
-                    row = slide(row.reverse()).reverse();
+                    let row = structuredClone(gameArray[i]);           // Copy current row
+                    const lineBefore = structuredClone(row);           // Save original
+                    row = slide(row.reverse()).reverse();              // Reverse → slide → reverse back
+                    
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;
                         for (let j = 0; j < gameArray.length; j ++) {
@@ -181,10 +229,12 @@
                 }
                 if (somethingSlid) updateGameField();
 
+                // PHASE 2: MERGE - Combine tiles moving right
                 for (let i = 0; i < gameArray.length; i++) {
                     let row = structuredClone(gameArray[i]);
                     const lineBefore = structuredClone(row);
-                    row = merge(row.reverse()).reverse();
+                    row = merge(row.reverse()).reverse();              // Same reverse trick for merging
+                    
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;
                         for (let j = 0; j < gameArray.length; j ++) {
@@ -195,13 +245,20 @@
                 }
                 if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
                 break;
+
+            //  ⇑  UP  ⇑    
             case 'ArrowUp':
+                // PHASE 1: SLIDE - Move all tiles upward
+                // Work with columns instead of rows (extract column, process, put back)
                 for (let j = 0; j < gameArray.length; j++) {
+                    // Extract column j from all rows
                     let column = structuredClone(gameArray.map((row) => row[j]));
-                    const lineBefore = structuredClone(column);
-                    column = slide(column);
+                    const lineBefore = structuredClone(column);        // Save original column
+                    column = slide(column);                            // Slide tiles up (toward index 0)
+                    
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;
+                        // Put the modified column back into the game array
                         for (let i = 0; i < gameArray.length; i ++) {
                             gameArray[i][j].value = column[i].value;
                             gameArray[i][j].id = column[i].id;
@@ -210,12 +267,15 @@
                 }
                 if (somethingSlid) updateGameField();
                 
+                // PHASE 2: MERGE - Combine tiles moving upward
                 for (let j = 0; j < gameArray.length; j++) {
                     let column = structuredClone(gameArray.map((row) => row[j]));
                     const lineBefore = structuredClone(column);
-                    column = merge(column);
+                    column = merge(column);                            // Merge adjacent tiles in column
+                    
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;
+                        // Put merged column back into game array
                         for (let i = 0; i < gameArray.length; i ++) {
                             gameArray[i][j].value = column[i].value;
                             gameArray[i][j].id = column[i].id;
@@ -224,13 +284,19 @@
                 }
                 if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
                 break;
+
+            //  ⇓  DOWN  ⇓    
             case 'ArrowDown':
+                // PHASE 1: SLIDE - Move all tiles downward  
+                // Trick: reverse column, slide up, reverse back to simulate down slide
                 for (let j = 0; j < gameArray.length; j++) {
                     let column = structuredClone(gameArray.map((row) => row[j]));
-                    const lineBefore = structuredClone(column);
-                    column = slide(column.reverse()).reverse();
+                    const lineBefore = structuredClone(column);        // Save original column
+                    column = slide(column.reverse()).reverse();        // Reverse → slide → reverse back
+                    
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;
+                        // Put modified column back into game array
                         for (let i = 0; i < gameArray.length; i ++) {
                             gameArray[i][j].value = column[i].value;
                             gameArray[i][j].id = column[i].id;
@@ -239,10 +305,12 @@
                 }
                 if (somethingSlid) updateGameField();
                 
+                // PHASE 2: MERGE - Combine tiles moving downward
                 for (let j = 0; j < gameArray.length; j++) {
                     let column = structuredClone(gameArray.map((row) => row[j]));
                     const lineBefore = structuredClone(column);
-                    column = merge(column.reverse()).reverse();
+                    column = merge(column.reverse()).reverse();        // Same reverse trick for merging
+                    
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;
                         for (let i = 0; i < gameArray.length; i ++) {
@@ -254,8 +322,10 @@
                 if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
                 break;
             default:
+                // Ignore any other key presses
         }
 
+        // After any valid move (slide or merge), add a new tile to the board
         if (somethingSlid || somethingMerged) {
             addNumberAtRundom();
         }
@@ -265,17 +335,32 @@
 
 // #endregion FUNCTIONS
 
-// Empty game field
+
+// ========================================
+// GAME INITIALIZATION
+// ========================================
+
+/**
+ * Initialize the game board as a 4x4 grid of empty tiles
+ * Each tile object contains:
+ * - id: Unique identifier (null for empty tiles)
+ * - value: Tile number (0 for empty tiles)  
+ * - x: Column position (0-3)
+ * - y: Row position (0-3)
+ */
 gameArray = Array.from({ length: 4 }, (_, i) =>
     Array.from({ length: 4 }, (_, j) => ({
-        id: null,
-        value: 0,
-        x: j,
-        y: i
+        id: null,        // No ID for empty tiles
+        value: 0,        // 0 represents an empty space
+        x: j,            // Column index (0 = leftmost)
+        y: i             // Row index (0 = topmost)
     }))
 );
 
-// This is the array for testing purposes - it has all the numbers
+/**
+ * DEBUG/TESTING ARRAY - Uncomment to test with all tile values
+ * This pre-filled array is useful for testing animations and styling
+ */
 // gameArray = [
 //     [
 //         { id: 1, value: 2, x: 0, y: 0 },
@@ -304,12 +389,22 @@ gameArray = Array.from({ length: 4 }, (_, i) =>
 // ];
 
 
+// ========================================
+// GAME STARTUP
+// ========================================
 
-addNumberAtRundom();
-addNumberAtRundom();
-updateGameField()
+// Add two random tiles to start the game (standard 2048 starting condition)
+addNumberAtRundom();  // First starting tile
+addNumberAtRundom();  // Second starting tile
 
+// Render the initial game state to the DOM
+updateGameField();
 
+// ========================================
+// EVENT LISTENERS
+// ========================================
+
+// Set up keyboard controls for the game
 const gameField = document.querySelector('.game-field');
 document.addEventListener('keydown', (event) => onKeyDown(event));
 
