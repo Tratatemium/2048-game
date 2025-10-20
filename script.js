@@ -499,8 +499,12 @@ let gameArray;
 // ========================================
 
 // Set up keyboard controls for the game
-const gameField = document.querySelector('.game-field');
+
 document.addEventListener('keydown', (event) => onKeyDown(event));
 
+const restartGameButton = document.querySelector('.restart-game-button');
 
+
+const playAgainButton = document.querySelector('.play-again-button');
+playAgainButton.addEventListener('click', () => setupNewGame());
 
