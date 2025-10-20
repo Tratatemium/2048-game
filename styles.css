@@ -77,41 +77,50 @@ textarea:not([rows]) {
 /* #endregion CSS RESET */
 
 
-:root {
-  /* General UI */
-  
-  --background-board: #1A0033;
+/* ================================================================================================= */
+/* #region CSS CUSTOM PROPERTIES (VARIABLES)                                                        */
+/* ================================================================================================= */
 
+:root {
+  /* ========================================= */
+  /* General UI Colors                         */
+  /* ========================================= */
+  --background-board: #1A0033;
   --background: #0D001A;
   --empty-slot: #2e193d;
-  --border-board: #976ce0;
-
+  /* --border-board: #976ce0; */
+  --border-board: linear-gradient(135deg, #976ce0, #4C1D95);
   --border-color: #9333EA;
   --font-primary: #E9D5FF;
   --font-secondary: #C084FC;
-  --button-bg: #4C1D95;
-  --button-hover: #9333EA;
+  --button-bg: linear-gradient(135deg, #976ce0, #4C1D95);
+  --button-hover: linear-gradient(135deg, #9333EA, #6B21A8);
   --button-text: #F5F3FF;
 
-  /* Neon Shadows - Enhanced */
+  /* ========================================= */
+  /* Neon Shadow Effects                       */
+  /* ========================================= */
   --neon-shadow: 0 0 6px 1px #9333EA44, 0 0 3px 0px #C084FC66, 0 0 0 1px #C084FC33 inset;
   --neon-violet-shadow: 0 0 6px 1px #8b5cf644, 0 0 3px 0px #a855f766, 0 0 0 1px #a855f733 inset;
   --neon-magenta-shadow: 0 0 6px 1px #e879f944, 0 0 3px 0px #f0abfc66, 0 0 0 1px #f0abfc33 inset;
   --neon-pink-shadow: 0 0 6px 1px #ff149366, 0 0 3px 0px #ff69b477, 0 0 0 1px #ff69b433 inset;
 
-  /* Light Purple/Indigo Tiles */
-  /* --tile-2-bg: linear-gradient(135deg, #e4c7f5, #8a4a9e); */
+  /* ========================================= */
+  /* Tile Colors: Light Purple/Indigo (2, 4)  */
+  /* ========================================= */
   --tile-2-bg: linear-gradient(135deg, #edd3fc, #aa6bbd);
   --tile-2-text: #0D001A;
   --tile-2-text-shadow: 0 0 6px #e879f9, 0 0 12px #e879f9cc, 0 0 18px #e879f9aa, 0 0 24px #e879f966;
   --tile-2-shadow: var(--neon-magenta-shadow);
 
   --tile-4-bg: linear-gradient(135deg, #b58ac7, #5a3968);
-  --tile-4-text: #1A001F
+  --tile-4-text: #1A001F;
   --tile-4-text-shadow: 0 0 6px #c084fc, 0 0 12px #c084fccc, 0 0 18px #c084fcaa, 0 0 24px #c084fc66;
   --tile-4-shadow: var(--neon-violet-shadow);
 
-  /* Deep Purple/Violet Tiles */
+  /* ========================================= */
+  /* Tile Colors: Deep Purple/Violet (8-64)   */
+  /* ========================================= */
   --tile-8-bg: linear-gradient(135deg, #8a5a96, #2f1a35);
   --tile-8-text: #F5E0FF;
   --tile-8-text-shadow: 0 0 6px #8b5cf6, 0 0 12px #8b5cf6cc, 0 0 18px #8b5cf6aa, 0 0 24px #8b5cf666;
@@ -132,7 +141,9 @@ textarea:not([rows]) {
   --tile-64-text-shadow: 0 0 6px #f0abfc99, 0 0 12px #f0abfcaa, 0 0 18px #f0abfc88, 0 0 24px #f0abfc55;
   --tile-64-shadow: var(--neon-magenta-shadow);
 
-  /* Bright Pink/Magenta Tiles */
+  /* ========================================= */
+  /* Tile Colors: Bright Pink/Magenta (128+)  */
+  /* ========================================= */
   --tile-128-bg: linear-gradient(135deg, #c85490, #4a1f35);
   --tile-128-text: #F5E0FF;
   --tile-128-text-shadow: 0 0 6px #ec4899, 0 0 12px #ec4899cc, 0 0 18px #ec4899aa, 0 0 24px #ec489966;
@@ -159,48 +170,67 @@ textarea:not([rows]) {
   --tile-2048-shadow: var(--neon-pink-shadow);
 }
 
+/* #endregion CSS CUSTOM PROPERTIES */
+
+
+/* ================================================================================================= */
+/* #region BASE STYLES                                                                              */
+/* ================================================================================================= */
+
 body {
   display: flex;
   align-items: center;
   justify-content: center;
-
   font-family: "Rubik", Arial, system-ui, sans-serif;
-
   background: var(--background);
+  color: var(--font-primary);
 }
 
-main{
+h2 {
+  font-size: 3rem;
+  text-shadow: 0 0 8px #9333EA, 0 0 16px #9333EAAA, 0 0 24px #9333EA77, 0 0 32px #9333EA44;
+}
 
-}  
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-.game-backgroud.field {
-  background-color: var(--border-board);
+/* #endregion BASE STYLES */
+
+
+/* ================================================================================================= */
+/* #region GAME BOARD LAYOUT                                                                        */
+/* ================================================================================================= */
+
+.game-backgroud {
+  background: var(--border-board);
   box-shadow: var(--neon-shadow);
   position: relative;
   display: grid;
+  width: fit-content;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, 1fr);
   border-radius: 0.8rem;
-  padding: 0.5em;
-  gap: 0.5em;
-}
-
-.defeat {
-  font-size: 70%;
+  padding: 0.5rem;
+  gap: 0.5rem;
+  transition: transform 0.15s ease-in;
 }
 
 .tile-backgroud {
   background-color: var(--empty-slot);
   box-shadow: var(--neon-shadow);
-  width: 5em;
-  height: 5em;
-  border-radius: 0.5em;
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.5rem;
 }
 
 .game-field {
     position: absolute;
     display: block; 
-    inset: 0.5em;
+    inset: 0.5rem;
 }
 
 .tile {
@@ -208,15 +238,15 @@ main{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 5.2em;
-    height: 5.2em;
-    border-radius: 0.5em;
+    width: 5.2rem;
+    height: 5.2rem;
+    border-radius: 0.5rem;
 
     box-shadow: var(--neon-shadow);
     transition: transform 0.15s ease-in, box-shadow 0.2s;
     transform: translate(
-      calc(var(--x) * (5em + 0.5em)),
-      calc(var(--y) * (5em + 0.5em))
+      calc(var(--x) * (5rem + 0.5rem)),
+      calc(var(--y) * (5rem + 0.5rem))
     );
 }
 
@@ -224,13 +254,25 @@ main{
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 5.2em;
-  height: 5.2em;
+  width: 5.2rem;
+  height: 5.2rem;
   border: 1px solid var(--empty-slot);
-  border-radius: 0.5em;
+  border-radius: 0.5rem;
   box-shadow: var(--neon-shadow);
   animation: fadeIn 0.15s ease-in-out forwards;
 }
+
+.tile-text {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* #endregion GAME BOARD LAYOUT */
+
+
+/* ================================================================================================= */
+/* #region ANIMATIONS                                                                               */
+/* ================================================================================================= */
 
 @keyframes fadeIn {
   0% {
@@ -247,10 +289,12 @@ main{
   }
 }
 
-.tile-text {
-  font-size: 1.5em;
-  font-weight: bold;
-}
+/* #endregion ANIMATIONS */
+
+
+/* ================================================================================================= */
+/* #region TILE STYLES                                                                              */
+/* ================================================================================================= */
 
 .tile-2 {
   background: var(--tile-2-bg);
@@ -329,3 +373,71 @@ main{
   box-shadow: var(--tile-2048-shadow);
 }
 
+/* #endregion TILE STYLES */
+
+
+/* ================================================================================================= */
+/* #region UI CONTROLS & GAME STATES                                                                */
+/* ================================================================================================= */
+
+.button {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: 2px solid var(--border-color);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: var(--neon-shadow);
+  text-shadow: 0 0 4px #9333EA66;
+  outline: none;
+}
+
+.button:hover {
+  background: var(--button-hover);
+  box-shadow: 0 0 12px 2px #9333EA66, 0 0 6px 1px #C084FC88, 0 0 0 1px #C084FC55 inset;
+  text-shadow: 0 0 6px #E9D5FF, 0 0 12px #9333EAAA;
+}
+
+.button:active {
+  box-shadow: 0 0 8px 1px #9333EA44, 0 0 4px 0px #C084FC66, 0 0 0 1px #C084FC33 inset;
+}
+
+.restart-game-button {
+  display: block;
+}
+
+.play-again-button {
+  display: none;
+}
+
+.defeat-message {
+  text-align: center;
+  display: none;
+}
+
+/* ========================================= */
+/* Defeat State Overrides                   */
+/* ========================================= */
+
+.defeat .defeat-message {
+  display: block;
+}
+
+.defeat .game-backgroud {
+  transform: scale(0.7);
+}
+
+.defeat .restart-game-button {
+  display: none;
+}
+
+.defeat .play-again-button {
+  display: block;
+}
+
+/* #endregion UI CONTROLS & GAME STATES */

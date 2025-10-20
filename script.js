@@ -189,6 +189,37 @@
     };
 
 
+    const setupNewGame = () => {
+
+        const main = document.querySelector('main');
+        main.classList.remove('defeat');
+
+        /**
+         * Initialize the game board as a 4x4 grid of empty tiles
+         * Each tile object contains:
+         * - id: Unique identifier (null for empty tiles)
+         * - value: Tile number (0 for empty tiles)  
+         * - x: Column position (0-3)
+         * - y: Row position (0-3)
+         */
+        gameArray = Array.from({ length: 4 }, (_, i) =>
+            Array.from({ length: 4 }, (_, j) => ({
+                id: null,        // No ID for empty tiles
+                value: 0,        // 0 represents an empty space
+                x: j,            // Column index (0 = leftmost)
+                y: i             // Row index (0 = topmost)
+            }))
+        );
+
+        // Add two random tiles (standard 2048 starting condition)
+        addNumberAtRundom();
+        addNumberAtRundom();
+
+        // Render the initial game state to the DOM
+        updateGameField();
+    };
+
+
     /**
      * Handles keyboard input for game controls
      * Processes arrow key presses to move tiles in the specified direction
@@ -363,20 +394,21 @@
         // After any valid move (slide or merge), add a new tile to the board
         if (somethingSlid || somethingMerged) {
             addNumberAtRundom();
+            updateGameField();
         }
 
-        const playerWon = gameArray.some((row) => row.some((el) => el.value === 2048));
-        if (playerWon) {
-            console.log('You won!')
-        } else {
-            if (playerLost()) {
-                console.log('You lost');
-                const game = document.querySelector('.game-backgroud');
-                game.classList.add('defeat');
+        setTimeout(() => {
+            const playerWon = gameArray.some((row) => row.some((el) => el.value === 2048));
+            if (playerWon) {
+                console.log('You won!')
+            } else {
+                if (playerLost()) {
+                    console.log('You lost');
+                    const main = document.querySelector('main');
+                    main.classList.add('defeat');
+                }
             }
-        }
-
-        
+        }, 400);        
     };
 
 
@@ -388,22 +420,8 @@
 // GAME INITIALIZATION
 // ========================================
 
-/**
- * Initialize the game board as a 4x4 grid of empty tiles
- * Each tile object contains:
- * - id: Unique identifier (null for empty tiles)
- * - value: Tile number (0 for empty tiles)  
- * - x: Column position (0-3)
- * - y: Row position (0-3)
- */
-gameArray = Array.from({ length: 4 }, (_, i) =>
-    Array.from({ length: 4 }, (_, j) => ({
-        id: null,        // No ID for empty tiles
-        value: 0,        // 0 represents an empty space
-        x: j,            // Column index (0 = leftmost)
-        y: i             // Row index (0 = topmost)
-    }))
-);
+let gameArray;
+
 
 /**
  * DEBUG/TESTING ARRAY - Uncomment to test with all tile values
@@ -435,18 +453,46 @@ gameArray = Array.from({ length: 4 }, (_, i) =>
 //         { id: null, value: 0, x: 3, y: 3 }
 //     ]
 // ];
+// updateGameField();
+
+/**
+ * DEFEAT TESTING ARRAY - Uncomment to test defeat condition
+ * Board is one move away from defeat (15/16 tiles filled, no merges possible)
+ */
+    gameArray = [
+        [
+            { id: 1, value: 2, x: 0, y: 0 },
+            { id: 2, value: 4, x: 1, y: 0 },
+            { id: 3, value: 8, x: 2, y: 0 },
+            { id: 4, value: 16, x: 3, y: 0 }
+        ],
+        [
+            { id: 5, value: 32, x: 0, y: 1 },
+            { id: 6, value: 64, x: 1, y: 1 },
+            { id: 7, value: 2, x: 2, y: 1 },
+            { id: 8, value: 4, x: 3, y: 1 }
+        ],
+        [
+            { id: 9, value: 8, x: 0, y: 2 },
+            { id: 10, value: 16, x: 1, y: 2 },
+            { id: 11, value: 32, x: 2, y: 2 },
+            { id: 12, value: 64, x: 3, y: 2 }
+        ],
+        [
+            { id: 13, value: 2, x: 0, y: 3 },
+            { id: 14, value: 4, x: 1, y: 3 },
+            { id: 15, value: 8, x: 2, y: 3 },
+            { id: null, value: 0, x: 3, y: 3 }  // Only one empty space
+        ]
+    ];
+    updateGameField();
 
 
 // ========================================
 // GAME STARTUP
 // ========================================
 
-// Add two random tiles to start the game (standard 2048 starting condition)
-addNumberAtRundom();  // First starting tile
-addNumberAtRundom();  // Second starting tile
-
-// Render the initial game state to the DOM
-updateGameField();
+// setupNewGame();
 
 // ========================================
 // EVENT LISTENERS
