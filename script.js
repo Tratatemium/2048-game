@@ -234,6 +234,29 @@
      */
     const onKeyDown = (event) => {
 
+        // Check if there are any ongoing CSS transitions
+        const tiles = document.querySelectorAll('.tile');
+        const hasTransitions = Array.from(tiles).some(tile => {
+            const animations = tile.getAnimations();
+            // CSS transitions appear as CSSTransition objects
+            return animations.some(anim => 
+                anim.constructor.name === 'CSSTransition' && 
+                anim.playState === 'running'
+            );
+        });
+
+        // Also check for fadeIn animations on tile-inner elements
+        const tileInners = document.querySelectorAll('.tile-inner');
+        const hasFadeInAnimations = Array.from(tileInners).some(tileInner => {
+            const animations = tileInner.getAnimations();
+            return animations.length > 0 && animations.some(anim => anim.playState === 'running');
+        });
+
+        // If animations are running, ignore the key press
+        if (hasTransitions || hasFadeInAnimations) {
+            return;
+        }
+
         // Track if any changes occurred to determine if we need to add a new tile
         let somethingMerged = false;  // Flag for merge operations
         let somethingSlid = false;    // Flag for slide operations
