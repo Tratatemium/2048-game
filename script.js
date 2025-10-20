@@ -191,6 +191,9 @@
 
     const setupNewGame = () => {
 
+        score = 0;
+        moves = 0;
+
         const main = document.querySelector('main');
         main.classList.remove('defeat');
 
@@ -395,17 +398,33 @@
         if (somethingSlid || somethingMerged) {
             addNumberAtRundom();
             updateGameField();
+            moves++;
         }
 
         setTimeout(() => {
             const playerWon = gameArray.some((row) => row.some((el) => el.value === 2048));
             if (playerWon) {
-                console.log('You won!')
+                const main = document.querySelector('main');
+                main.classList.add('win');
+
+                const h2Message = document.querySelector('.endgame-message h2');
+                h2Message.textContent = 'You Won!';
+                const scoreSpan = document.querySelector('.score');
+                const movesSpan = document.querySelector('.moves');
+                movesSpan.textContent = moves;
+
             } else {
                 if (playerLost()) {
-                    console.log('You lost');
+
                     const main = document.querySelector('main');
                     main.classList.add('defeat');
+
+                    const h2Message = document.querySelector('.endgame-message h2');
+                    h2Message.textContent = 'Game over';
+
+                    const scoreSpan = document.querySelector('.score');
+                    const movesSpan = document.querySelector('.moves');
+                    movesSpan.textContent = moves;
                 }
             }
         }, 400);        
@@ -421,6 +440,8 @@
 // ========================================
 
 let gameArray;
+let score = 0;
+let moves = 0;
 
 
 /**
@@ -503,7 +524,7 @@ let gameArray;
 document.addEventListener('keydown', (event) => onKeyDown(event));
 
 const restartGameButton = document.querySelector('.restart-game-button');
-
+restartGameButton.addEventListener('click', () => setupNewGame());
 
 const playAgainButton = document.querySelector('.play-again-button');
 playAgainButton.addEventListener('click', () => setupNewGame());

@@ -177,6 +177,13 @@ textarea:not([rows]) {
 /* #region BASE STYLES                                                                              */
 /* ================================================================================================= */
 
+html, body {
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
 body {
   display: flex;
   align-items: center;
@@ -409,13 +416,14 @@ main {
 
 .restart-game-button {
   display: block;
+  margin-top: 2.5em;
 }
 
 .play-again-button {
   display: none;
 }
 
-.defeat-message {
+.endgame-message {
   text-align: center;
   display: none;
 }
@@ -424,20 +432,25 @@ main {
 /* Defeat State Overrides                   */
 /* ========================================= */
 
-.defeat .defeat-message {
+.win .endgame-message,
+.defeat .endgame-message {
   display: block;
 }
 
+.win .game-backgroud,
 .defeat .game-backgroud {
   transform: scale(0.7);
 }
 
+.win .restart-game-button,
 .defeat .restart-game-button {
   display: none;
 }
 
+.win .play-again-button,
 .defeat .play-again-button {
   display: block;
 }
+
 
 /* #endregion UI CONTROLS & GAME STATES */
