@@ -45,9 +45,13 @@
 
                         // Create the inner content div with the number and styling
                         const tileInner = document.createElement('div');
-                        tileInner.textContent = element.value;         // Display the tile number
                         tileInner.className = `tile-inner tile-${element.value}`; // Value-specific styling
                         tile.appendChild(tileInner);
+
+                        const tileText = document.createElement('div');
+                        tileText.textContent = element.value;         // Display the tile number
+                        tileText.className = `tile-text`;
+                        tileInner.appendChild(tileText);
                         
                     } else {
                         // UPDATE EXISTING TILE: Move to new position (triggers CSS animation)
@@ -151,6 +155,37 @@
             gameArray[randomX][randomY].id = crypto.randomUUID();  // Generate unique ID
         }
         // Note: If no empty spaces exist, the function does nothing (game might be over)
+    };
+
+
+    /**
+     * Checks if the game is over (defeat condition)
+     * Game is over when no empty spaces exist AND no valid moves are possible
+     * @returns {boolean} - True if game is over, false if moves are still possible
+     */
+    const playerLost = () => {
+        // Step 1: Check if there are any empty spaces
+        const emptySpacesExist = gameArray.some((row) => row.some((el) => el.value === 0));
+        
+        // If empty spaces exist, game is not over
+        if (emptySpacesExist) return false;
+        
+        // Step 2: Check if any adjacent tiles can be merged (horizontal)
+        for (let i = 0; i < gameArray.length; i++) {
+            for (let j = 0; j < gameArray.length - 1; j++) {
+                if (gameArray[i][j].value === gameArray[i][j + 1].value) return false;
+            }
+        }
+        
+        // Step 3: Check if any adjacent tiles can be merged (vertical)
+        for (let i = 0; i < gameArray.length - 1; i++) {
+            for (let j = 0; j < gameArray.length; j++) {
+                if (gameArray[i][j].value === gameArray[i + 1][j].value) return false;
+            }
+        }
+        
+        // No empty spaces and no possible merges = game over
+        return true;
     };
 
 
@@ -329,6 +364,19 @@
         if (somethingSlid || somethingMerged) {
             addNumberAtRundom();
         }
+
+        const playerWon = gameArray.some((row) => row.some((el) => el.value === 2048));
+        if (playerWon) {
+            console.log('You won!')
+        } else {
+            if (playerLost()) {
+                console.log('You lost');
+                const game = document.querySelector('.game-backgroud');
+                game.classList.add('defeat');
+            }
+        }
+
+        
     };
 
 
