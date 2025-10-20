@@ -105,6 +105,7 @@
             // Check if current tile and next tile have the same non-zero value
             if (result[i].value === result[i + 1].value && result[i].value !== 0) {
                 result[i].value = result[i].value * 2;     // Double the first tile's value
+                score = score + result[i].value;           // Add merged number to the score
                 result[i].id = crypto.randomUUID();        // Generate new ID for merged tile
                 result[i + 1].value = 0;                   // Mark second tile as empty
                 result[i + 1].id = null;                   // Remove second tile's ID
@@ -192,6 +193,8 @@
     const setupNewGame = () => {
 
         score = 0;
+        const scoreSpan = document.querySelector('.current-score-span');
+        scoreSpan.textContent = score;
         moves = 0;
 
         const main = document.querySelector('main');
@@ -399,6 +402,9 @@
             addNumberAtRundom();
             updateGameField();
             moves++;
+
+            const scoreSpan = document.querySelector('.current-score-span');
+            scoreSpan.textContent = score;
         }
 
         setTimeout(() => {
@@ -409,8 +415,9 @@
 
                 const h2Message = document.querySelector('.endgame-message h2');
                 h2Message.textContent = 'You Won!';
-                const scoreSpan = document.querySelector('.score');
-                const movesSpan = document.querySelector('.moves');
+                const scoreSpan = document.querySelector('.endgame-score');
+                scoreSpan.textContent = score;
+                const movesSpan = document.querySelector('.endgame-moves');
                 movesSpan.textContent = moves;
 
             } else {
@@ -422,8 +429,9 @@
                     const h2Message = document.querySelector('.endgame-message h2');
                     h2Message.textContent = 'Game over';
 
-                    const scoreSpan = document.querySelector('.score');
-                    const movesSpan = document.querySelector('.moves');
+                    const scoreSpan = document.querySelector('.endgame-score');
+                    scoreSpan.textContent = score;
+                    const movesSpan = document.querySelector('.endgame-moves');
                     movesSpan.textContent = moves;
                 }
             }

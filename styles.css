@@ -414,6 +414,40 @@ main {
   box-shadow: 0 0 8px 1px #9333EA44, 0 0 4px 0px #C084FC66, 0 0 0 1px #C084FC33 inset;
 }
 
+.score-container {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 2rem;
+}
+
+.current-score {
+  background: linear-gradient(135deg, #2e193d, #1a0d26);
+  color: var(--font-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 1.5rem;
+  padding: 0.5rem 1.5rem;
+  margin: 0;
+  text-align: center;
+  box-shadow: var(--neon-shadow);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 6px #9333EA77, 0 0 12px #9333EA44;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.current-score-span {
+  text-align: center;
+  line-height: 100%;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #d6aefe;
+  text-shadow: 0 0 8px #C084FC, 0 0 16px #C084FC66, 0 0 24px #C084FC33;
+}
+
 .restart-game-button {
   display: block;
   margin-top: 2.5em;
@@ -431,6 +465,12 @@ main {
 /* ========================================= */
 /* Defeat State Overrides                   */
 /* ========================================= */
+
+
+.win .score-container,
+.defeat .score-container {
+  display: none;
+}
 
 .win .endgame-message,
 .defeat .endgame-message {
