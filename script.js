@@ -327,6 +327,13 @@ const printArray = () => {
         }
 
         // ==========================================
+        // WIN STATE BLOCKING - Prevent input during victory state
+        // ==========================================
+
+        const main = document.querySelector('main');
+        if (Array.from(main.classList).includes('win')) return;
+
+        // ==========================================
         // GAME MOVE PROCESSING - Handle directional input
         // ==========================================
         
