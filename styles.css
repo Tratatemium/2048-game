@@ -480,9 +480,15 @@ main {
 .win .game-backgroud,
 .defeat .game-backgroud {
   transform: scale(0.7);
-  filter: brightness(0.7)
 }
 
+.defeat .tile-inner {
+  filter: brightness(0.5);
+}
+
+.win .tile-inner:not(.tile-2048){
+  filter: brightness(0.5);
+}
 
 .win .restart-game-button,
 .defeat .restart-game-button {
@@ -493,10 +499,10 @@ main {
 .defeat .play-again-button {
   display: block;
 } 
-w
+
 
 .win .tile-2048{
-  filter: brightness(1);
+  filter: brightness(1.5);
   position: relative;
   overflow: visible;
 }

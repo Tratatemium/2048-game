@@ -1,5 +1,6 @@
 // #region FUNCTIONS
 
+    // ====== FUNCTION ======
     /**
      * Prints the current game array to the console for debugging purposes
      * Displays values in a grid format matching the visual layout
@@ -12,6 +13,8 @@
                 .join('\n')
         );
     };
+
+
 
 
 
@@ -72,6 +75,8 @@
     };
 
 
+
+
     /**
      * Slides tiles by removing empty spaces (moving non-zero tiles together)
      * Does not perform any merging - only repositioning
@@ -124,6 +129,9 @@
         return result;
     };
 
+
+
+
     /**
      * Adds a new tile (2 or 4) to a random empty position on the game board
      * 80% chance for value 2, 20% chance for value 4
@@ -159,6 +167,9 @@
     };
 
 
+
+
+
     /**
      * Checks if the game is over (defeat condition)
      * Game is over when no empty spaces exist AND no valid moves are possible
@@ -190,6 +201,9 @@
     };
 
 
+
+
+
     const setupNewGame = () => {
 
         score = 0;
@@ -199,6 +213,7 @@
 
         const main = document.querySelector('main');
         main.classList.remove('defeat');
+        main.classList.remove('win');
 
         /**
          * Initialize the game board as a 4x4 grid of empty tiles
