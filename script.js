@@ -1,18 +1,26 @@
-// #region FUNCTIONS
+/* ================================================================================================= */
+/* #region UTILITY FUNCTIONS                                                                        */
+/* ================================================================================================= */
 
-    // ====== FUNCTION ======
-    /**
-     * Prints the current game array to the console for debugging purposes
-     * Displays values in a grid format matching the visual layout
-     */
-    const printArray = () => {
-        console.log('-------');
-        console.log(
-            gameArray
-                .map(row => row.map(el => el.value).join(' '))
-                .join('\n')
-        );
-    };
+/**
+ * Prints the current game array to the console for debugging purposes
+ * Displays values in a grid format matching the visual layout
+ */
+const printArray = () => {
+    console.log('-------');
+    console.log(
+        gameArray
+            .map(row => row.map(el => el.value).join(' '))
+            .join('\n')
+    );
+};
+
+/* #endregion UTILITY FUNCTIONS */
+
+
+/* ================================================================================================= */
+/* #region DOM MANIPULATION                                                                         */
+/* ================================================================================================= */
 
 
 
@@ -129,10 +137,14 @@
         return result;
     };
 
+/* #endregion GAME LOGIC - CORE MECHANICS */
 
 
+/* ================================================================================================= */
+/* #region GAME LOGIC - BOARD MANAGEMENT                                                            */
+/* ================================================================================================= */
 
-    /**
+/**
      * Adds a new tile (2 or 4) to a random empty position on the game board
      * 80% chance for value 2, 20% chance for value 4
      * Generates a unique ID for the new tile
@@ -165,6 +177,13 @@
         }
         // Note: If no empty spaces exist, the function does nothing (game might be over)
     };
+
+/* #endregion DOM MANIPULATION */
+
+
+/* ================================================================================================= */
+/* #region GAME LOGIC - CORE MECHANICS                                                              */
+/* ================================================================================================= */
 
 
 
@@ -200,29 +219,40 @@
         return true;
     };
 
+/* #endregion GAME LOGIC - BOARD MANAGEMENT */
+
+
+/* ================================================================================================= */
+/* #region GAME INITIALIZATION & SETUP                                                              */
+/* ================================================================================================= */
 
 
 
 
+
+/**
+     * Sets up a new game by resetting all game state and initializing the board
+     * Resets score, moves, removes win/defeat classes, creates empty 4x4 grid,
+     * adds two starting tiles, and renders the initial game state
+     */
     const setupNewGame = () => {
-
+        // Reset game statistics
         score = 0;
         const scoreSpan = document.querySelector('.current-score-span');
         scoreSpan.textContent = score;
         moves = 0;
 
+        // Reset visual game states (remove win/defeat styling)
         const main = document.querySelector('main');
         main.classList.remove('defeat');
         main.classList.remove('win');
 
-        /**
-         * Initialize the game board as a 4x4 grid of empty tiles
-         * Each tile object contains:
-         * - id: Unique identifier (null for empty tiles)
-         * - value: Tile number (0 for empty tiles)  
-         * - x: Column position (0-3)
-         * - y: Row position (0-3)
-         */
+        // Initialize the game board as a 4x4 grid of empty tiles
+        // Each tile object contains:
+        // - id: Unique identifier (null for empty tiles)
+        // - value: Tile number (0 for empty tiles)  
+        // - x: Column position (0-3)
+        // - y: Row position (0-3)
         gameArray = Array.from({ length: 4 }, (_, i) =>
             Array.from({ length: 4 }, (_, j) => ({
                 id: null,        // No ID for empty tiles
@@ -240,16 +270,26 @@
         updateGameField();
     };
 
+/* #endregion GAME INITIALIZATION & SETUP */
 
-    /**
+
+/* ================================================================================================= */
+/* #region INPUT HANDLING & GAME CONTROLS                                                           */
+/* ================================================================================================= */
+
+
+/**
      * Handles keyboard input for game controls
      * Processes arrow key presses to move tiles in the specified direction
      * Manages the slide and merge logic for each direction
      * @param {KeyboardEvent} event - The keyboard event containing the pressed key
      */
     const onKeyDown = (event) => {
-
-        // Check if there are any ongoing CSS transitions
+        // ==========================================
+        // ANIMATION BLOCKING - Prevent input during tile animations
+        // ==========================================
+        
+        // Check if there are any ongoing CSS transitions on tiles
         const tiles = document.querySelectorAll('.tile');
         const hasTransitions = Array.from(tiles).some(tile => {
             const animations = tile.getAnimations();
@@ -267,21 +307,29 @@
             return animations.length > 0 && animations.some(anim => anim.playState === 'running');
         });
 
-        // If animations are running, ignore the key press
+        // If animations are running, ignore the key press to prevent conflicts
         if (hasTransitions || hasFadeInAnimations) {
             return;
         }
 
-        const restartDialog = document.querySelector('.restart-dialog');
-        if (restartDialog.open) {
+        // ==========================================
+        // DIALOG HANDLING - Handle Escape key for open dialogs
+        // ==========================================
+        
+        if (restartDialog.open || aboutGameDialog.open) {
             if (event.key === 'Escape') {
                 restartDialog.close();
+                aboutGameDialog.close();
                 return;
             } else {
-                return;
+                return; // Ignore other keys when dialogs are open
             }
         }
 
+        // ==========================================
+        // GAME MOVE PROCESSING - Handle directional input
+        // ==========================================
+        
         // Track if any changes occurred to determine if we need to add a new tile
         let somethingMerged = false;  // Flag for merge operations
         let somethingSlid = false;    // Flag for slide operations
@@ -442,25 +490,40 @@
                 if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
                 break;
             default:
-                // Ignore any other key presses
+                // Ignore any other key presses (no valid game move)
+                return;
         }
 
+        // ==========================================
+        // POST-MOVE PROCESSING - Handle consequences of valid moves
+        // ==========================================
+        
         // After any valid move (slide or merge), add a new tile to the board
         if (somethingSlid || somethingMerged) {
-            addNumberAtRundom();
-            updateGameField();
-            moves++;
+            addNumberAtRundom();           // Add new tile (2 or 4) to random empty space
+            updateGameField();             // Update DOM to show new tile
+            moves++;                       // Increment move counter
 
+            // Update score display in the UI
             const scoreSpan = document.querySelector('.current-score-span');
             scoreSpan.textContent = score;
         }
 
+        // ==========================================
+        // GAME STATE CHECKING - Check for win/lose conditions
+        // ==========================================
+        
+        // Delay checking game state to allow animations to complete
         setTimeout(() => {
+            // Check for win condition (2048 tile exists)
             const playerWon = gameArray.some((row) => row.some((el) => el.value === 2048));
+            
             if (playerWon) {
+                // VICTORY STATE
                 const main = document.querySelector('main');
                 main.classList.add('win');
 
+                // Update endgame message with victory info
                 const h2Message = document.querySelector('.endgame-message h2');
                 h2Message.textContent = 'You Won!';
                 const scoreSpan = document.querySelector('.endgame-score');
@@ -468,36 +531,45 @@
                 const movesSpan = document.querySelector('.endgame-moves');
                 movesSpan.textContent = moves;
 
-            } else {
-                if (playerLost()) {
+            } else if (playerLost()) {
+                // DEFEAT STATE
+                const main = document.querySelector('main');
+                main.classList.add('defeat');
 
-                    const main = document.querySelector('main');
-                    main.classList.add('defeat');
-
-                    const h2Message = document.querySelector('.endgame-message h2');
-                    h2Message.textContent = 'Game over';
-
-                    const scoreSpan = document.querySelector('.endgame-score');
-                    scoreSpan.textContent = score;
-                    const movesSpan = document.querySelector('.endgame-moves');
-                    movesSpan.textContent = moves;
-                }
+                // Update endgame message with defeat info
+                const h2Message = document.querySelector('.endgame-message h2');
+                h2Message.textContent = 'Game over';
+                const scoreSpan = document.querySelector('.endgame-score');
+                scoreSpan.textContent = score;
+                const movesSpan = document.querySelector('.endgame-moves');
+                movesSpan.textContent = moves;
             }
-        }, 400);        
+        }, 400); // Wait for animations to complete before checking game state
     };
 
+/* #endregion INPUT HANDLING & GAME CONTROLS */
 
 
-// #endregion FUNCTIONS
 
 
-// ========================================
-// GAME INITIALIZATION
-// ========================================
+/* ================================================================================================= */
+/* #region GLOBAL VARIABLES & GAME STATE                                                            */
+/* ================================================================================================= */
 
-let gameArray;
-let score = 0;
-let moves = 0;
+/**
+ * GAME STATE VARIABLES
+ * These variables maintain the current state of the game
+ */
+let gameArray;    // 4x4 array representing the game board
+let score = 0;    // Current player score (sum of merged tile values)
+let moves = 0;    // Number of moves made in current game
+
+/* #endregion GLOBAL VARIABLES & GAME STATE */
+
+
+/* ================================================================================================= */
+/* #region TESTING & DEBUG CONFIGURATIONS                                                           */
+/* ================================================================================================= */
 
 
 /**
@@ -536,7 +608,7 @@ let moves = 0;
  * DEFEAT TESTING ARRAY - Uncomment to test defeat condition
  * Board is one move away from defeat (15/16 tiles filled, no merges possible)
  */
-    // gameArray = [
+// gameArray = [
     //     [
     //         { id: 1, value: 2, x: 0, y: 0 },
     //         { id: 2, value: 4, x: 1, y: 0 },
@@ -565,10 +637,10 @@ let moves = 0;
     // updateGameField();
 
 /**
- * WIN TESTING ARRAY - Uncomment to test defeat condition
- * Board is one move away from win (two 1024)
+ * WIN TESTING ARRAY - Uncomment to test win condition
+ * Board is one move away from win (two 1024 tiles that can merge to 2048)
  */
-    gameArray = [
+gameArray = [
         [
             { id: 1, value: 2, x: 0, y: 0 },
             { id: 2, value: 4, x: 1, y: 0 },
@@ -594,25 +666,86 @@ let moves = 0;
             { id: null, value: 0, x: 3, y: 3 }  // Only one empty space
         ]
     ];
-    updateGameField();
+updateGameField();
+
+/* #endregion TESTING & DEBUG CONFIGURATIONS */
 
 
-// ========================================
-// GAME STARTUP
-// ========================================
+/* ================================================================================================= */
+/* #region GAME INITIALIZATION & STARTUP                                                            */
+/* ================================================================================================= */
 
+/**
+ * NORMAL GAME STARTUP - Uncomment to start with empty board
+ * Comment out the testing arrays above and uncomment this line for normal gameplay
+ */
 // setupNewGame();
 
-// ========================================
-// EVENT LISTENERS
-// ========================================
+/* #endregion GAME INITIALIZATION & STARTUP */
 
-// Set up keyboard controls for the game
 
+/* ================================================================================================= */
+/* #region EVENT LISTENERS & DOM INTERACTIONS                                                       */
+/* ================================================================================================= */
+
+// ==========================================
+// KEYBOARD CONTROLS
+// ==========================================
+
+/**
+ * Main game input handler - listens for arrow keys and other game controls
+ */
 document.addEventListener('keydown', event => onKeyDown(event));
 
-const restartGameButton = document.querySelector('.restart-game-button');
-restartGameButton.addEventListener('click', () => setupNewGame());
+// ==========================================
+// BUTTON EVENT HANDLERS
+// ==========================================
 
+
+/**
+ * PLAY AGAIN BUTTON - Starts a new game after win/defeat
+ * Appears when game ends (replaces restart button)
+ */
 const playAgainButton = document.querySelector('.play-again-button');
 playAgainButton.addEventListener('click', () => setupNewGame());
+
+/**
+ * RESTART GAME FUNCTIONALITY - Shows confirmation dialog before restarting
+ * Uses modal dialog to prevent accidental game resets
+ */
+const restartDialog = document.querySelector('.restart-dialog');
+const restartGameButton = document.querySelector('.restart-game-button');
+
+// Show restart confirmation dialog
+restartGameButton.addEventListener('click', () => {
+    if (!restartDialog.open) restartDialog.showModal();
+});
+
+// Confirm restart - start new game and close dialog
+const yesRestartButton = document.querySelector('.yes-restart-button');
+yesRestartButton.addEventListener('click', () => {
+    setupNewGame();
+    restartDialog.close();
+});
+
+// Cancel restart - just close the dialog
+const cancelButton = document.querySelector('.cancel-button');
+cancelButton.addEventListener('click', () => restartDialog.close());
+
+/**
+ * ABOUT/MENU DIALOG FUNCTIONALITY - Shows game information
+ * Triggered by menu button, closed by close button or Escape key
+ */
+const aboutGameDialog = document.querySelector('.about-game-dialog');
+const menuButton = document.querySelector('.menu-button');
+
+// Show about game dialog
+menuButton.addEventListener('click', () => {
+    if (!aboutGameDialog.open) aboutGameDialog.showModal();
+});
+
+// Close about game dialog
+const closeAboutGameDialogButton = document.querySelector('.close-about-game-dialog-button');
+closeAboutGameDialogButton.addEventListener('click', () => aboutGameDialog.close());
+
+/* #endregion EVENT LISTENERS & DOM INTERACTIONS */

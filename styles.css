@@ -205,12 +205,27 @@ main {
   justify-content: center;
 }
 
+.menu-button{
+  position: absolute;
+  top: 3.2rem;
+  left: 1.2rem;
+  background-color: transparent;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+.menu-button p{
+  margin: 0;
+  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+  background-clip: text;
+  color: transparent;
+}
+
 h1 {
   position: absolute;
-  top: 0;
-  left: 0;
-  margin-top: 4rem;
-  margin-left: 3rem;
+  top: 2rem;
+  left: 4rem;
+  margin: 0;
 
   font-size: 4.5rem;
 
@@ -229,6 +244,14 @@ h1::before {
   color: purple;
   filter: blur(6px);
   opacity: 1;
+}
+
+.restart-game-button {
+  position: absolute;
+  top: 3rem;
+  right: 3rem;
+  display: block;
+
 }
 
 footer{
@@ -500,14 +523,7 @@ footer{
   text-shadow: 0 0 8px #C084FC, 0 0 16px #C084FC66, 0 0 24px #C084FC33;
 }
 
-.restart-game-button {
-  position: absolute;
-  top: 0;
-  right: 0;
-  display: block;
-  margin-top: 5rem;
-  margin-right: 3rem;
-}
+
 
 .play-again-button {
   display: none;
@@ -628,7 +644,11 @@ footer{
   }
 }
 
-.restart-dialog {
+dialog {
+  display: none;
+}
+
+dialog[open] {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -648,12 +668,12 @@ footer{
   text-align: center;
 }
 
-.restart-dialog::backdrop {
+dialog::backdrop {
   background: rgba(13, 0, 26, 0.8);
   backdrop-filter: blur(5px);
 }
 
-.restart-dialog h3 {
+dialog h3 {
   margin: 0;
   font-size: 1.8rem;
   font-weight: 700;
@@ -661,7 +681,7 @@ footer{
   color: var(--font-primary);
 }
 
-.restart-dialog p {
+dialog p {
   margin: 0;
   font-size: 1rem;
   line-height: 1.4;
@@ -673,30 +693,42 @@ footer{
   min-width: 140px;
   margin: 0.5rem 0.5rem 0 0.5rem;
 }
-
+ 
 .restart-dialog .yes-restart-button {
-  background: linear-gradient(135deg, #dc2626, #991b1b);
-  border-color: #ef4444;
+  background: linear-gradient(135deg, #a21caf, #701a75);
+  border-color: #c026d3;
 }
 
 .restart-dialog .yes-restart-button:hover {
-  background: linear-gradient(135deg, #ef4444, #dc2626);
-  box-shadow: 0 0 12px 2px #ef444466, 0 0 6px 1px #f8717188, 0 0 0 1px #f8717155 inset;
+  background: linear-gradient(135deg, #c026d3, #a21caf);
+  box-shadow: 0 0 12px 2px #c026d366, 0 0 6px 1px #d946ef88, 0 0 0 1px #d946ef55 inset;
+  text-shadow: 0 0 6px #E9D5FF, 0 0 12px #c026d3AA;
 }
 
-.restart-dialog .cancel-button {
-  background: var(--button-bg);
-  border-color: var(--border-color);
+.close-about-game-dialog-button{
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s ease;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
+.close-about-game-dialog-button svg {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--font-secondary);
+  width: 1.5rem;
+  height: 1.5rem;
+  transition: all 0.2s ease;
 }
+
+.close-about-game-dialog-button:hover svg {
+  color: var(--font-primary);
+  filter: drop-shadow(0 0 6px #9333EA) drop-shadow(0 0 12px #9333EAAA) drop-shadow(0 0 18px #9333EA77);
+}
+
+
 
 
 /* #endregion UI CONTROLS & GAME STATES */

@@ -11,6 +11,7 @@
 </head>
 <body>
     <main>
+        <button class="menu-button"><p>&#9776;</p></button>
         <h1>2048</h1>
         <div class="endgame-message">
             <h2>Game over</h2>
@@ -46,11 +47,22 @@
         
     </main>
 
-    <dialog open class="restart-dialog">
+    <dialog class="restart-dialog">
         <h3>Restart game</h3>
         <p>Are you sure you want to restart the game? <br> All your progress will be lost.</p>
         <button class="button yes-restart-button">Yes, restart game</button>
         <button class="button cancel-button">Cancel</button>
+    </dialog>
+
+    <dialog class="about-game-dialog">
+        <h3>About the game</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <button class="close-about-game-dialog-button">
+            <svg  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M9 9L15 15M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
     </dialog>
 
     <footer>
