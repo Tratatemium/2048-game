@@ -11,6 +11,7 @@
 </head>
 <body>
     <main>
+        <h1>2048</h1>
         <div class="endgame-message">
             <h2>Game over</h2>
             <p><span class="endgame-score">0</span> points scored in <span class="endgame-moves">0</span> moves.</p>
@@ -44,6 +45,20 @@
         <button class="button play-again-button">Play again</button>
         
     </main>
+
+    <dialog open class="restart-dialog">
+        <h3>Restart game</h3>
+        <p>Are you sure you want to restart the game? <br> All your progress will be lost.</p>
+        <button class="button yes-restart-button">Yes, restart game</button>
+        <button class="button cancel-button">Cancel</button>
+    </dialog>
+
+    <footer>
+        <p class="copyright">
+            © 2025
+            <a href="https://tratatemium.github.io/" target="_blank" class="about-me-link">Vladislav Zhuravskii↗</a>
+        </p>
+    </footer>
     
     <script src="script.js"></script>
 </body>

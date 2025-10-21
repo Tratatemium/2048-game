@@ -272,6 +272,16 @@
             return;
         }
 
+        const restartDialog = document.querySelector('.restart-dialog');
+        if (restartDialog.open) {
+            if (event.key === 'Escape') {
+                restartDialog.close();
+                return;
+            } else {
+                return;
+            }
+        }
+
         // Track if any changes occurred to determine if we need to add a new tile
         let somethingMerged = false;  // Flag for merge operations
         let somethingSlid = false;    // Flag for slide operations
@@ -599,11 +609,10 @@ let moves = 0;
 
 // Set up keyboard controls for the game
 
-document.addEventListener('keydown', (event) => onKeyDown(event));
+document.addEventListener('keydown', event => onKeyDown(event));
 
 const restartGameButton = document.querySelector('.restart-game-button');
 restartGameButton.addEventListener('click', () => setupNewGame());
 
 const playAgainButton = document.querySelector('.play-again-button');
 playAgainButton.addEventListener('click', () => setupNewGame());
-
