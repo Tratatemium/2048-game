@@ -316,6 +316,18 @@ const printArray = () => {
             return;
         }
 
+        Array.from(tiles).forEach(tile => {
+            tile.classList.add('transition')
+        });
+
+        setTimeout(() => {
+            Array.from(tiles).forEach(tile => {
+                tile.classList.remove('transition')
+            });
+        }, 150);
+
+
+
         // ==========================================
         // DIALOG HANDLING - Handle Escape key for open dialogs
         // ==========================================
@@ -519,6 +531,8 @@ const printArray = () => {
             const scoreSpan = document.querySelector('.current-score-span');
             scoreSpan.textContent = score;
         }
+
+        
 
         // ==========================================
         // GAME STATE CHECKING - Check for win/lose conditions
@@ -768,3 +782,34 @@ const closeAboutGameDialogButton = document.querySelector('.close-about-game-dia
 closeAboutGameDialogButton.addEventListener('click', () => aboutGameDialog.close());
 
 /* #endregion EVENT LISTENERS & DOM INTERACTIONS */
+
+
+
+
+// Mobile swipe support
+//   let startX = 0;
+//   let endX = 0;
+
+//   lightbox.addEventListener("touchstart", (e) => {
+//     startX = e.changedTouches[0].screenX;
+//   });
+
+//   lightbox.addEventListener("touchend", (e) => {
+//     endX = e.changedTouches[0].screenX;
+//     handleSwipe();
+//   });
+
+//   // Handle swipe gesture for prev/next
+//   function handleSwipe() {
+//     let diff = endX - startX;
+
+//     if (Math.abs(diff) > 50) { // Swipe threshold
+//       if (diff > 0) {
+//         // Swipe right → previous image
+//         prevBtn.click();
+//       } else {
+//         // Swipe left → next image
+//         nextBtn.click();
+//       }
+//     }
+//   };

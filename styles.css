@@ -371,6 +371,21 @@ footer {
     top: 2.5rem;
     transform: translateX(-50%);
   }
+
+  footer {
+    justify-content: center;
+    padding-right: 0;
+  }
+  
+  dialog[open] {
+    font-size: 85%;
+  }
+}
+
+@media (max-width: 450px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 3.7vw, 1rem);
+  }
 }
 
 /* #endregion HEADER & NAVIGATION ELEMENTS */
@@ -391,9 +406,9 @@ footer {
   width: fit-content;
   grid-template-columns: repeat(4, 1fr);    /* 4 equal columns */
   grid-template-rows: repeat(4, 1fr);       /* 4 equal rows */
-  border-radius: 0.8rem;
-  padding: 0.5rem;
-  gap: 0.5rem;
+  border-radius: 0.8em;
+  padding: 0.5em;
+  gap: 0.5em;
   transition: transform 0.15s ease-in;      /* Smooth scaling for game states */
 }
 
@@ -403,9 +418,9 @@ footer {
 .tile-backgroud {
   background-color: var(--empty-slot);
   box-shadow: var(--neon-shadow);
-  width: 5rem;
-  height: 5rem;
-  border-radius: 0.5rem;
+  width: 5em;
+  height: 5em;
+  border-radius: 0.5em;
 }
 
 /**
@@ -414,7 +429,7 @@ footer {
 .game-field {
   position: absolute;
   display: block; 
-  inset: 0.5rem;                            /* Matches padding of game board */
+  inset: 0.5em;                            /* Matches padding of game board */
 }
 
 /**
@@ -425,16 +440,20 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 5.2rem;                            /* Slightly larger than slots for overlap */
-  height: 5.2rem;
-  border-radius: 0.5rem;
+  width: 5.2em;                            /* Slightly larger than slots for overlap */
+  height: 5.2em;
+  border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
-  transition: transform 0.15s ease-in, box-shadow 0.2s;
+  /* transition: transform 0.15s ease-in, box-shadow 0.2s; */
   /* CSS custom properties for positioning - set by JavaScript */
   transform: translate(
-    calc(var(--x) * (5rem + 0.5rem)),       /* X position based on grid index */
-    calc(var(--y) * (5rem + 0.5rem))        /* Y position based on grid index */
+    calc(var(--x) * (5em + 0.5em)),       /* X position based on grid index */
+    calc(var(--y) * (5em + 0.5em))        /* Y position based on grid index */
   );
+}
+
+.tile.transition{
+  transition: transform 0.15s ease-in, box-shadow 0.2s;
 }
 
 /**
@@ -444,10 +463,10 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 5.2rem;
-  height: 5.2rem;
+  width: 5.2em;
+  height: 5.2em;
   border: 1px solid var(--empty-slot);
-  border-radius: 0.5rem;
+  border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
   animation: fadeIn 0.15s ease-in-out forwards;  /* Fade-in animation for new tiles */
 }
@@ -456,7 +475,7 @@ footer {
  * TILE TEXT - The number displayed on each tile
  */
 .tile-text {
-  font-size: 1.5rem;
+  font-size: 1.5em;
   font-weight: bold;
 }
 
@@ -734,7 +753,7 @@ h2 {
   content: '';
   position: absolute;
   inset: -3px;                               /* Extend beyond tile border */
-  border-radius: 0.5rem;
+  border-radius: 0.5em;
   background: linear-gradient(45deg, 
     transparent, 
     #ff00ff,                                 /* Magenta */
@@ -753,7 +772,7 @@ h2 {
   content: '';
   position: absolute;
   inset: -1px;                               /* Slightly smaller than border */
-  border-radius: 0.5rem;
+  border-radius: 0.5em;
   background: var(--tile-2048-bg);           /* Match tile background */
   z-index: -1;                               /* Behind content, over border */
 }
@@ -814,6 +833,8 @@ dialog {
 }
 
 dialog[open] {
+  margin: auto 2rem;
+  justify-self: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -846,7 +867,7 @@ dialog::backdrop {
  */
 dialog h3 {
   margin: 0;
-  font-size: 1.8rem;
+  font-size: 1.8em;
   font-weight: 700;
   text-shadow: 0 0 8px #9333EA, 0 0 16px #9333EAAA;  /* Neon glow on heading */
   color: var(--font-primary);
@@ -854,7 +875,7 @@ dialog h3 {
 
 dialog p {
   margin: 0;
-  font-size: 1rem;
+  font-size: 1em;
   line-height: 1.4;
   color: var(--font-secondary);              /* Slightly dimmer for body text */
   text-shadow: 0 0 4px #9333EA44;            /* Subtle text glow */
@@ -865,7 +886,7 @@ dialog p {
  */
 .restart-dialog .button {
   min-width: 140px;                          /* Consistent button sizing */
-  margin: 0.5rem 0.5rem 0 0.5rem;
+  margin: 0.5em 0.5em 0 0.5em;
 }
 
 /**
@@ -911,11 +932,11 @@ dialog p {
 
 .close-about-game-dialog-button svg {
   position: absolute;
-  top: 1rem;
-  right: 1rem;
+  top: 1em;
+  right: 1em;
   color: var(--font-secondary);              /* Purple icon color */
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.5em;
+  height: 1.5em;
   transition: all 0.2s ease;                 /* Smooth hover transition */
 }
 
