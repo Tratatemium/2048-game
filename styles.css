@@ -94,6 +94,7 @@ textarea:not([rows]) {
   --border-color: #9333EA;                   /* Primary border color */
   --font-primary: #E9D5FF;                   /* Light purple for primary text */
   --font-secondary: #C084FC;                 /* Medium purple for secondary text */
+  --title-neon-gradient: linear-gradient(45deg, #9333EA, #C084FC, #E879F9, #F472B6, #9333EA);
 
   /* ========================================= */
   /* Button Theme Colors                      */
@@ -234,7 +235,7 @@ main {
 
 .menu-button p {
   margin: 0;
-  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+  background: var(--title-neon-gradient);
   background-clip: text;
   color: transparent;
 }
@@ -248,7 +249,7 @@ h1 {
   left: 4rem;
   margin: 0;
   font-size: 4.5rem;
-  background: linear-gradient(45deg, #ff00ff, #00ffff, #ffff00, #ff00ff);
+  background: var(--title-neon-gradient);
   background-clip: text;
   color: transparent;
 }
