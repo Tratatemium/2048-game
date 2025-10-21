@@ -247,6 +247,10 @@ const printArray = () => {
         main.classList.remove('defeat');
         main.classList.remove('win');
 
+        const header = document.querySelector('header');
+        header.classList.remove('defeat');
+        header.classList.remove('win')
+
         // Initialize the game board as a 4x4 grid of empty tiles
         // Each tile object contains:
         // - id: Unique identifier (null for empty tiles)
@@ -529,6 +533,8 @@ const printArray = () => {
                 // VICTORY STATE
                 const main = document.querySelector('main');
                 main.classList.add('win');
+                const header = document.querySelector('header');
+                header.classList.add('win');
 
                 // Update endgame message with victory info
                 const h2Message = document.querySelector('.endgame-message h2');
@@ -542,6 +548,8 @@ const printArray = () => {
                 // DEFEAT STATE
                 const main = document.querySelector('main');
                 main.classList.add('defeat');
+                const header = document.querySelector('header');
+                header.classList.add('defeat');
 
                 // Update endgame message with defeat info
                 const h2Message = document.querySelector('.endgame-message h2');
@@ -721,10 +729,14 @@ playAgainButton.addEventListener('click', () => setupNewGame());
  * Uses modal dialog to prevent accidental game resets
  */
 const restartDialog = document.querySelector('.restart-dialog');
-const restartGameButton = document.querySelector('.restart-game-button');
+const restartGameButtonDesktop = document.querySelector('.restart-game-button-desktop');
+const restartGameButtonMobile = document.querySelector('.restart-game-button-mobile');
 
 // Show restart confirmation dialog
-restartGameButton.addEventListener('click', () => {
+restartGameButtonDesktop.addEventListener('click', () => {
+    if (!restartDialog.open) restartDialog.showModal();
+});
+restartGameButtonMobile.addEventListener('click', () => {
     if (!restartDialog.open) restartDialog.showModal();
 });
 

@@ -200,11 +200,6 @@ body {
   color: var(--font-primary);
 }
 
-h2 {
-  font-size: 3rem;
-  text-shadow: 0 0 8px #9333EA, 0 0 16px #9333EAAA, 0 0 24px #9333EA77, 0 0 32px #9333EA44;
-}
-
 /* Central game layout container */
 main {
   display: flex;
@@ -220,12 +215,26 @@ main {
 /* #region HEADER & NAVIGATION ELEMENTS                                                             */
 /* ================================================================================================= */
 
+header {
+  position: absolute;
+  top: 0;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2rem;
+}
+
+header.win,
+header.defeat {
+  display: none;
+}
+
 /**
  * HAMBURGER MENU BUTTON - Top left navigation
  */
 .menu-button {
   position: absolute;
-  top: 3.2rem;
   left: 1.2rem;
   background-color: transparent;
   border: none;
@@ -245,12 +254,13 @@ main {
  */
 h1 {
   position: absolute;
-  top: 2rem;
   left: 4rem;
   margin: 0;
   font-size: 4.5rem;
   background: var(--title-neon-gradient);
+  -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
@@ -261,19 +271,49 @@ h1::before {
   top: 0;
   left: 0;
   z-index: -1;
-  color: purple;
+  background: var(--title-neon-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
   filter: blur(6px);
-  opacity: 1;
+  opacity: 0.7;
+}
+
+/**
+ * SCORE DISPLAY SYSTEM
+ */
+.score-container {
+  display: flex;
+  flex-direction: row;
 }
 
 /**
  * RESTART BUTTON - Top right corner
  */
-.restart-game-button {
+.restart-game-button-desktop {
   position: absolute;
-  top: 3rem;
   right: 3rem;
   display: block;
+}
+
+
+.restart-game-button-mobile {
+  display: none;
+  position: absolute;
+  right: 1.2rem;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font-size: 3rem;
+  cursor: pointer;
+}
+
+.restart-game-button-mobile p {
+  margin: 0;
+  background: var(--title-neon-gradient);
+  background-clip: text;
+  color: transparent;
 }
 
 /**
@@ -300,6 +340,37 @@ footer {
 
 .about-me-link:hover {
   color: var(--font-secondary);
+}
+
+@media (max-width: 800px) {
+  h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 2.5rem;
+
+  }
+
+  h1::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .restart-game-button-desktop {
+    display: none;
+  }
+
+  .restart-game-button-mobile {
+    display: block;
+  }
+
+  .score-container {
+    position: absolute;
+    left: 50%;
+    top: 2.5rem;
+    transform: translateX(-50%);
+  }
 }
 
 /* #endregion HEADER & NAVIGATION ELEMENTS */
@@ -543,14 +614,7 @@ footer {
   box-shadow: 0 0 8px 1px #9333EA44, 0 0 4px 0px #C084FC66, 0 0 0 1px #C084FC33 inset;
 }
 
-/**
- * SCORE DISPLAY SYSTEM
- */
-.score-container {
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 3rem;
-}
+
 
 /**
  * CURRENT SCORE WIDGET - Shows live game score
@@ -619,6 +683,11 @@ footer {
   display: block;                            /* Show endgame message */
 }
 
+h2 {
+  font-size: 3rem;
+  text-shadow: 0 0 8px #9333EA, 0 0 16px #9333EAAA, 0 0 24px #9333EA77, 0 0 32px #9333EA44;
+}
+
 /**
  * GAME BOARD SCALING - Shrink board during endgame for visual emphasis
  */
@@ -641,8 +710,8 @@ footer {
 /**
  * BUTTON STATE MANAGEMENT - Switch between restart and play again
  */
-.win .restart-game-button,
-.defeat .restart-game-button {
+.win .restart-game-button-desktop,
+.defeat .restart-game-button-desktop {
   display: none;                             /* Hide restart button during endgame */
 }
 
