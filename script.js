@@ -419,11 +419,13 @@ const printArray = () => {
         Array.from(tiles).forEach(tile => {
             tile.classList.add('transition')
         });
+        
+        // Remove transition class after all animations complete (including potential merge delay)
         setTimeout(() => {
-            Array.from(tiles).forEach(tile => {
+            Array.from(document.querySelectorAll('.tile')).forEach(tile => {
                 tile.classList.remove('transition')
             });
-        }, animationDuration);
+        }, animationDuration); // Wait longer to account for delayed merge animations
         
         // Ignore input when dialogs are open
         if (restartDialog.open || aboutGameDialog.open)  return; 
@@ -489,8 +491,7 @@ const printArray = () => {
                         }
                     }
                 }
-                // Update DOM after merge with delay if slide animation happened first
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
+                // Don't update DOM immediately for merge - will be handled by delayed update below
                 
                 break;
 
@@ -527,7 +528,7 @@ const printArray = () => {
                         }
                     }
                 }
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
+                // Don't update DOM immediately for merge - will be handled by delayed update below
                 break;
 
             //  ⇑  UP  ⇑    
@@ -566,7 +567,7 @@ const printArray = () => {
                         }
                     }
                 }
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
+                // Don't update DOM immediately for merge - will be handled by delayed update below
                 break;
 
             //  ⇓  DOWN  ⇓    
@@ -603,19 +604,21 @@ const printArray = () => {
                         }
                     }
                 }
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
+                // Don't update DOM immediately for merge - will be handled by delayed update below
                 break;
             default:
                 // Ignore any other key presses (no valid game move)
                 return;
         }
         
+        
         // ==========================================
-        // POST-MOVE PROCESSING - Handle consequences of valid moves
+        // POST-MOVE PROCESSING & DELAYED DOM UPDATE - Handle consequences of valid moves including animations
         // ==========================================
         
-        // After any valid move (slide or merge), add a new tile to the board
-        if (somethingSlid || somethingMerged) {
+
+        // If there were just mergers or just slides 
+        if (somethingSlid !== somethingMerged) {
             addNumberAtRundom();           // Add new tile (2 or 4) to random empty space
             updateGameField();             // Update DOM to show new tile
             moves++;                       // Increment move counter
@@ -623,8 +626,18 @@ const printArray = () => {
             // Update score display in the UI
             const scoreSpan = document.querySelector('.current-score-span');
             scoreSpan.textContent = score;
-        }
 
+        // If there were both - wait for the slide animation, than show mwergers and new tiles
+        } else if (somethingSlid && somethingMerged) {
+            setTimeout(() => {
+                addNumberAtRundom();
+                updateGameField();
+                moves++;
+
+                const scoreSpan = document.querySelector('.current-score-span');
+                scoreSpan.textContent = score;
+            }, animationDuration);
+        }
         
 
         // ==========================================
@@ -685,7 +698,10 @@ const printArray = () => {
 let gameArray;    // 4x4 array representing the game board
 let score = 0;    // Current player score (sum of merged tile values)
 let moves = 0;    // Number of moves made in current game
-const animationDuration = 150;
+
+// Get animation duration from CSS custom property to keep JS and CSS in sync
+const animationDuration = parseFloat(getComputedStyle(document.documentElement)
+    .getPropertyValue('--animation-duration')) * 1000; // Convert seconds to milliseconds
 
 /* #endregion GLOBAL VARIABLES & GAME STATE */
 
