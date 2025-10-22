@@ -374,7 +374,7 @@ footer {
   border-radius: 0.8em;
   padding: 0.5em;
   gap: 0.5em;
-  transition: transform 0.15s ease-in;      /* Smooth scaling for game states */
+  transition: transform 0.1s ease-in;      /* Smooth scaling for game states */
 }
 
 /**
@@ -409,7 +409,6 @@ footer {
   height: 5.2em;
   border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
-  /* transition: transform 0.15s ease-in, box-shadow 0.2s; */
   /* CSS custom properties for positioning - set by JavaScript */
   transform: translate(
     calc(var(--x) * (5em + 0.5em)),       /* X position based on grid index */
@@ -418,7 +417,7 @@ footer {
 }
 
 .tile.transition{
-  transition: transform 0.15s ease-in, box-shadow 0.2s;
+  transition: transform 0.1s ease-in, box-shadow 0.2s;
 }
 
 /**
@@ -433,7 +432,7 @@ footer {
   border: 1px solid var(--empty-slot);
   border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
-  animation: fadeIn 0.15s ease-in-out forwards;  /* Fade-in animation for new tiles */
+  animation: fadeIn 0.1s ease-in-out forwards;  /* Fade-in animation for new tiles */
 }
 
 /**

@@ -423,7 +423,7 @@ const printArray = () => {
             Array.from(tiles).forEach(tile => {
                 tile.classList.remove('transition')
             });
-        }, 150);
+        }, animationDuration);
         
         // Ignore input when dialogs are open
         if (restartDialog.open || aboutGameDialog.open)  return; 
@@ -490,7 +490,7 @@ const printArray = () => {
                     }
                 }
                 // Update DOM after merge with delay if slide animation happened first
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
+                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
                 
                 break;
 
@@ -527,7 +527,7 @@ const printArray = () => {
                         }
                     }
                 }
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
+                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
                 break;
 
             //  ⇑  UP  ⇑    
@@ -566,7 +566,7 @@ const printArray = () => {
                         }
                     }
                 }
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
+                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
                 break;
 
             //  ⇓  DOWN  ⇓    
@@ -603,7 +603,7 @@ const printArray = () => {
                         }
                     }
                 }
-                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? 150 : 0);
+                if (somethingMerged) setTimeout(() => updateGameField(), somethingSlid ? animationDuration : 0);
                 break;
             default:
                 // Ignore any other key presses (no valid game move)
@@ -666,7 +666,7 @@ const printArray = () => {
                 const movesSpan = document.querySelector('.endgame-moves');
                 movesSpan.textContent = moves;
             }
-        }, 400); // Wait for animations to complete before checking game state
+        }, animationDuration * 2); // Wait for animations to complete before checking game state
     };
 
 /* #endregion INPUT HANDLING & GAME CONTROLS */
@@ -685,6 +685,7 @@ const printArray = () => {
 let gameArray;    // 4x4 array representing the game board
 let score = 0;    // Current player score (sum of merged tile values)
 let moves = 0;    // Number of moves made in current game
+const animationDuration = 100;
 
 /* #endregion GLOBAL VARIABLES & GAME STATE */
 
@@ -856,7 +857,7 @@ closeAboutGameDialogButton.addEventListener('click', () => aboutGameDialog.close
  * SWIPE DETECTION CONFIGURATION & STATE
  * Variables for tracking touch gestures on mobile devices
  */
-const swipeTreshold = 30;        // Minimum distance in pixels to register as a swipe
+const swipeTreshold = 25;        // Minimum distance in pixels to register as a swipe
 let startX, startY = 0;          // Initial touch position coordinates
 let lastX, lastY = 0;            // Current/last known touch position
 let isSwiping = false;           // Whether a touch gesture is currently active
