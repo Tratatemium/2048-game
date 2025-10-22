@@ -193,8 +193,9 @@ html, body {
 
 body {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  /* justify-content: center; */
   font-family: "Rubik", Arial, system-ui, sans-serif;
   background: var(--background);
   color: var(--font-primary);
@@ -202,6 +203,7 @@ body {
 
 /* Central game layout container */
 main {
+  margin: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -216,13 +218,13 @@ main {
 /* ================================================================================================= */
 
 header {
-  position: absolute;
-  top: 0;
-  width: 100vw;
   display: flex;
-  justify-content: center;
+  flex-direction: row;
+  justify-self: start;
+  width: 100vw;
   align-items: center;
-  margin-top: 2rem;
+  margin: 2em 0;
+  gap: 0.5em;
 }
 
 header.win,
@@ -234,11 +236,10 @@ header.defeat {
  * HAMBURGER MENU BUTTON - Top left navigation
  */
 .menu-button {
-  position: absolute;
-  left: 1.2rem;
+  margin-left: 1rem;
   background-color: transparent;
   border: none;
-  font-size: 2rem;
+  font-size: 2em;
   cursor: pointer;
 }
 
@@ -253,10 +254,10 @@ header.defeat {
  * MAIN GAME TITLE - Large "2048" with rainbow gradient and glow effect
  */
 h1 {
-  position: absolute;
-  left: 4rem;
+  position: relative;
   margin: 0;
-  font-size: 4.5rem;
+  margin-right: auto;
+  font-size: 4.5em;
   background: var(--title-neon-gradient);
   -webkit-background-clip: text;
   background-clip: text;
@@ -286,26 +287,29 @@ h1::before {
 .score-container {
   display: flex;
   flex-direction: row;
-}
+  position: absolute;
+  left: 50%;
+  top: 2.5rem;
+  transform: translateX(-50%);
+  }
 
 /**
  * RESTART BUTTON - Top right corner
  */
 .restart-game-button-desktop {
-  position: absolute;
-  right: 3rem;
+  margin-left: auto;
+  margin-right: 1rem;
   display: block;
 }
 
-
 .restart-game-button-mobile {
   display: none;
-  position: absolute;
-  right: 1.2rem;
+  margin-left: auto;
+  margin-right: 1rem;
   padding: 0;
   background-color: transparent;
   border: none;
-  font-size: 3rem;
+  font-size: 3em;
   cursor: pointer;
 }
 
@@ -320,9 +324,8 @@ h1::before {
  * FOOTER - Copyright and attribution
  */
 footer {
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  justify-self: end;
+  margin-bottom: 0;
   justify-content: end;
   padding-bottom: 0.3rem;
   padding-right: 0.5rem;
@@ -342,50 +345,11 @@ footer {
   color: var(--font-secondary);
 }
 
-@media (max-width: 800px) {
-  h1 {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: 0;
-    font-size: 2.5rem;
-
-  }
-
-  h1::before {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-
-  .restart-game-button-desktop {
-    display: none;
-  }
-
-  .restart-game-button-mobile {
-    display: block;
-  }
-
-  .score-container {
-    position: absolute;
-    left: 50%;
-    top: 2.5rem;
-    transform: translateX(-50%);
-  }
-
-  footer {
-    justify-content: center;
-    padding-right: 0;
-  }
-  
-  dialog[open] {
-    font-size: 85%;
-  }
-}
-
-@media (max-width: 450px) {
-  .game-backgroud {
-    font-size: clamp(0.5rem, 3.7vw, 1rem);
-  }
+/**
+ * ROTATE SCREEN MESSAGE - For landscape orientation on mobile
+ */
+.rotate-screen-message {
+  display: none;
 }
 
 /* #endregion HEADER & NAVIGATION ELEMENTS */
@@ -399,6 +363,7 @@ footer {
  * GAME BOARD CONTAINER - Main 4x4 grid with neon styling
  */
 .game-backgroud {
+
   background: var(--border-board);
   box-shadow: var(--neon-shadow);
   position: relative;
@@ -642,19 +607,19 @@ footer {
   background: linear-gradient(135deg, #2e193d, #1a0d26);  /* Dark purple gradient */
   color: var(--font-primary);
   border: 2px solid var(--border-color);
-  border-radius: 1.5rem;
-  padding: 0.5rem 1.5rem;
+  border-radius: 1.5em;
+  padding: 0.5rem 1.5em;
   margin: 0;
   text-align: center;
   box-shadow: var(--neon-shadow);
-  font-size: 0.8rem;
+  font-size: 0.8em;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   text-shadow: 0 0 6px #9333EA77, 0 0 12px #9333EA44;
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.2em;
 }
 
 /**
@@ -663,7 +628,7 @@ footer {
 .current-score-span {
   text-align: center;
   line-height: 100%;
-  font-size: 1.6rem;
+  font-size: 1.6em;
   font-weight: 700;
   color: #d6aefe;                            /* Bright purple for emphasis */
   text-shadow: 0 0 8px #C084FC, 0 0 16px #C084FC66, 0 0 24px #C084FC33;
@@ -946,4 +911,154 @@ dialog p {
 }
 
 /* #endregion MODAL DIALOGS & OVERLAYS */
+
+
+/* ================================================================================================= */
+/* #region RESPONSIVE DESIGN & MEDIA QUERIES                                                        */
+/* ================================================================================================= */
+
+/**
+ * TABLET & MEDIUM SCREENS (max-width: 800px)
+ * - Center title and score
+ * - Switch to mobile restart button
+ * - Adjust footer alignment
+ */
+@media (max-width: 800px) {
+  h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 2.5em;
+  }
+
+  h1::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .restart-game-button-desktop {
+    display: none;
+  }
+
+  .restart-game-button-mobile {
+    display: block;
+  }
+
+  .score-container {
+    position: absolute;
+    left: 50%;
+    top: 12vh;
+    transform: translateX(-50%);
+  }
+
+  footer {
+    justify-content: center;
+    padding-right: 0;
+  }
+  
+  dialog[open] {
+    font-size: 85%;
+  }
+}
+
+/**
+ * MOBILE SCREENS (max-width: 450px)
+ * - Responsive game board sizing
+ */
+@media (max-width: 450px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 3.7vw, 1rem);
+  }
+}
+
+/**
+ * SHORT SCREENS (max-height: 600px)
+ * - Responsive game board height sizing
+ */
+@media (max-height: 600px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 2.8vh, 1rem);
+  }
+}
+
+/**
+ * COMPACT LAYOUT (max-height: 650px and max-width: 800px)
+ * - Switch to horizontal header layout
+ * - Remove absolute positioning for better flow
+ */
+@media (max-height: 650px) and (max-width: 800px) {
+  header {
+    gap: 1em;
+  }
+
+  h1 {
+    margin-left: auto;
+    position: static;
+    align-self: center;
+    transform: translateX(0);
+  }
+
+  h1::before {
+    position: absolute;
+  }
+
+  .score-container {
+    position: static;
+    font-size: 80%;
+    transform: translateX(0);
+  }
+}
+
+/**
+ * SMALL COMPACT SCREENS (max-height: 650px and max-width: 450px)
+ * - Further size reductions for very tight spaces
+ */
+@media (max-height: 650px) and (max-width: 450px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 3.7vw, 0.85rem);
+  }
+  
+  header {
+    font-size: clamp(0.5rem, 3.7vw, 1rem);
+  }
+}
+
+/**
+ * VERY SHORT SCREENS (max-height: 450px)
+ * - Hide main interface and show rotate message
+ * - Encourage portrait orientation
+ */
+@media (max-height: 450px) {
+  header {
+    display: none;
+  }
+
+  main {
+    display: none;
+  }
+
+  footer {
+    display: none;
+  }
+
+  .rotate-screen-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    color: var(--font-primary);
+    text-shadow: 0 0 2px var(--font-secondary);
+  }
+
+  .rotate-screen-message svg {
+    fill: var(--font-secondary);
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+/* #endregion RESPONSIVE DESIGN & MEDIA QUERIES */
 

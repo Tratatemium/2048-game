@@ -350,6 +350,12 @@ const printArray = () => {
         if (Array.from(main.classList).includes('win')) return;
 
         // ==========================================
+        // NO DISPLAY BLOCKING - Prevent input when the game is not displayed
+        // ==========================================
+
+        if (window.getComputedStyle(main).display === 'none') return;
+
+        // ==========================================
         // GAME MOVE PROCESSING - Handle directional input
         // ==========================================
         
