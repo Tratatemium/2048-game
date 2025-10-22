@@ -378,7 +378,7 @@ footer {
   border-radius: 0.8em;
   padding: 0.5em;
   gap: 0.5em;
-  transition: transform var(--animation-duration) ease-in;      /* Smooth scaling for game states */
+  transition: transform calc(2 * var(--animation-duration)) ease-in;      /* Smooth scaling for game states */
 }
 
 /**
@@ -436,7 +436,7 @@ footer {
   border: 1px solid var(--empty-slot);
   border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
-  animation: fadeIn var(--animation-duration) ease-in-out forwards;  /* Fade-in animation for new tiles */
+  animation: fadeIn calc(2 * var(--animation-duration)) ease-in-out forwards;  /* Fade-in animation for new tiles */
 }
 
 /**
