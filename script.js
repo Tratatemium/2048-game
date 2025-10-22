@@ -281,16 +281,115 @@ const printArray = () => {
 /* #region INPUT HANDLING & GAME CONTROLS                                                           */
 /* ================================================================================================= */
 
-
-/**
-     * Handles keyboard input for game controls
-     * Processes arrow key presses to move tiles in the specified direction
-     * Manages the slide and merge logic for each direction
-     * @param {KeyboardEvent} event - The keyboard event containing the pressed key
+    /**
+     * Handles keyboard input for game controls and dialog management
+     * Processes arrow keys for game movement and Escape key for dialog closing
+     * Ignores input when dialogs are open (except Escape)
+     * 
+     * @param {KeyboardEvent} event - The keyboard event object containing key information
      */
     const onKeyDown = (event) => {
+
         // ==========================================
-        // ANIMATION BLOCKING - Prevent input during tile animations
+        // DIALOG HANDLING - Handle Escape key for open dialogs
+        // ==========================================
+        
+        if (restartDialog.open || aboutGameDialog.open) {
+            if (event.key === 'Escape') {
+                restartDialog.close();
+                aboutGameDialog.close();
+                return;
+            } else {
+                return; // Ignore other keys when dialogs are open
+            }
+        }
+
+        switch (event.key) {
+            case 'ArrowLeft':
+                onGameInput('Left');
+                break;
+            case 'ArrowRight':
+                onGameInput('Right');
+                break;
+            case 'ArrowDown':
+                onGameInput('Down');
+                break;
+            case 'ArrowUp':
+                onGameInput('Up');
+                break;        
+            default:
+                break;
+        }
+    };
+
+    /**
+     * Initiates touch/swipe gesture tracking for mobile input
+     * Records the starting position and enables swipe detection
+     * 
+     * @param {number} x - The starting X coordinate of the touch/swipe
+     * @param {number} y - The starting Y coordinate of the touch/swipe
+     */
+    const onSwipeStart = (x, y) => {
+        startX, lastX = x;
+        startY, lastY = y;
+        isSwiping = true;
+    };
+
+    /**
+     * Processes ongoing touch/swipe movement and determines direction
+     * Calculates movement distance and triggers game input when threshold is reached
+     * Prevents multiple triggers per swipe and determines primary movement axis
+     * 
+     * @param {number} x - Current X coordinate of the touch/swipe
+     * @param {number} y - Current Y coordinate of the touch/swipe
+     */
+    const onSwipeMove = (x, y) => {
+        if (!isSwiping) return;         // Not currently swiping
+        if (swipeRegisterd) return;     // Already registered a swipe for this gesture
+
+        // Calculate movement distance from last position
+        const dx = x - lastX;
+        const dy = y - lastY;
+
+        // Check if movement exceeds threshold distance
+        if (Math.abs(dx) >= swipeTreshold || Math.abs(dy) >= swipeTreshold) {
+            // Determine primary movement direction (horizontal vs vertical)
+            if (Math.abs(dx) > Math.abs(dy)) {
+                // Horizontal movement is dominant
+                if (dx > 0) onGameInput('Right');
+                else onGameInput('Left');
+            } else {
+                // Vertical movement is dominant
+                if (dy > 0) onGameInput('Down');
+                else onGameInput('Up');
+            }
+            // Reset trigger point and mark swipe as processed
+            lastX = x;
+            lastY = y;
+            swipeRegisterd = true;
+        }
+    };
+
+    /**
+     * Ends touch/swipe gesture tracking and resets swipe state
+     * Clears all swipe flags to prepare for the next gesture
+     */
+    const onSwipeEnd = () => {
+        isSwiping = false;      // No longer tracking swipe movement
+        swipeRegisterd = false; // Ready to register new swipe
+    };
+
+    /**
+     * Processes a game input direction and executes the corresponding move
+     * Handles animation blocking, game state validation, tile sliding/merging,
+     * win/loss detection, and post-move cleanup
+     * 
+     * @param {string} direction - The movement direction ('Left', 'Right', 'Up', 'Down')
+     */
+    const onGameInput = (direction) =>{
+
+        // ==========================================
+        // ANIMATION BLOCKING 
         // ==========================================
         
         // Check if there are any ongoing CSS transitions on tiles
@@ -316,31 +415,18 @@ const printArray = () => {
             return;
         }
 
+        // Tiles are given transition animation only when they need to slide
         Array.from(tiles).forEach(tile => {
             tile.classList.add('transition')
         });
-
         setTimeout(() => {
             Array.from(tiles).forEach(tile => {
                 tile.classList.remove('transition')
             });
         }, 150);
-
-
-
-        // ==========================================
-        // DIALOG HANDLING - Handle Escape key for open dialogs
-        // ==========================================
         
-        if (restartDialog.open || aboutGameDialog.open) {
-            if (event.key === 'Escape') {
-                restartDialog.close();
-                aboutGameDialog.close();
-                return;
-            } else {
-                return; // Ignore other keys when dialogs are open
-            }
-        }
+        // Ignore input when dialogs are open
+        if (restartDialog.open || aboutGameDialog.open)  return; 
 
         // ==========================================
         // WIN STATE BLOCKING - Prevent input during victory state
@@ -355,6 +441,7 @@ const printArray = () => {
 
         if (window.getComputedStyle(main).display === 'none') return;
 
+
         // ==========================================
         // GAME MOVE PROCESSING - Handle directional input
         // ==========================================
@@ -363,10 +450,10 @@ const printArray = () => {
         let somethingMerged = false;  // Flag for merge operations
         let somethingSlid = false;    // Flag for slide operations
 
-        switch (event.key) {
+        switch (direction) {
 
             //  ⇐  LEFT  ⇐
-            case 'ArrowLeft':
+            case 'Left':
                 // PHASE 1: SLIDE - Move all tiles to the left (remove gaps)
                 for (let i = 0; i < gameArray.length; i++) {
                     let row = structuredClone(gameArray[i]);           // Copy current row
@@ -408,7 +495,7 @@ const printArray = () => {
                 break;
 
             //  ⇒  RIGHT  ⇒    
-            case 'ArrowRight':
+            case 'Right':
                 // PHASE 1: SLIDE - Move all tiles to the right
                 // Trick: reverse row, slide left, then reverse back to simulate right slide
                 for (let i = 0; i < gameArray.length; i++) {
@@ -444,7 +531,7 @@ const printArray = () => {
                 break;
 
             //  ⇑  UP  ⇑    
-            case 'ArrowUp':
+            case 'Up':
                 // PHASE 1: SLIDE - Move all tiles upward
                 // Work with columns instead of rows (extract column, process, put back)
                 for (let j = 0; j < gameArray.length; j++) {
@@ -483,7 +570,7 @@ const printArray = () => {
                 break;
 
             //  ⇓  DOWN  ⇓    
-            case 'ArrowDown':
+            case 'Down':
                 // PHASE 1: SLIDE - Move all tiles downward  
                 // Trick: reverse column, slide up, reverse back to simulate down slide
                 for (let j = 0; j < gameArray.length; j++) {
@@ -522,7 +609,7 @@ const printArray = () => {
                 // Ignore any other key presses (no valid game move)
                 return;
         }
-
+        
         // ==========================================
         // POST-MOVE PROCESSING - Handle consequences of valid moves
         // ==========================================
@@ -639,69 +726,38 @@ let moves = 0;    // Number of moves made in current game
 // ];
 // updateGameField();
 
-/**
- * DEFEAT TESTING ARRAY - Uncomment to test defeat condition
- * Board is one move away from defeat (15/16 tiles filled, no merges possible)
- */
-// gameArray = [
-    //     [
-    //         { id: 1, value: 2, x: 0, y: 0 },
-    //         { id: 2, value: 4, x: 1, y: 0 },
-    //         { id: 3, value: 8, x: 2, y: 0 },
-    //         { id: 4, value: 16, x: 3, y: 0 }
-    //     ],
-    //     [
-    //         { id: 5, value: 32, x: 0, y: 1 },
-    //         { id: 6, value: 64, x: 1, y: 1 },
-    //         { id: 7, value: 2, x: 2, y: 1 },
-    //         { id: 8, value: 4, x: 3, y: 1 }
-    //     ],
-    //     [
-    //         { id: 9, value: 8, x: 0, y: 2 },
-    //         { id: 10, value: 16, x: 1, y: 2 },
-    //         { id: 11, value: 32, x: 2, y: 2 },
-    //         { id: 12, value: 64, x: 3, y: 2 }
-    //     ],
-    //     [
-    //         { id: 13, value: 2, x: 0, y: 3 },
-    //         { id: 14, value: 4, x: 1, y: 3 },
-    //         { id: 15, value: 8, x: 2, y: 3 },
-    //         { id: null, value: 0, x: 3, y: 3 }  // Only one empty space
-    //     ]
-    // ];
-    // updateGameField();
 
 /**
- * WIN TESTING ARRAY - Uncomment to test win condition
- * Board is one move away from win (two 1024 tiles that can merge to 2048)
+ * WIN / DEFEAT TESTING ARRAY - Uncomment to test win condition
+ * Board is one move away from win (two 1024 tiles that can merge to 2048) or defeat (only one tile is empty)
  */
-gameArray = [
-        [
-            { id: 1, value: 2, x: 0, y: 0 },
-            { id: 2, value: 4, x: 1, y: 0 },
-            { id: 3, value: 8, x: 2, y: 0 },
-            { id: 4, value: 16, x: 3, y: 0 }
-        ],
-        [
-            { id: 5, value: 32, x: 0, y: 1 },
-            { id: 6, value: 64, x: 1, y: 1 },
-            { id: 7, value: 1024, x: 2, y: 1 },
-            { id: 8, value: 1024, x: 3, y: 1 }
-        ],
-        [
-            { id: 9, value: 8, x: 0, y: 2 },
-            { id: 10, value: 16, x: 1, y: 2 },
-            { id: 11, value: 32, x: 2, y: 2 },
-            { id: 12, value: 64, x: 3, y: 2 }
-        ],
-        [
-            { id: 13, value: 2, x: 0, y: 3 },
-            { id: 14, value: 4, x: 1, y: 3 },
-            { id: 15, value: 8, x: 2, y: 3 },
-            { id: null, value: 0, x: 3, y: 3 }  // Only one empty space
-        ]
-    ];
-updateGameField();
+// gameArray = [
+//         [
+//             { id: 1, value: 2, x: 0, y: 0 },
+//             { id: 2, value: 4, x: 1, y: 0 },
+//             { id: 3, value: 8, x: 2, y: 0 },
+//             { id: 4, value: 16, x: 3, y: 0 }
+//         ],
+//         [
+//             { id: 5, value: 32, x: 0, y: 1 },
+//             { id: 6, value: 64, x: 1, y: 1 },
+//             { id: 7, value: 1024, x: 2, y: 1 },
+//             { id: 8, value: 1024, x: 3, y: 1 }
+//         ],
+//         [
+//             { id: 9, value: 8, x: 0, y: 2 },
+//             { id: 10, value: 16, x: 1, y: 2 },
+//             { id: 11, value: 32, x: 2, y: 2 },
+//             { id: 12, value: 64, x: 3, y: 2 }
+//         ],
+//         [
+//             { id: 13, value: 2, x: 0, y: 3 },
+//             { id: 14, value: 4, x: 1, y: 3 },
+//             { id: 15, value: 8, x: 2, y: 3 },
+//             { id: null, value: 0, x: 3, y: 3 }  // Only one empty space
+//         ]
+//     ];
+// updateGameField();
 
 /* #endregion TESTING & DEBUG CONFIGURATIONS */
 
@@ -714,7 +770,7 @@ updateGameField();
  * NORMAL GAME STARTUP - Uncomment to start with empty board
  * Comment out the testing arrays above and uncomment this line for normal gameplay
  */
-// setupNewGame();
+setupNewGame();
 
 /* #endregion GAME INITIALIZATION & STARTUP */
 
@@ -792,30 +848,38 @@ closeAboutGameDialogButton.addEventListener('click', () => aboutGameDialog.close
 
 
 
-// Mobile swipe support
-//   let startX = 0;
-//   let endX = 0;
+/* ================================================================================================= */
+/* #region MOBILE TOUCH/SWIPE SUPPORT                                                               */
+/* ================================================================================================= */
 
-//   lightbox.addEventListener("touchstart", (e) => {
-//     startX = e.changedTouches[0].screenX;
-//   });
+/**
+ * SWIPE DETECTION CONFIGURATION & STATE
+ * Variables for tracking touch gestures on mobile devices
+ */
+const swipeTreshold = 30;        // Minimum distance in pixels to register as a swipe
+let startX, startY = 0;          // Initial touch position coordinates
+let lastX, lastY = 0;            // Current/last known touch position
+let isSwiping = false;           // Whether a touch gesture is currently active
+let swipeRegisterd = false;      // Whether current gesture has already triggered a game move
 
-//   lightbox.addEventListener("touchend", (e) => {
-//     endX = e.changedTouches[0].screenX;
-//     handleSwipe();
-//   });
+/**
+ * TOUCH EVENT LISTENERS - Enable mobile swipe controls
+ * Maps touch events to swipe detection functions
+ */
 
-//   // Handle swipe gesture for prev/next
-//   function handleSwipe() {
-//     let diff = endX - startX;
+// Start swipe detection when user touches screen
+document.addEventListener('touchstart', event => {
+    const touches = event.touches[0];
+    onSwipeStart(touches.clientX, touches.clientY);
+});
 
-//     if (Math.abs(diff) > 50) { // Swipe threshold
-//       if (diff > 0) {
-//         // Swipe right → previous image
-//         prevBtn.click();
-//       } else {
-//         // Swipe left → next image
-//         nextBtn.click();
-//       }
-//     }
-//   };
+// Track finger movement during swipe
+document.addEventListener('touchmove', event => {
+    const touches = event.touches[0];
+    onSwipeMove(touches.clientX, touches.clientY);
+});
+
+// End swipe detection when user lifts finger
+document.addEventListener('touchend', onSwipeEnd);
+
+/* #endregion MOBILE TOUCH/SWIPE SUPPORT */
