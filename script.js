@@ -685,7 +685,7 @@ const printArray = () => {
 let gameArray;    // 4x4 array representing the game board
 let score = 0;    // Current player score (sum of merged tile values)
 let moves = 0;    // Number of moves made in current game
-const animationDuration = 100;
+const animationDuration = 150;
 
 /* #endregion GLOBAL VARIABLES & GAME STATE */
 

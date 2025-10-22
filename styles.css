@@ -84,6 +84,9 @@ textarea:not([rows]) {
 /* ================================================================================================= */
 
 :root {
+
+  --animation-duration: 0.15s;
+
   /* ========================================= */
   /* Base Color Palette                       */
   /* ========================================= */
@@ -186,6 +189,7 @@ textarea:not([rows]) {
 /* Root HTML and body setup for fullscreen layout */
 html, body {
   height: 100vh;
+  height: 100dvh;                            /* Dynamic viewport height - adjusts to mobile browser UI */
   margin: 0;
   padding: 0;
   overflow: hidden;                          /* Prevent scrolling for fixed game layout */
@@ -195,7 +199,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
+  min-height: 0; /* Prevent flex items from overflowing */
   font-family: "Rubik", Arial, system-ui, sans-serif;
   background: var(--background);
   color: var(--font-primary);
@@ -327,7 +331,7 @@ footer {
   justify-self: end;
   margin-bottom: 0;
   justify-content: end;
-  padding-bottom: 0.3rem;
+  padding-bottom: max(0.3rem, env(safe-area-inset-bottom)); /* Respect mobile safe areas */
   padding-right: 0.5rem;
   width: 100%;
   display: flex;
@@ -374,7 +378,7 @@ footer {
   border-radius: 0.8em;
   padding: 0.5em;
   gap: 0.5em;
-  transition: transform 0.1s ease-in;      /* Smooth scaling for game states */
+  transition: transform var(--animation-duration) ease-in;      /* Smooth scaling for game states */
 }
 
 /**
@@ -417,7 +421,7 @@ footer {
 }
 
 .tile.transition{
-  transition: transform 0.1s ease-in, box-shadow 0.2s;
+  transition: transform var(--animation-duration) ease-in, box-shadow 0.2s;
 }
 
 /**
@@ -432,7 +436,7 @@ footer {
   border: 1px solid var(--empty-slot);
   border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
-  animation: fadeIn 0.1s ease-in-out forwards;  /* Fade-in animation for new tiles */
+  animation: fadeIn var(--animation-duration) ease-in-out forwards;  /* Fade-in animation for new tiles */
 }
 
 /**
@@ -954,6 +958,8 @@ dialog p {
   footer {
     justify-content: center;
     padding-right: 0;
+    padding-bottom: max(0.3rem, env(safe-area-inset-bottom));
+    font-size: 0.7rem; /* Slightly smaller on mobile */
   }
   
   dialog[open] {
