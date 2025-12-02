@@ -1,0 +1,89 @@
+/* ================================================================================================= */
+/* #region GAME BOARD LAYOUT & STRUCTURE                                                            */
+/* ================================================================================================= */
+
+/**
+ * GAME BOARD CONTAINER - Main 4x4 grid with neon styling
+ */
+.game-backgroud {
+
+  background: var(--border-board);
+  box-shadow: var(--neon-shadow);
+  position: relative;
+  display: grid;
+  width: fit-content;
+  grid-template-columns: repeat(4, 1fr);    /* 4 equal columns */
+  grid-template-rows: repeat(4, 1fr);       /* 4 equal rows */
+  border-radius: 0.8em;
+  padding: 0.5em;
+  gap: 0.5em;
+  transition: transform calc(2 * var(--animation-duration)) ease-in;      /* Smooth scaling for game states */
+}
+
+/**
+ * EMPTY TILE SLOTS - Background placeholders for the 4x4 grid
+ */
+.tile-backgroud {
+  background-color: var(--empty-slot);
+  box-shadow: var(--neon-shadow);
+  width: 5em;
+  height: 5em;
+  border-radius: 0.5em;
+}
+
+/**
+ * GAME FIELD - Container for dynamic tiles (overlay on grid background)
+ */
+.game-field {
+  position: absolute;
+  display: block; 
+  inset: 0.5em;                            /* Matches padding of game board */
+}
+
+/**
+ * DYNAMIC TILES - Individual numbered tiles that slide around
+ */
+.tile {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.2em;                            /* Slightly larger than slots for overlap */
+  height: 5.2em;
+  border-radius: 0.5em;
+  box-shadow: var(--neon-shadow);
+  /* CSS custom properties for positioning - set by JavaScript */
+  transform: translate(
+    calc(var(--x) * (5em + 0.5em)),       /* X position based on grid index */
+    calc(var(--y) * (5em + 0.5em))        /* Y position based on grid index */
+  );
+}
+
+.tile.transition{
+  transition: transform var(--animation-duration) ease-in, box-shadow 0.2s;
+}
+
+/**
+ * TILE INNER CONTENT - Contains the actual number and styling
+ */
+.tile-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.2em;
+  height: 5.2em;
+  border: 1px solid var(--empty-slot);
+  border-radius: 0.5em;
+  box-shadow: var(--neon-shadow);
+  animation: fadeIn calc(2 * var(--animation-duration)) ease-in-out forwards;  /* Fade-in animation for new tiles */
+}
+
+/**
+ * TILE TEXT - The number displayed on each tile
+ */
+.tile-text {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+/* #endregion GAME BOARD LAYOUT & STRUCTURE */
