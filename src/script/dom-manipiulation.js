@@ -114,4 +114,39 @@ export const merge = (line) => {
     return result;
 };
 
+
+/**
+ * Adds a new tile (2 or 4) to a random empty position on the game board
+ * 80% chance for value 2, 20% chance for value 4
+ * Generates a unique ID for the new tile
+ */
+export const addNumberAtRundom = () => {
+    // Step 1: Find all empty positions on the board
+    let emptySpaces = [];
+
+    // Scan the entire 4x4 grid for empty tiles (value === 0)
+    for (let i = 0; i < state.gameArray.length; i++) {
+        for (let j = 0; j < state.gameArray.length; j++) {
+            if (state.gameArray[i][j].value === 0) {
+                emptySpaces.push([i, j]);  // Store coordinates [row, column]
+            }
+        }
+    }
+
+    // Step 2: Add a new tile if there are empty spaces available
+    if (emptySpaces.length > 0) {
+        // Pick a random empty position
+        const randomSpace = Math.floor(Math.random() * emptySpaces.length);
+        const [randomX, randomY] = emptySpaces[randomSpace];
+
+        // Generate new tile value (80% chance for 2, 20% chance for 4)
+        const newValue = Math.random() > 0.2 ? 2 : 4;
+        
+        // Place the new tile in the selected position
+        state.gameArray[randomX][randomY].value = newValue;
+        state.gameArray[randomX][randomY].id = crypto.randomUUID();  // Generate unique ID
+    }
+    // Note: If no empty spaces exist, the function does nothing (game might be over)
+};
+
 /* #endregion */
