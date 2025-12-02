@@ -13,7 +13,7 @@ import {updateGameField, slide, merge} from "./dom-manipiulation.js"
 const printArray = () => {
     console.log('-------');
     console.log(
-        gameArray
+        state.gameArray
             .map(row => row.map(el => el.value).join(' '))
             .join('\n')
     );
@@ -39,9 +39,9 @@ const printArray = () => {
         let emptySpaces = [];
 
         // Scan the entire 4x4 grid for empty tiles (value === 0)
-        for (let i = 0; i < gameArray.length; i++) {
-            for (let j = 0; j < gameArray.length; j++) {
-                if (gameArray[i][j].value === 0) {
+        for (let i = 0; i < state.gameArray.length; i++) {
+            for (let j = 0; j < state.gameArray.length; j++) {
+                if (state.gameArray[i][j].value === 0) {
                     emptySpaces.push([i, j]);  // Store coordinates [row, column]
                 }
             }
@@ -57,8 +57,8 @@ const printArray = () => {
             const newValue = Math.random() > 0.2 ? 2 : 4;
             
             // Place the new tile in the selected position
-            gameArray[randomX][randomY].value = newValue;
-            gameArray[randomX][randomY].id = crypto.randomUUID();  // Generate unique ID
+            state.gameArray[randomX][randomY].value = newValue;
+            state.gameArray[randomX][randomY].id = crypto.randomUUID();  // Generate unique ID
         }
         // Note: If no empty spaces exist, the function does nothing (game might be over)
     };
@@ -81,22 +81,22 @@ const printArray = () => {
      */
     const playerLost = () => {
         // Step 1: Check if there are any empty spaces
-        const emptySpacesExist = gameArray.some((row) => row.some((el) => el.value === 0));
+        const emptySpacesExist = state.gameArray.some((row) => row.some((el) => el.value === 0));
         
         // If empty spaces exist, game is not over
         if (emptySpacesExist) return false;
         
         // Step 2: Check if any adjacent tiles can be merged (horizontal)
-        for (let i = 0; i < gameArray.length; i++) {
-            for (let j = 0; j < gameArray.length - 1; j++) {
-                if (gameArray[i][j].value === gameArray[i][j + 1].value) return false;
+        for (let i = 0; i < state.gameArray.length; i++) {
+            for (let j = 0; j < state.gameArray.length - 1; j++) {
+                if (state.gameArray[i][j].value === state.gameArray[i][j + 1].value) return false;
             }
         }
         
         // Step 3: Check if any adjacent tiles can be merged (vertical)
-        for (let i = 0; i < gameArray.length - 1; i++) {
-            for (let j = 0; j < gameArray.length; j++) {
-                if (gameArray[i][j].value === gameArray[i + 1][j].value) return false;
+        for (let i = 0; i < state.gameArray.length - 1; i++) {
+            for (let j = 0; j < state.gameArray.length; j++) {
+                if (state.gameArray[i][j].value === state.gameArray[i + 1][j].value) return false;
             }
         }
         
@@ -122,10 +122,10 @@ const printArray = () => {
      */
     const setupNewGame = () => {
         // Reset game statistics
-        score = 0;
+        state.score = 0;
         const scoreSpan = document.querySelector('.current-score-span');
-        scoreSpan.textContent = score;
-        moves = 0;
+        scoreSpan.textContent = state.score;
+        state.moves = 0;
 
         // Reset visual game states (remove win/defeat styling)
         const main = document.querySelector('main');
@@ -142,7 +142,7 @@ const printArray = () => {
         // - value: Tile number (0 for empty tiles)  
         // - x: Column position (0-3)
         // - y: Row position (0-3)
-        gameArray = Array.from({ length: 4 }, (_, i) =>
+        state.gameArray = Array.from({ length: 4 }, (_, i) =>
             Array.from({ length: 4 }, (_, j) => ({
                 id: null,        // No ID for empty tiles
                 value: 0,        // 0 represents an empty space
@@ -342,8 +342,8 @@ const printArray = () => {
             //  ⇐  LEFT  ⇐
             case 'Left':
                 // PHASE 1: SLIDE - Move all tiles to the left (remove gaps)
-                for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);           // Copy current row
+                for (let i = 0; i < state.gameArray.length; i++) {
+                    let row = structuredClone(state.gameArray[i]);           // Copy current row
                     const lineBefore = structuredClone(row);           // Save original for comparison
                     row = slide(row);                                  // Apply slide operation
                     
@@ -351,9 +351,9 @@ const printArray = () => {
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;                          // Mark that tiles moved
                         // Update the game array with new positions
-                        for (let j = 0; j < gameArray.length; j ++) {
-                            gameArray[i][j].value = row[j].value;
-                            gameArray[i][j].id = row[j].id;
+                        for (let j = 0; j < state.gameArray.length; j ++) {
+                            state.gameArray[i][j].value = row[j].value;
+                            state.gameArray[i][j].id = row[j].id;
                         }
                     }                    
                 }
@@ -361,8 +361,8 @@ const printArray = () => {
                 if (somethingSlid) updateGameField();
 
                 // PHASE 2: MERGE - Combine adjacent tiles with same values
-                for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);           // Copy current row state
+                for (let i = 0; i < state.gameArray.length; i++) {
+                    let row = structuredClone(state.gameArray[i]);           // Copy current row state
                     const lineBefore = structuredClone(row);           // Save for comparison
                     row = merge(row);                                  // Apply merge operation
                     
@@ -370,9 +370,9 @@ const printArray = () => {
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;                        // Mark that tiles merged
                         // Update the game array with merged values
-                        for (let j = 0; j < gameArray.length; j ++) {
-                            gameArray[i][j].value = row[j].value;
-                            gameArray[i][j].id = row[j].id;
+                        for (let j = 0; j < state.gameArray.length; j ++) {
+                            state.gameArray[i][j].value = row[j].value;
+                            state.gameArray[i][j].id = row[j].id;
                         }
                     }
                 }
@@ -384,32 +384,32 @@ const printArray = () => {
             case 'Right':
                 // PHASE 1: SLIDE - Move all tiles to the right
                 // Trick: reverse row, slide left, then reverse back to simulate right slide
-                for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);           // Copy current row
+                for (let i = 0; i < state.gameArray.length; i++) {
+                    let row = structuredClone(state.gameArray[i]);           // Copy current row
                     const lineBefore = structuredClone(row);           // Save original
                     row = slide(row.reverse()).reverse();              // Reverse → slide → reverse back
                     
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;
-                        for (let j = 0; j < gameArray.length; j ++) {
-                            gameArray[i][j].value = row[j].value;
-                            gameArray[i][j].id = row[j].id;
+                        for (let j = 0; j < state.gameArray.length; j ++) {
+                            state.gameArray[i][j].value = row[j].value;
+                            state.gameArray[i][j].id = row[j].id;
                         }
                     }                    
                 }
                 if (somethingSlid) updateGameField();
 
                 // PHASE 2: MERGE - Combine tiles moving right
-                for (let i = 0; i < gameArray.length; i++) {
-                    let row = structuredClone(gameArray[i]);
+                for (let i = 0; i < state.gameArray.length; i++) {
+                    let row = structuredClone(state.gameArray[i]);
                     const lineBefore = structuredClone(row);
                     row = merge(row.reverse()).reverse();              // Same reverse trick for merging
                     
                     if (row.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;
-                        for (let j = 0; j < gameArray.length; j ++) {
-                            gameArray[i][j].value = row[j].value;
-                            gameArray[i][j].id = row[j].id;
+                        for (let j = 0; j < state.gameArray.length; j ++) {
+                            state.gameArray[i][j].value = row[j].value;
+                            state.gameArray[i][j].id = row[j].id;
                         }
                     }
                 }
@@ -420,35 +420,35 @@ const printArray = () => {
             case 'Up':
                 // PHASE 1: SLIDE - Move all tiles upward
                 // Work with columns instead of rows (extract column, process, put back)
-                for (let j = 0; j < gameArray.length; j++) {
+                for (let j = 0; j < state.gameArray.length; j++) {
                     // Extract column j from all rows
-                    let column = structuredClone(gameArray.map((row) => row[j]));
+                    let column = structuredClone(state.gameArray.map((row) => row[j]));
                     const lineBefore = structuredClone(column);        // Save original column
                     column = slide(column);                            // Slide tiles up (toward index 0)
                     
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;
                         // Put the modified column back into the game array
-                        for (let i = 0; i < gameArray.length; i ++) {
-                            gameArray[i][j].value = column[i].value;
-                            gameArray[i][j].id = column[i].id;
+                        for (let i = 0; i < state.gameArray.length; i ++) {
+                            state.gameArray[i][j].value = column[i].value;
+                            state.gameArray[i][j].id = column[i].id;
                         }
                     }
                 }
                 if (somethingSlid) updateGameField();
                 
                 // PHASE 2: MERGE - Combine tiles moving upward
-                for (let j = 0; j < gameArray.length; j++) {
-                    let column = structuredClone(gameArray.map((row) => row[j]));
+                for (let j = 0; j < state.gameArray.length; j++) {
+                    let column = structuredClone(state.gameArray.map((row) => row[j]));
                     const lineBefore = structuredClone(column);
                     column = merge(column);                            // Merge adjacent tiles in column
                     
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;
                         // Put merged column back into game array
-                        for (let i = 0; i < gameArray.length; i ++) {
-                            gameArray[i][j].value = column[i].value;
-                            gameArray[i][j].id = column[i].id;
+                        for (let i = 0; i < state.gameArray.length; i ++) {
+                            state.gameArray[i][j].value = column[i].value;
+                            state.gameArray[i][j].id = column[i].id;
                         }
                     }
                 }
@@ -459,33 +459,33 @@ const printArray = () => {
             case 'Down':
                 // PHASE 1: SLIDE - Move all tiles downward  
                 // Trick: reverse column, slide up, reverse back to simulate down slide
-                for (let j = 0; j < gameArray.length; j++) {
-                    let column = structuredClone(gameArray.map((row) => row[j]));
+                for (let j = 0; j < state.gameArray.length; j++) {
+                    let column = structuredClone(state.gameArray.map((row) => row[j]));
                     const lineBefore = structuredClone(column);        // Save original column
                     column = slide(column.reverse()).reverse();        // Reverse → slide → reverse back
                     
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingSlid = true;
                         // Put modified column back into game array
-                        for (let i = 0; i < gameArray.length; i ++) {
-                            gameArray[i][j].value = column[i].value;
-                            gameArray[i][j].id = column[i].id;
+                        for (let i = 0; i < state.gameArray.length; i ++) {
+                            state.gameArray[i][j].value = column[i].value;
+                            state.gameArray[i][j].id = column[i].id;
                         }
                     }
                 }
                 if (somethingSlid) updateGameField();
                 
                 // PHASE 2: MERGE - Combine tiles moving downward
-                for (let j = 0; j < gameArray.length; j++) {
-                    let column = structuredClone(gameArray.map((row) => row[j]));
+                for (let j = 0; j < state.gameArray.length; j++) {
+                    let column = structuredClone(state.gameArray.map((row) => row[j]));
                     const lineBefore = structuredClone(column);
                     column = merge(column.reverse()).reverse();        // Same reverse trick for merging
                     
                     if (column.some((element, index) => element.value !== lineBefore[index].value)) {
                         somethingMerged = true;
-                        for (let i = 0; i < gameArray.length; i ++) {
-                            gameArray[i][j].value = column[i].value;
-                            gameArray[i][j].id = column[i].id;
+                        for (let i = 0; i < state.gameArray.length; i ++) {
+                            state.gameArray[i][j].value = column[i].value;
+                            state.gameArray[i][j].id = column[i].id;
                         }
                     }
                 }
@@ -506,21 +506,21 @@ const printArray = () => {
         if (somethingSlid !== somethingMerged) {
             addNumberAtRundom();           // Add new tile (2 or 4) to random empty space
             updateGameField();             // Update DOM to show new tile
-            moves++;                       // Increment move counter
+            state.moves++;                       // Increment move counter
 
             // Update score display in the UI
             const scoreSpan = document.querySelector('.current-score-span');
-            scoreSpan.textContent = score;
+            scoreSpan.textContent = state.score;
 
         // If there were both - wait for the slide animation, than show mwergers and new tiles
         } else if (somethingSlid && somethingMerged) {
             setTimeout(() => {
                 addNumberAtRundom();
                 updateGameField();
-                moves++;
+                state.moves++;
 
                 const scoreSpan = document.querySelector('.current-score-span');
-                scoreSpan.textContent = score;
+                scoreSpan.textContent = state.score;
             }, animationDuration);
         }
         
@@ -532,7 +532,7 @@ const printArray = () => {
         // Delay checking game state to allow animations to complete
         setTimeout(() => {
             // Check for win condition (2048 tile exists)
-            const playerWon = gameArray.some((row) => row.some((el) => el.value === 2048));
+            const playerWon = state.gameArray.some((row) => row.some((el) => el.value === 2048));
             
             if (playerWon) {
                 // VICTORY STATE
@@ -545,9 +545,9 @@ const printArray = () => {
                 const h2Message = document.querySelector('.endgame-message h2');
                 h2Message.textContent = 'You Won!';
                 const scoreSpan = document.querySelector('.endgame-score');
-                scoreSpan.textContent = score;
+                scoreSpan.textContent = state.score;
                 const movesSpan = document.querySelector('.endgame-moves');
-                movesSpan.textContent = moves;
+                movesSpan.textContent = state.moves;
 
             } else if (playerLost()) {
                 // DEFEAT STATE
@@ -560,9 +560,9 @@ const printArray = () => {
                 const h2Message = document.querySelector('.endgame-message h2');
                 h2Message.textContent = 'Game over';
                 const scoreSpan = document.querySelector('.endgame-score');
-                scoreSpan.textContent = score;
+                scoreSpan.textContent = state.score;
                 const movesSpan = document.querySelector('.endgame-moves');
-                movesSpan.textContent = moves;
+                movesSpan.textContent = state.moves;
             }
         }, animationDuration * 2); // Wait for animations to complete before checking game state
     };
@@ -580,9 +580,16 @@ const printArray = () => {
  * GAME STATE VARIABLES
  * These variables maintain the current state of the game
  */
-let gameArray;    // 4x4 array representing the game board
-let score = 0;    // Current player score (sum of merged tile values)
-let moves = 0;    // Number of moves made in current game
+
+export let state = {
+    gameArray: [],
+    score: 0,
+    moves: 0,
+};
+
+// let state.gameArray;    // 4x4 array representing the game board
+// let score = 0;    // Current player score (sum of merged tile values)
+// let moves = 0;    // Number of moves made in current game
 
 // Get animation duration from CSS custom property to keep JS and CSS in sync
 const animationDuration = parseFloat(getComputedStyle(document.documentElement)
@@ -600,7 +607,7 @@ const animationDuration = parseFloat(getComputedStyle(document.documentElement)
  * DEBUG/TESTING ARRAY - Uncomment to test with all tile values
  * This pre-filled array is useful for testing animations and styling
  */
-// gameArray = [
+// state.gameArray = [
 //     [
 //         { id: 1, value: 2, x: 0, y: 0 },
 //         { id: 2, value: 4, x: 1, y: 0 },
@@ -633,7 +640,7 @@ const animationDuration = parseFloat(getComputedStyle(document.documentElement)
  * WIN / DEFEAT TESTING ARRAY - Uncomment to test win condition
  * Board is one move away from win (two 1024 tiles that can merge to 2048) or defeat (only one tile is empty)
  */
-// gameArray = [
+// state.gameArray = [
 //         [
 //             { id: 1, value: 2, x: 0, y: 0 },
 //             { id: 2, value: 4, x: 1, y: 0 },

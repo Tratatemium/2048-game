@@ -2,6 +2,7 @@
 /* #region DOM MANIPULATION                                                                          */
 /* ================================================================================================= */
 
+import { state } from "./main.js"
 
 /**
  * Updates the DOM to reflect the current state of the game array
@@ -14,7 +15,7 @@ export const updateGameField = () => {
     let tiles = Array.from(document.querySelectorAll('.tile'));
 
     // Process each tile in the game array
-    for (const row of gameArray) {
+    for (const row of state.gameArray) {
         for (const element of row) {
             // Only process tiles that have content (non-empty tiles have IDs)
             if (element.id) {
@@ -94,7 +95,7 @@ export const merge = (line) => {
         // Check if current tile and next tile have the same non-zero value
         if (result[i].value === result[i + 1].value && result[i].value !== 0) {
             result[i].value = result[i].value * 2;     // Double the first tile's value
-            score = score + result[i].value;           // Add merged number to the score
+            state.score = state.score + result[i].value;           // Add merged number to the score
             result[i].id = crypto.randomUUID();        // Generate new ID for merged tile
             result[i + 1].value = 0;                   // Mark second tile as empty
             result[i + 1].id = null;                   // Remove second tile's ID
