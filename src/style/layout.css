@@ -1,0 +1,150 @@
+/* ================================================================================================= */
+/* #region RESPONSIVE DESIGN & MEDIA QUERIES                                                        */
+/* ================================================================================================= */
+
+/**
+ * TABLET & MEDIUM SCREENS (max-width: 800px)
+ * - Center title and score
+ * - Switch to mobile restart button
+ * - Adjust footer alignment
+ */
+@media (max-width: 800px) {
+  h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 0;
+    font-size: 2.5em;
+  }
+
+  h1::before {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .restart-game-button-desktop {
+    display: none;
+  }
+
+  .restart-game-button-mobile {
+    display: block;
+  }
+
+  .score-container {
+    position: absolute;
+    left: 50%;
+    top: 12vh;
+    transform: translateX(-50%);
+  }
+
+  footer {
+    justify-content: center;
+    padding-right: 0;
+    padding-bottom: max(0.3rem, env(safe-area-inset-bottom));
+    font-size: 0.7rem; /* Slightly smaller on mobile */
+  }
+  
+  dialog[open] {
+    font-size: 85%;
+  }
+}
+
+/**
+ * MOBILE SCREENS (max-width: 450px)
+ * - Responsive game board sizing
+ */
+@media (max-width: 450px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 3.7vw, 1rem);
+  }
+}
+
+/**
+ * SHORT SCREENS (max-height: 600px)
+ * - Responsive game board height sizing
+ */
+@media (max-height: 600px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 2.8vh, 1rem);
+  }
+}
+
+/**
+ * COMPACT LAYOUT (max-height: 650px and max-width: 800px)
+ * - Switch to horizontal header layout
+ * - Remove absolute positioning for better flow
+ */
+@media (max-height: 650px) and (max-width: 800px) {
+  header {
+    gap: 1em;
+  }
+
+  h1 {
+    margin-left: auto;
+    position: static;
+    align-self: center;
+    transform: translateX(0);
+  }
+
+  h1::before {
+    position: absolute;
+  }
+
+  .score-container {
+    position: static;
+    font-size: 80%;
+    transform: translateX(0);
+  }
+}
+
+/**
+ * SMALL COMPACT SCREENS (max-height: 650px and max-width: 450px)
+ * - Further size reductions for very tight spaces
+ */
+@media (max-height: 650px) and (max-width: 450px) {
+  .game-backgroud {
+    font-size: clamp(0.5rem, 3.7vw, 0.85rem);
+  }
+  
+  header {
+    font-size: clamp(0.5rem, 3.7vw, 1rem);
+  }
+}
+
+/**
+ * VERY SHORT SCREENS (max-height: 450px)
+ * - Hide main interface and show rotate message
+ * - Encourage portrait orientation
+ */
+@media (max-height: 450px) {
+  header {
+    display: none;
+  }
+
+  main {
+    display: none;
+  }
+
+  footer {
+    display: none;
+  }
+
+  .rotate-screen-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    color: var(--font-primary);
+    text-shadow: 0 0 2px var(--font-secondary);
+  }
+
+  .rotate-screen-message svg {
+    fill: var(--font-secondary);
+    width: 5rem;
+    height: 5rem;
+  }
+}
+
+/* #endregion RESPONSIVE DESIGN & MEDIA QUERIES */
