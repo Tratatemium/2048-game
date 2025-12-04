@@ -1,5 +1,5 @@
 import { state } from "./main.js";
-import { playerLost } from "./loose-condition.js"
+import { checkForEndGame } from "./end-game.js"
 import { updateGameField, slide, merge, addNumberAtRundom } from "./dom-manipiulation.js";
 import { restartDialog, aboutGameDialog } from "./main";
 import { saveGame } from "./local-storage.js";
@@ -259,44 +259,5 @@ export const onGameInput = (direction) =>{
     }
     saveGame();
 
-    // ==========================================
-    // GAME STATE CHECKING - Check for win/lose conditions
-    // ==========================================
-    
-    // Delay checking game state to allow animations to complete
-    setTimeout(() => {
-        // Check for win condition (2048 tile exists)
-        const playerWon = state.gameArray.some((row) => row.some((el) => el.value === 2048));
-        
-        if (playerWon) {
-            // VICTORY STATE
-            const main = document.querySelector('main');
-            main.classList.add('win');
-            const header = document.querySelector('header');
-            header.classList.add('win');
-
-            // Update endgame message with victory info
-            const h2Message = document.querySelector('.endgame-message h2');
-            h2Message.textContent = 'You Won!';
-            const scoreSpan = document.querySelector('.endgame-score');
-            scoreSpan.textContent = state.score;
-            const movesSpan = document.querySelector('.endgame-moves');
-            movesSpan.textContent = state.moves;
-
-        } else if (playerLost()) {
-            // DEFEAT STATE
-            const main = document.querySelector('main');
-            main.classList.add('defeat');
-            const header = document.querySelector('header');
-            header.classList.add('defeat');
-
-            // Update endgame message with defeat info
-            const h2Message = document.querySelector('.endgame-message h2');
-            h2Message.textContent = 'Game over';
-            const scoreSpan = document.querySelector('.endgame-score');
-            scoreSpan.textContent = state.score;
-            const movesSpan = document.querySelector('.endgame-moves');
-            movesSpan.textContent = state.moves;
-        }
-    }, state.animationDuration * 2); // Wait for animations to complete before checking game state
+    checkForEndGame();
 };
