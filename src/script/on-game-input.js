@@ -247,11 +247,7 @@ export const onGameInput = (direction) =>{
     if (somethingSlid !== somethingMerged) {
         addNumberAtRundom();           // Add new tile (2 or 4) to random empty space
         updateGameField();             // Update DOM to show new tile
-        state.moves++;                       // Increment move counter
-
-        // Update score display in the UI
-        const scoreSpan = document.querySelector('.current-score-span');
-        scoreSpan.textContent = state.score;
+        state.moves++;                 // Increment move counter
 
     // If there were both - wait for the slide animation, than show mwergers and new tiles
     } else if (somethingSlid && somethingMerged) {
@@ -259,9 +255,6 @@ export const onGameInput = (direction) =>{
             addNumberAtRundom();
             updateGameField();
             state.moves++;
-
-            const scoreSpan = document.querySelector('.current-score-span');
-            scoreSpan.textContent = state.score;
         }, state.animationDuration);
     }
     saveGame();

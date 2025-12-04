@@ -39,6 +39,8 @@ export let state = {
         .getPropertyValue('--animation-duration')) * 1000,
 };
 
+localStorage.setItem("game-state", "");
+
 loadGame();
 
 
