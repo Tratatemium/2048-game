@@ -1,4 +1,7 @@
 import { setupNewGame } from "./new-game.js"
+import { loadGame } from "./local-storage.js";
+import { updateGameField } from "./dom-manipiulation.js";
+import { checkForEndGame } from "./end-game.js"
 
 
 /* ================================================================================================= */
@@ -21,13 +24,9 @@ const printArray = () => {
 /* #endregion UTILITY FUNCTIONS */
 
 /* ================================================================================================= */
-/* #region GLOBAL VARIABLES & GAME STATE                                                            */
+/* #region  GAME STATE                                                                               */
 /* ================================================================================================= */
 
-/**
- * GAME STATE VARIABLES
- * These variables maintain the current state of the game
- */
 
 export let state = {
     gameArray: [],
@@ -37,15 +36,8 @@ export let state = {
         .getPropertyValue('--animation-duration')) * 1000,
 };
 
-// let state.gameArray;    // 4x4 array representing the game board
-// let score = 0;    // Current player score (sum of merged tile values)
-// let moves = 0;    // Number of moves made in current game
 
-// Get animation duration from CSS custom property to keep JS and CSS in sync
-// const animationDuration = parseFloat(getComputedStyle(document.documentElement)
-//     .getPropertyValue('--animation-duration')) * 1000; // Convert seconds to milliseconds
-
-/* #endregion GLOBAL VARIABLES & GAME STATE */
+/* #endregion  GAME STATE */
 
 
 /* ================================================================================================= */
@@ -129,7 +121,13 @@ export let state = {
  * NORMAL GAME STARTUP - Uncomment to start with empty board
  * Comment out the testing arrays above and uncomment this line for normal gameplay
  */
-setupNewGame();
+
+const init = () => {
+    loadGame();
+    checkForEndGame();
+};
+
+init();
 
 /* #endregion GAME INITIALIZATION & STARTUP */
 

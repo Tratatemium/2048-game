@@ -11,6 +11,10 @@ import { state } from "./main.js"
  */
 export const updateGameField = () => {
 
+    // Update score display in the UI
+    const scoreSpan = document.querySelector('.current-score-span');
+    scoreSpan.textContent = state.score;
+
     // Get all existing tile elements currently in the DOM
     let tiles = Array.from(document.querySelectorAll('.tile'));
 
