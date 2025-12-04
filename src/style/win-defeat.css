@@ -1,0 +1,135 @@
+/* ================================================================================================= */
+/* #region GAME STATE MANAGEMENT (WIN/DEFEAT VISUAL EFFECTS)                                       */
+/* ================================================================================================= */
+
+
+/**
+ * ENDGAME UI CHANGES - Hide/show elements based on game state
+ */
+.win .score-container,
+.defeat .score-container {
+  display: none;                             /* Hide score during endgame */
+}
+
+.win .endgame-message,
+.defeat .endgame-message {
+  display: block;                            /* Show endgame message */
+}
+
+h2 {
+  font-size: 3rem;
+  text-shadow: 0 0 8px #9333EA, 0 0 16px #9333EAAA, 0 0 24px #9333EA77, 0 0 32px #9333EA44;
+}
+
+/**
+ * GAME BOARD SCALING - Shrink board during endgame for visual emphasis
+ */
+.win .game-backgroud,
+.defeat .game-backgroud {
+  transform: scale(0.7);                     /* Scale down game board */
+}
+
+/**
+ * TILE DIMMING EFFECTS - Highlight victory or show defeat
+ */
+.defeat .tile-inner {
+  filter: brightness(0.5);                   /* Dim all tiles in defeat */
+}
+
+.win .tile-inner:not(.tile-2048) {
+  filter: brightness(0.5);                   /* Dim all tiles except 2048 in victory */
+}
+
+/**
+ * BUTTON STATE MANAGEMENT - Switch between restart and play again
+ */
+.win .restart-game-button-desktop,
+.defeat .restart-game-button-desktop {
+  display: none;                             /* Hide restart button during endgame */
+}
+
+.win .play-again-button,
+.defeat .play-again-button {
+  display: block;                            /* Show play again button */
+} 
+
+/**
+ * VICTORY TILE SPECIAL EFFECTS - Animated shining border for 2048 tile
+ */
+.win .tile-2048 {
+  filter: brightness(1.5);                   /* Brighten the victory tile */
+  position: relative;
+  overflow: visible;                         /* Allow border to show outside bounds */
+}
+
+/* Animated rainbow border around victory tile */
+.win .tile-2048::before {
+  content: '';
+  position: absolute;
+  inset: -3px;                               /* Extend beyond tile border */
+  border-radius: 0.5em;
+  background: linear-gradient(45deg, 
+    transparent, 
+    #ff00ff,                                 /* Magenta */
+    #00ffff,                                 /* Cyan */
+    #ffff00,                                 /* Yellow */
+    #ff00ff,                                 /* Back to magenta */
+    transparent
+  );
+  background-size: 400% 400%;                /* Large size for smooth animation */
+  animation: shiningBorder 2s linear infinite;  /* Continuous rotation */
+  z-index: -1;                               /* Behind tile content */
+}
+
+/* Tile background mask to create border effect */
+.win .tile-2048::after {
+  content: '';
+  position: absolute;
+  inset: -1px;                               /* Slightly smaller than border */
+  border-radius: 0.5em;
+  background: var(--tile-2048-bg);           /* Match tile background */
+  z-index: -1;                               /* Behind content, over border */
+}
+
+/**
+ * SHINING BORDER ANIMATION - Rainbow effect with pulsing glow
+ */
+@keyframes shiningBorder {
+  0% {
+    background-position: 0% 0%;
+    box-shadow: 
+      0 0 10px #ff00ff,                      /* Magenta glow */
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff;
+  }
+  25% {
+    background-position: 100% 0%;
+    box-shadow: 
+      0 0 10px #00ffff,                      /* Cyan glow */
+      0 0 20px #00ffff,
+      0 0 30px #00ffff;
+  }
+  50% {
+    background-position: 100% 100%;
+    box-shadow: 
+      0 0 10px #ffff00,                      /* Yellow glow */
+      0 0 20px #ffff00,
+      0 0 30px #ffff00;
+  }
+  75% {
+    background-position: 0% 100%;
+    box-shadow: 
+      0 0 10px #ff00ff,                      /* Back to magenta */
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff;
+  }
+  100% {
+    background-position: 0% 0%;
+    box-shadow: 
+      0 0 10px #ff00ff,                      /* Complete the cycle */
+      0 0 20px #ff00ff,
+      0 0 30px #ff00ff;
+  }
+}
+
+/* #endregion GAME STATE MANAGEMENT */

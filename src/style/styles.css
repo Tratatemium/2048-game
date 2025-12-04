@@ -1,0 +1,206 @@
+
+/* ================================================================================================= */
+/* #region GLOBAL BASE STYLES                                                                       */
+/* ================================================================================================= */
+
+/* Root HTML and body setup for fullscreen layout */
+html, body {
+  height: 100vh;
+  height: 100dvh;                            /* Dynamic viewport height - adjusts to mobile browser UI */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;                          /* Prevent scrolling for fixed game layout */
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 0; /* Prevent flex items from overflowing */
+  font-family: "Rubik", Arial, system-ui, sans-serif;
+  background: var(--background);
+  color: var(--font-primary);
+}
+
+/* Central game layout container */
+main {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* #endregion GLOBAL BASE STYLES */
+
+
+/* ================================================================================================= */
+/* #region HEADER & NAVIGATION ELEMENTS                                                             */
+/* ================================================================================================= */
+
+header {
+  display: flex;
+  flex-direction: row;
+  justify-self: start;
+  width: 100vw;
+  align-items: center;
+  margin: 2em 0;
+  gap: 0.5em;
+}
+
+header.win,
+header.defeat {
+  display: none;
+}
+
+/**
+ * HAMBURGER MENU BUTTON - Top left navigation
+ */
+.menu-button {
+  margin-left: 1rem;
+  background-color: transparent;
+  border: none;
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.menu-button p {
+  margin: 0;
+  background: var(--title-neon-gradient);
+  background-clip: text;
+  color: transparent;
+}
+
+/**
+ * MAIN GAME TITLE - Large "2048" with rainbow gradient and glow effect
+ */
+h1 {
+  position: relative;
+  margin: 0;
+  margin-right: auto;
+  font-size: 4.5em;
+  background: var(--title-neon-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* Blur effect behind the title for extra glow */
+h1::before {
+  content: "2048";
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: var(--title-neon-gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  filter: blur(6px);
+  opacity: 0.7;
+}
+
+/**
+ * SCORE DISPLAY SYSTEM
+ */
+.score-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  left: 50%;
+  top: 2.5rem;
+  transform: translateX(-50%);
+  }
+
+/**
+ * RESTART BUTTON - Top right corner
+ */
+.restart-game-button-desktop {
+  margin-left: auto;
+  margin-right: 1rem;
+  display: block;
+}
+
+.restart-game-button-mobile {
+  display: none;
+  margin-left: auto;
+  margin-right: 1rem;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  font-size: 3em;
+  cursor: pointer;
+}
+
+.restart-game-button-mobile p {
+  margin: 0;
+  background: var(--title-neon-gradient);
+  background-clip: text;
+  color: transparent;
+}
+
+/**
+ * FOOTER - Copyright and attribution
+ */
+footer {
+  justify-self: end;
+  margin-bottom: 0;
+  justify-content: end;
+  padding-bottom: max(0.3rem, env(safe-area-inset-bottom)); /* Respect mobile safe areas */
+  padding-right: 0.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  color: var(--font-primary);
+  font-size: 0.8rem;
+}
+
+.about-me-link {
+  color: var(--font-primary);
+  text-decoration: none;
+}
+
+.about-me-link:hover {
+  color: var(--font-secondary);
+}
+
+/**
+ * ROTATE SCREEN MESSAGE - For landscape orientation on mobile
+ */
+.rotate-screen-message {
+  display: none;
+}
+
+/* #endregion HEADER & NAVIGATION ELEMENTS */
+
+
+
+
+
+/* ================================================================================================= */
+/* #region ANIMATIONS & TRANSITIONS                                                                 */
+/* ================================================================================================= */
+
+/**
+ * FADE-IN ANIMATION - For newly spawned tiles
+ * Creates a bouncy entrance effect with scale and opacity changes
+ */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);                   /* Start smaller */
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.05);                  /* Bounce slightly larger */
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);                     /* Settle to normal size */
+  }
+}
+
+/* #endregion ANIMATIONS & TRANSITIONS */
+
