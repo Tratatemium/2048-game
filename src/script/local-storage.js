@@ -25,3 +25,7 @@ export const loadGame = () => {
         console.error("Invalid game-state data:", err);
     }
 };
+
+export const deleteSave = () => {
+    localStorage.setItem("game-state", "");
+};
