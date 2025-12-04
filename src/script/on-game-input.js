@@ -2,6 +2,7 @@ import { state } from "./main.js";
 import { playerLost } from "./loose-condition.js"
 import { updateGameField, slide, merge, addNumberAtRundom } from "./dom-manipiulation.js";
 import { restartDialog, aboutGameDialog } from "./main";
+import { saveGame } from "./local-storage.js";
 
 
 /**
@@ -263,7 +264,7 @@ export const onGameInput = (direction) =>{
             scoreSpan.textContent = state.score;
         }, state.animationDuration);
     }
-    
+    saveGame();
 
     // ==========================================
     // GAME STATE CHECKING - Check for win/lose conditions

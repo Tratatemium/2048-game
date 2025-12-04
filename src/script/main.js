@@ -1,4 +1,6 @@
 import { setupNewGame } from "./new-game.js"
+import { loadGame } from "./local-storage.js";
+import { updateGameField } from "./dom-manipiulation.js";
 
 
 /* ================================================================================================= */
@@ -36,6 +38,10 @@ export let state = {
     animationDuration: parseFloat(getComputedStyle(document.documentElement)
         .getPropertyValue('--animation-duration')) * 1000,
 };
+
+loadGame();
+
+
 
 // let state.gameArray;    // 4x4 array representing the game board
 // let score = 0;    // Current player score (sum of merged tile values)
@@ -129,7 +135,7 @@ export let state = {
  * NORMAL GAME STARTUP - Uncomment to start with empty board
  * Comment out the testing arrays above and uncomment this line for normal gameplay
  */
-setupNewGame();
+//setupNewGame();
 
 /* #endregion GAME INITIALIZATION & STARTUP */
 
