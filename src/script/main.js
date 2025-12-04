@@ -1,4 +1,3 @@
-import { updateGameField, slide, merge, addNumberAtRundom } from "./dom-manipiulation.js"
 import { setupNewGame } from "./new-game.js"
 
 
