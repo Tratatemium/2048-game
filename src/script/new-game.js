@@ -4,6 +4,7 @@
 
 import { state } from "./main.js"
 import { updateGameField, addNumberAtRundom } from "./dom-manipiulation.js"
+import { deleteSave } from "./local-storage.js";
 
 /**
  * Sets up a new game by resetting all game state and initializing the board
@@ -11,6 +12,8 @@ import { updateGameField, addNumberAtRundom } from "./dom-manipiulation.js"
  * adds two starting tiles, and renders the initial game state
  */
 export const setupNewGame = () => {
+
+    deleteSave();
     // Reset game statistics
     state.score = 0;
     const scoreSpan = document.querySelector('.current-score-span');
