@@ -1,7 +1,7 @@
 import { state } from "./main.js";
 import { checkForEndGame } from "./end-game.js"
 import { updateGameField, slide, merge, addNumberAtRundom } from "./dom-manipiulation.js";
-import { restartDialog, aboutGameDialog } from "./main";
+import { restartDialog, aboutGameDialog } from "./main.js";
 import { saveGame } from "./local-storage.js";
 
 

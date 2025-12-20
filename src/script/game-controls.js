@@ -2,8 +2,8 @@
 /* #region INPUT HANDLING & GAME CONTROLS                                                           */
 /* ================================================================================================= */
 
-import { restartDialog, aboutGameDialog } from "./main";
-import { onGameInput } from "./on-game-input";
+import { restartDialog, aboutGameDialog } from "./main.js";
+import { onGameInput } from "./on-game-input.js";
 
 /**
  * Handles keyboard input for game controls and dialog management
