@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2048 game</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="/2048-game/assets/2048-icon-CdW6QbT6.png">
+
+    
+  <script type="module" crossorigin src="/2048-game/assets/main-NGEfXNan.js"></script>
+  <link rel="stylesheet" crossorigin href="/2048-game/assets/main-D-zpBy2j.css">
+</head>
+<body>
+
+    <header>
+        <button class="menu-button"><p>&#9776;</p></button>
+        <h1>2048</h1>
+        <div class="score-container">
+            <div class="current-score">
+                <span>score</span>
+                <span class="current-score-span">0</span>
+            </div>
+        </div>
+        <button class="button restart-game-button-desktop">Restart game</button>
+        <button class="restart-game-button-mobile"><p>⟳</p></button>
+    </header>
+
+    <main>
+        
+        <div class="endgame-message">
+            <h2>Game over</h2>
+            <p><span class="endgame-score">0</span> points scored in <span class="endgame-moves">0</span> moves.</p>
+        </div>
+        
+        <div class="game-backgroud">
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="tile-backgroud"></div>
+            <div class="game-field"></div>
+        </div>
+        <button class="button play-again-button">Play again</button>
+        
+    </main>
+
+    <dialog class="restart-dialog">
+        <h3>Restart game</h3>
+        <p>Are you sure you want to restart the game? <br> All your progress will be lost.</p>
+        <button class="button yes-restart-button">Yes, restart game</button>
+        <button class="button cancel-button">Cancel</button>
+    </dialog>
+
+    <dialog class="about-game-dialog">
+        <h3>About the game</h3>
+        <p>This project was created as part of my studies in the Front-End Development program at Hyper Island.
+            I recreated <a href="https://play2048.co/" target="_blank" class="original-game-link">Gabriele Cirulli`s original 2048 game↗</a>
+             as a personal challenge to practice JavaScript algorithms, DOM manipulation, 
+            smooth animations, and responsive web design.</p>
+        <h3>How to play</h3>
+        <p>2048 is a sliding puzzle game. Use the arrow keys (or swipe on mobile) to move the tiles. 
+            When two tiles with the same number touch, they merge into one. Keep combining numbers to reach the 2048 tile!
+            If you run out of empty spaces, the game is over.</p>
+        <button class="close-about-game-dialog-button">
+            <svg  viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z" stroke="currentColor" stroke-width="2"/>
+                <path d="M9 9L15 15M15 9L9 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+        </button>
+    </dialog>
+
+    <footer>
+        <p class="copyright">
+            © 2025
+            <a href="https://tratatemium.github.io/" target="_blank" class="about-me-link">Vladislav Zhuravskii↗</a>
+        </p>
+    </footer>
+
+    <div class="rotate-screen-message">
+        <svg fill="currentColor" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+            viewBox="0 0 32 32" xml:space="preserve">
+            <path id="rotate--device_1_" d="M24,23c-0.552,0-1-0.448-1-1s0.448-1,1-1s1,0.448,1,1S24.552,23,24,23z M24.64,30.64h-5.28V27h-0.72
+                v3.64H1.36V17.36H15v-0.72H1c-0.199,0-0.36,0.161-0.36,0.36v14c0,0.199,0.161,0.36,0.36,0.36h24c0.199,0,0.36-0.161,0.36-0.36v-4
+                h-0.72V30.64z M4.36,13c0-4.213,3.427-7.64,7.64-7.64h1.131l-2.385,2.386l0.509,0.509L14.509,5l-3.255-3.254l-0.509,0.509
+                l2.385,2.386H12c-4.61,0-8.36,3.75-8.36,8.36v2h0.72C4.36,15.001,4.36,13,4.36,13z M31.36,1v24c0,0.199-0.161,0.36-0.36,0.36H17
+                c-0.199,0-0.36-0.161-0.36-0.36V1c0-0.199,0.161-0.36,0.36-0.36h14C31.199,0.64,31.36,0.801,31.36,1z M30.64,19.36H17.36v5.279
+                h13.28V19.36z M30.64,1.36H17.36v17.28h13.28V1.36z"/>
+            <rect id="_Transparent_Rectangle" style="fill:none;"/>
+        </svg>
+        <p>Please turn your device to portrait mode.</p>
+    </div>
+    
+</body>
+</html>
