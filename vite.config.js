@@ -1,7 +1,14 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite";
+import { resolve } from "path";
 
 export default defineConfig({
-  server: {
-    open: true,
+  base: "/2048-game/",
+  root: ".",
+  build: {
+    rollupOptions: {
+      input: {
+        main: resolve(__dirname, "index.html"),
+      },
+    },
   },
-})
+});
