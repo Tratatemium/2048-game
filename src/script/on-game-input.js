@@ -1,4 +1,4 @@
-import { state } from "./main.js";
+const { state } = require("../state.js");
 import { checkForEndGame } from "./end-game.js";
 import {
   updateGameField,

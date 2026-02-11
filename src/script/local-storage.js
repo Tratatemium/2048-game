@@ -1,4 +1,4 @@
-import { state } from "./main.js";
+const { state } = require("../state.js");
 import { setupNewGame } from "./new-game.js";
 import { updateGameField } from "./dom-manipiulation.js";
 
