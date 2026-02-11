@@ -43,7 +43,7 @@
     padding-bottom: max(0.3rem, env(safe-area-inset-bottom));
     font-size: 0.7rem; /* Slightly smaller on mobile */
   }
-  
+
   dialog[open] {
     font-size: 85%;
   }
@@ -105,7 +105,7 @@
   .game-backgroud {
     font-size: clamp(0.5rem, 3.7vw, 0.85rem);
   }
-  
+
   header {
     font-size: clamp(0.5rem, 3.7vw, 1rem);
   }

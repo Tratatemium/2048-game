@@ -1,15 +1,15 @@
-
 /* ================================================================================================= */
 /* #region GLOBAL BASE STYLES                                                                       */
 /* ================================================================================================= */
 
 /* Root HTML and body setup for fullscreen layout */
-html, body {
+html,
+body {
   height: 100vh;
-  height: 100dvh;                            /* Dynamic viewport height - adjusts to mobile browser UI */
+  height: 100dvh; /* Dynamic viewport height - adjusts to mobile browser UI */
   margin: 0;
   padding: 0;
-  overflow: hidden;                          /* Prevent scrolling for fixed game layout */
+  overflow: hidden; /* Prevent scrolling for fixed game layout */
 }
 
 body {
@@ -32,7 +32,6 @@ main {
 }
 
 /* #endregion GLOBAL BASE STYLES */
-
 
 /* ================================================================================================= */
 /* #region HEADER & NAVIGATION ELEMENTS                                                             */
@@ -112,7 +111,7 @@ h1::before {
   left: 50%;
   top: 2.5rem;
   transform: translateX(-50%);
-  }
+}
 
 /**
  * RESTART BUTTON - Top right corner
@@ -148,7 +147,10 @@ footer {
   justify-self: end;
   margin-bottom: 0;
   justify-content: end;
-  padding-bottom: max(0.3rem, env(safe-area-inset-bottom)); /* Respect mobile safe areas */
+  padding-bottom: max(
+    0.3rem,
+    env(safe-area-inset-bottom)
+  ); /* Respect mobile safe areas */
   padding-right: 0.5rem;
   width: 100%;
   display: flex;
@@ -175,10 +177,6 @@ footer {
 
 /* #endregion HEADER & NAVIGATION ELEMENTS */
 
-
-
-
-
 /* ================================================================================================= */
 /* #region ANIMATIONS & TRANSITIONS                                                                 */
 /* ================================================================================================= */
@@ -190,17 +188,16 @@ footer {
 @keyframes fadeIn {
   0% {
     opacity: 0;
-    transform: scale(0.7);                   /* Start smaller */
+    transform: scale(0.7); /* Start smaller */
   }
   70% {
     opacity: 1;
-    transform: scale(1.05);                  /* Bounce slightly larger */
+    transform: scale(1.05); /* Bounce slightly larger */
   }
   100% {
     opacity: 1;
-    transform: scale(1);                     /* Settle to normal size */
+    transform: scale(1); /* Settle to normal size */
   }
 }
 
 /* #endregion ANIMATIONS & TRANSITIONS */
-

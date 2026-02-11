@@ -1,8 +1,7 @@
-import { setupNewGame } from "./new-game.js"
+import { setupNewGame } from "./new-game.js";
 import { loadGame } from "./local-storage.js";
 import { updateGameField } from "./dom-manipiulation.js";
-import { checkForEndGame } from "./end-game.js"
-
+import { checkForEndGame } from "./end-game.js";
 
 /* ================================================================================================= */
 /* #region UTILITY FUNCTIONS                                                                        */
@@ -13,12 +12,12 @@ import { checkForEndGame } from "./end-game.js"
  * Displays values in a grid format matching the visual layout
  */
 const printArray = () => {
-    console.log('-------');
-    console.log(
-        state.gameArray
-            .map(row => row.map(el => el.value).join(' '))
-            .join('\n')
-    );
+  console.log("-------");
+  console.log(
+    state.gameArray
+      .map((row) => row.map((el) => el.value).join(" "))
+      .join("\n"),
+  );
 };
 
 /* #endregion UTILITY FUNCTIONS */
@@ -27,23 +26,23 @@ const printArray = () => {
 /* #region  GAME STATE                                                                               */
 /* ================================================================================================= */
 
-
 export let state = {
-    gameArray: [],
-    score: 0,
-    moves: 0,
-    animationDuration: parseFloat(getComputedStyle(document.documentElement)
-        .getPropertyValue('--animation-duration')) * 1000,
+  gameArray: [],
+  score: 0,
+  moves: 0,
+  animationDuration:
+    parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue(
+        "--animation-duration",
+      ),
+    ) * 1000,
 };
 
-
 /* #endregion  GAME STATE */
-
 
 /* ================================================================================================= */
 /* #region TESTING & DEBUG CONFIGURATIONS                                                           */
 /* ================================================================================================= */
-
 
 /**
  * DEBUG/TESTING ARRAY - Uncomment to test with all tile values
@@ -76,7 +75,6 @@ export let state = {
 //     ]
 // ];
 // updateGameField();
-
 
 /**
  * WIN / DEFEAT TESTING ARRAY - Uncomment to test win condition
@@ -112,7 +110,6 @@ export let state = {
 
 /* #endregion TESTING & DEBUG CONFIGURATIONS */
 
-
 /* ================================================================================================= */
 /* #region GAME INITIALIZATION & STARTUP                                                            */
 /* ================================================================================================= */
@@ -123,78 +120,78 @@ export let state = {
  */
 
 const init = () => {
-    loadGame();
-    checkForEndGame();
+  loadGame();
+  checkForEndGame();
 };
 
 init();
 
 /* #endregion GAME INITIALIZATION & STARTUP */
 
-
 /* ================================================================================================= */
 /* #region EVENT LISTENERS & DOM INTERACTIONS                                                       */
 /* ================================================================================================= */
-
-
 
 // ==========================================
 // BUTTON EVENT HANDLERS
 // ==========================================
 
-
 /**
  * PLAY AGAIN BUTTON - Starts a new game after win/defeat
  * Appears when game ends (replaces restart button)
  */
-const playAgainButton = document.querySelector('.play-again-button');
-playAgainButton.addEventListener('click', () => setupNewGame());
+const playAgainButton = document.querySelector(".play-again-button");
+playAgainButton.addEventListener("click", () => setupNewGame());
 
 /**
  * RESTART GAME FUNCTIONALITY - Shows confirmation dialog before restarting
  * Uses modal dialog to prevent accidental game resets
  */
-export const restartDialog = document.querySelector('.restart-dialog');
-const restartGameButtonDesktop = document.querySelector('.restart-game-button-desktop');
-const restartGameButtonMobile = document.querySelector('.restart-game-button-mobile');
+export const restartDialog = document.querySelector(".restart-dialog");
+const restartGameButtonDesktop = document.querySelector(
+  ".restart-game-button-desktop",
+);
+const restartGameButtonMobile = document.querySelector(
+  ".restart-game-button-mobile",
+);
 
 // Show restart confirmation dialog
-restartGameButtonDesktop.addEventListener('click', () => {
-    if (!restartDialog.open) restartDialog.showModal();
+restartGameButtonDesktop.addEventListener("click", () => {
+  if (!restartDialog.open) restartDialog.showModal();
 });
-restartGameButtonMobile.addEventListener('click', () => {
-    if (!restartDialog.open) restartDialog.showModal();
+restartGameButtonMobile.addEventListener("click", () => {
+  if (!restartDialog.open) restartDialog.showModal();
 });
 
 // Confirm restart - start new game and close dialog
-const yesRestartButton = document.querySelector('.yes-restart-button');
-yesRestartButton.addEventListener('click', () => {
-    setupNewGame();
-    restartDialog.close();
+const yesRestartButton = document.querySelector(".yes-restart-button");
+yesRestartButton.addEventListener("click", () => {
+  setupNewGame();
+  restartDialog.close();
 });
 
 // Cancel restart - just close the dialog
-const cancelButton = document.querySelector('.cancel-button');
-cancelButton.addEventListener('click', () => restartDialog.close());
+const cancelButton = document.querySelector(".cancel-button");
+cancelButton.addEventListener("click", () => restartDialog.close());
 
 /**
  * ABOUT/MENU DIALOG FUNCTIONALITY - Shows game information
  * Triggered by menu button, closed by close button or Escape key
  */
-export const aboutGameDialog = document.querySelector('.about-game-dialog');
-const menuButton = document.querySelector('.menu-button');
+export const aboutGameDialog = document.querySelector(".about-game-dialog");
+const menuButton = document.querySelector(".menu-button");
 
 // Show about game dialog
-menuButton.addEventListener('click', () => {
-    if (!aboutGameDialog.open) aboutGameDialog.showModal();
+menuButton.addEventListener("click", () => {
+  if (!aboutGameDialog.open) aboutGameDialog.showModal();
 });
 
 // Close about game dialog
-const closeAboutGameDialogButton = document.querySelector('.close-about-game-dialog-button');
-closeAboutGameDialogButton.addEventListener('click', () => aboutGameDialog.close());
+const closeAboutGameDialogButton = document.querySelector(
+  ".close-about-game-dialog-button",
+);
+closeAboutGameDialogButton.addEventListener("click", () =>
+  aboutGameDialog.close(),
+);
 
 /* #endregion EVENT LISTENERS & DOM INTERACTIONS */
-
-
-
-
