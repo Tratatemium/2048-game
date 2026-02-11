@@ -2,7 +2,7 @@
 /* #region INPUT HANDLING & GAME CONTROLS                                                           */
 /* ================================================================================================= */
 
-import { restartDialog, aboutGameDialog } from "./main.js";
+import { restartDialog, aboutGameDialog } from "./event-listeners.js";
 import { onGameInput } from "./on-game-input.js";
 
 /**
