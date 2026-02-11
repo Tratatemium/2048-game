@@ -5,7 +5,7 @@
 /**
  * GAME BOARD CONTAINER - Main 4x4 grid with neon styling
  */
-.game-backgroud {
+.game-background {
   background: var(--border-board);
   box-shadow: var(--neon-shadow);
   position: relative;
@@ -22,7 +22,7 @@
 /**
  * EMPTY TILE SLOTS - Background placeholders for the 4x4 grid
  */
-.tile-backgroud {
+.tile-background {
   background-color: var(--empty-slot);
   box-shadow: var(--neon-shadow);
   width: 5em;
