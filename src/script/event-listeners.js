@@ -1,6 +1,5 @@
 import { setupNewGame } from "./new-game.js";
-
-const $ = (sel) => document.querySelector(sel);
+import { $ } from "./utils/utils.js"
 
 /**
  * PLAY AGAIN BUTTON - Appears when game ends (replaces restart button)

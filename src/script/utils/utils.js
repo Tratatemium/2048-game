@@ -9,4 +9,6 @@ const printGameArray = () => {
   );
 };
 
-module.exports = { printGameArray };
+const $ = (sel) => document.querySelector(sel);
+
+module.exports = { printGameArray, $ };

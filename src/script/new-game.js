@@ -1,8 +1,5 @@
-/* ================================================================================================= */
-/* #region GAME INITIALIZATION & SETUP                                                              */
-/* ================================================================================================= */
-
 import { state } from "./state.js";
+import { $ } from "./utils/utils.js"
 import { updateGameField, addNumberAtRundom } from "./dom-manipiulation.js";
 import { deleteSave } from "./local-storage.js";
 
@@ -15,16 +12,15 @@ export const setupNewGame = () => {
   deleteSave();
   // Reset game statistics
   state.score = 0;
-  const scoreSpan = document.querySelector(".current-score-span");
-  scoreSpan.textContent = state.score;
+  $(".current-score-span").textContent = state.score;
   state.moves = 0;
 
   // Reset visual game states (remove win/defeat styling)
-  const main = document.querySelector("main");
+  const main = $("main");
   main.classList.remove("defeat");
   main.classList.remove("win");
 
-  const header = document.querySelector("header");
+  const header = $("header");
   header.classList.remove("defeat");
   header.classList.remove("win");
 
@@ -50,5 +46,3 @@ export const setupNewGame = () => {
   // Render the initial game state to the DOM
   updateGameField();
 };
-
-/* #endregion GAME INITIALIZATION & SETUP */
