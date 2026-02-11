@@ -1,3 +1,6 @@
+import { state } from "./state.js";
+import { updateGameField } from "./dom-manipiulation.js";
+
 const testArrays = {
   allTiles: [
     [
@@ -25,7 +28,7 @@ const testArrays = {
       { id: null, value: 0, x: 3, y: 3 },
     ],
   ],
-  winAndLoose: [
+  winLoose: [
     [
       { id: 1, value: 2, x: 0, y: 0 },
       { id: 2, value: 4, x: 1, y: 0 },
@@ -53,4 +56,14 @@ const testArrays = {
   ],
 };
 
-export { testArrays };
+const injectTestArray = (testMode) => {
+  const arrayToInject = testArrays[testMode];
+  if (!arrayToInject)
+    throw new Error(
+      `injectTestArray() does not have a test mode: ${testMode}.`,
+    );
+  state.gameArray = arrayToInject;
+  updateGameField();
+};
+
+export { testArrays, injectTestArray };
