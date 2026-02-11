@@ -6,7 +6,7 @@ import {
   merge,
   addNumberAtRundom,
 } from "./dom-manipiulation.js";
-import { restartDialog, aboutGameDialog } from "./main.js";
+import { restartDialog, aboutGameDialog } from "./event-listeners.js";
 import { saveGame } from "./local-storage.js";
 
 /**
