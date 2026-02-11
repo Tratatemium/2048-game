@@ -2,7 +2,7 @@
 /* #region DOM MANIPULATION                                                                          */
 /* ================================================================================================= */
 
-const { state } = require("../state.js");
+import { state } from "./state.js";
 
 /**
  * Updates the DOM to reflect the current state of the game array

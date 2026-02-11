@@ -10,4 +10,4 @@ let state = {
     ) * 1000,
 };
 
-module.exports = { state };
+export { state };

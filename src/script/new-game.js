@@ -2,7 +2,7 @@
 /* #region GAME INITIALIZATION & SETUP                                                              */
 /* ================================================================================================= */
 
-const { state } = require("../state.js");
+import { state } from "./state.js";
 import { updateGameField, addNumberAtRundom } from "./dom-manipiulation.js";
 import { deleteSave } from "./local-storage.js";
 

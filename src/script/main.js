@@ -1,6 +1,6 @@
 import { setupNewGame } from "./new-game.js";
-const { loadGame } = require("./local-storage.js");
-const { checkForEndGame } = require ("./end-game.js");
+import { loadGame } from "./local-storage.js";
+import { checkForEndGame } from "./end-game.js";
 
 const init = () => {
   loadGame();

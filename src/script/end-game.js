@@ -1,4 +1,4 @@
-const { state } = require("../state.js");
+import { state } from "./state.js";
 
 /**
  * Checks if the game is over (defeat condition)
