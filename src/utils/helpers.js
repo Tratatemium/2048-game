@@ -11,4 +11,8 @@ const printGameArray = () => {
 
 const $ = (sel) => document.querySelector(sel);
 
-export { printGameArray, $ };
+const openDialog = (dialog) => {
+  if (!dialog.open) dialog.showModal();
+};
+
+export { printGameArray, $, openDialog };

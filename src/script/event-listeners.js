@@ -1,42 +1,27 @@
 import { setupNewGame } from "./new-game.js";
-import { $ } from "../utils/helpers.js"
+import { $, openDialog } from "../utils/helpers.js";
 
-/**
- * PLAY AGAIN BUTTON - Appears when game ends (replaces restart button)
- */
-$(".play-again-button").addEventListener("click", () => setupNewGame());
+const setupUIButtons = () => {
+  $(".play-again-button").addEventListener("click", () => setupNewGame());
 
-/**
- * RESTART GAME FUNCTIONALITY - Shows confirmation dialog before restarting
- */
-const restartDialog = document.querySelector(".restart-dialog");
+  const restartDialog = $(".restart-dialog");
+  [".restart-game-button-desktop", ".restart-game-button-mobile"].forEach(
+    (selector) =>
+      $(selector).addEventListener("click", () => openDialog(restartDialog)),
+  );
+  $(".yes-restart-button").addEventListener("click", () => {
+    setupNewGame();
+    restartDialog.close();
+  });
+  $(".cancel-button").addEventListener("click", () => restartDialog.close());
 
-$(".restart-game-button-desktop").addEventListener("click", () => {
-  if (!restartDialog.open) restartDialog.showModal();
-});
-
-$(".restart-game-button-mobile").addEventListener("click", () => {
-  if (!restartDialog.open) restartDialog.showModal();
-});
-
-$(".yes-restart-button").addEventListener("click", () => {
-  setupNewGame();
-  restartDialog.close();
-});
-
-$(".cancel-button").addEventListener("click", () => restartDialog.close());
-
-/**
- * ABOUT/MENU DIALOG - Triggered by menu button, closed by close button or Escape key
- */
-const aboutGameDialog = document.querySelector(".about-game-dialog");
-
-$(".menu-button").addEventListener("click", () => {
-  if (!aboutGameDialog.open) aboutGameDialog.showModal();
-});
-
-$(".close-about-game-dialog-button").addEventListener("click", () =>
-  aboutGameDialog.close(),
-);
+  const aboutGameDialog = $(".about-game-dialog");
+  $(".menu-button").addEventListener("click", () =>
+    openDialog(aboutGameDialog),
+  );
+  $(".close-about-game-dialog-button").addEventListener("click", () =>
+    aboutGameDialog.close(),
+  );
+};
 
 export { restartDialog, aboutGameDialog };

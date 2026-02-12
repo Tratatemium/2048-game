@@ -1,9 +1,12 @@
-import { restartDialog, aboutGameDialog } from "../script/event-listeners.js";
+import { $ } from "../utils/helpers.js";
 import { onGameInput } from "../script/on-game-input.js";
 
 /* ================================================================================================= */
 /* KEYBOARD CONTROLS                                                                                 */
 /* ================================================================================================= */
+
+const restartDialog = $(".restart-dialog");
+const aboutGameDialog = $(".about-game-dialog");
 
 const handleDialogs = (event) => {
   if (restartDialog.open || aboutGameDialog.open) {

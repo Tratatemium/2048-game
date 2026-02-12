@@ -14,8 +14,9 @@ const STORAGE_KEY = "2048-game-state";
 
 const storage = {
   save: (state) => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)),
+
   load: () => {
-    const saved = localStorage.getItem("game-state");
+    const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return null;
     try {
       const savedState = JSON.parse(saved);
@@ -25,6 +26,7 @@ const storage = {
     }
     return null;
   },
+
   delete: () => localStorage.removeItem(STORAGE_KEY),
 };
 
