@@ -1,4 +1,4 @@
-export const slide = (line) => {
+const slide = (line) => {
   let nonZero = line.filter((tile) => tile.value !== 0);
 
   return [
@@ -7,7 +7,7 @@ export const slide = (line) => {
   ];
 };
 
-export const merge = (line) => {
+const merge = (line) => {
   const result = [...line];
   let gainedScore = 0;
 
@@ -38,3 +38,5 @@ export const merge = (line) => {
     gainedScore,
   };
 };
+
+export { slide, merge };
