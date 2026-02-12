@@ -1,4 +1,4 @@
-import { setupNewGame } from "./new-game.js";
+import { setupNewGame } from "../script/new-game.js";
 import { $, openDialog } from "../utils/helpers.js";
 
 const setupUIButtons = () => {
