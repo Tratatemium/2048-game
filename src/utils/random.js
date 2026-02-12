@@ -9,9 +9,10 @@ export const addNumberAtRandom = (gameArray) => {
 
   if (emptyTiles.length > 0) {
     const randomIndex = Math.floor(Math.random() * emptyTiles.length);
-    const [x, y] = emptyTiles[randomIndex];
+    const [i, j] = emptyTiles[randomIndex];
 
-    gameArray[x][y].value = {
+    gameArray[i][j] = {
+      ...gameArray[i][j],
       value: getRandomValue(),
       id: crypto.randomUUID(),
     };
