@@ -1,150 +1,95 @@
-/* ================================================================================================= */
-/* #region INPUT HANDLING & GAME CONTROLS                                                           */
-/* ================================================================================================= */
-
 import { restartDialog, aboutGameDialog } from "../script/event-listeners.js";
 import { onGameInput } from "../script/on-game-input.js";
 
-/**
- * Handles keyboard input for game controls and dialog management
- * Processes arrow keys for game movement and Escape key for dialog closing
- * Ignores input when dialogs are open (except Escape)
- *
- * @param {KeyboardEvent} event - The keyboard event object containing key information
- */
-const onKeyDown = (event) => {
-  // ==========================================
-  // DIALOG HANDLING - Handle Escape key for open dialogs
-  // ==========================================
+/* ================================================================================================= */
+/* KEYBOARD CONTROLLS                                                                                */
+/* ================================================================================================= */
 
+const handleDialogs = (event) => {
   if (restartDialog.open || aboutGameDialog.open) {
     if (event.key === "Escape") {
       restartDialog.close();
       aboutGameDialog.close();
-      return;
-    } else {
-      return; // Ignore other keys when dialogs are open
     }
+    return true;
   }
+  return false;
+};
 
-  switch (event.key) {
-    case "ArrowLeft":
-      onGameInput("Left");
-      break;
-    case "ArrowRight":
-      onGameInput("Right");
-      break;
-    case "ArrowDown":
-      onGameInput("Down");
-      break;
-    case "ArrowUp":
-      onGameInput("Up");
-      break;
-    default:
-      break;
+const onKeyDown = (event) => {
+  if (event.repeat) return;
+
+  if (handleDialogs(event)) return;
+
+  const keyMap = {
+    ArrowLeft: "Left",
+    ArrowRight: "Right",
+    ArrowDown: "Down",
+    ArrowUp: "Up",
+  };
+
+  if (keyMap[event.key]) {
+    event.preventDefault();
+    onGameInput(keyMap[event.key]);
   }
 };
 
-/**
- * Initiates touch/swipe gesture tracking for mobile input
- * Records the starting position and enables swipe detection
- *
- * @param {number} x - The starting X coordinate of the touch/swipe
- * @param {number} y - The starting Y coordinate of the touch/swipe
- */
+window.addEventListener("keydown", onKeyDown);
+
+/* ================================================================================================= */
+/* MOBILE TOUCH/SWIPE CONTROLLS                                                                      */
+/* ================================================================================================= */
+
+const swipeTreshold = 25;
+let startX,
+  startY = 0;
+let lastX,
+  lastY = 0;
+let isSwiping = false;
+let swipeRegisterd = false;
+
 const onSwipeStart = (x, y) => {
-  (startX, (lastX = x));
-  (startY, (lastY = y));
+  startX = lastX = x;
+  startY = lastY = y;
   isSwiping = true;
+  swipeRegisterd = false; // reset for a new swipe
 };
 
-/**
- * Processes ongoing touch/swipe movement and determines direction
- * Calculates movement distance and triggers game input when threshold is reached
- * Prevents multiple triggers per swipe and determines primary movement axis
- *
- * @param {number} x - Current X coordinate of the touch/swipe
- * @param {number} y - Current Y coordinate of the touch/swipe
- */
 const onSwipeMove = (x, y) => {
-  if (!isSwiping) return; // Not currently swiping
-  if (swipeRegisterd) return; // Already registered a swipe for this gesture
+  if (!isSwiping || swipeRegisterd) return;
 
-  // Calculate movement distance from last position
-  const dx = x - lastX;
-  const dy = y - lastY;
+  const dx = x - startX;
+  const dy = y - startY;
 
-  // Check if movement exceeds threshold distance
   if (Math.abs(dx) >= swipeTreshold || Math.abs(dy) >= swipeTreshold) {
     // Determine primary movement direction (horizontal vs vertical)
-    if (Math.abs(dx) > Math.abs(dy)) {
-      // Horizontal movement is dominant
-      if (dx > 0) onGameInput("Right");
-      else onGameInput("Left");
-    } else {
-      // Vertical movement is dominant
-      if (dy > 0) onGameInput("Down");
-      else onGameInput("Up");
+    if (Math.abs(dx) > Math.abs(dy)) { // Horizontal movement is dominant
+      onGameInput(dx > 0 ? "Right" : "Left")
+    } else { // Vertical movement is dominant
+      onGameInput(dy > 0 ? "Down" : "Up");
     }
-    // Reset trigger point and mark swipe as processed
+    
     lastX = x;
     lastY = y;
     swipeRegisterd = true;
   }
 };
 
-/**
- * Ends touch/swipe gesture tracking and resets swipe state
- * Clears all swipe flags to prepare for the next gesture
- */
 const onSwipeEnd = () => {
-  isSwiping = false; // No longer tracking swipe movement
-  swipeRegisterd = false; // Ready to register new swipe
+  isSwiping = false;
+  swipeRegisterd = false;
 };
 
-// ==========================================
-// KEYBOARD CONTROLS
-// ==========================================
-
-/**
- * Main game input handler - listens for arrow keys and other game controls
- */
-document.addEventListener("keydown", (event) => onKeyDown(event));
-
-/* ================================================================================================= */
-/* #region MOBILE TOUCH/SWIPE SUPPORT                                                               */
-/* ================================================================================================= */
-
-/**
- * SWIPE DETECTION CONFIGURATION & STATE
- * Variables for tracking touch gestures on mobile devices
- */
-const swipeTreshold = 25; // Minimum distance in pixels to register as a swipe
-let startX,
-  startY = 0; // Initial touch position coordinates
-let lastX,
-  lastY = 0; // Current/last known touch position
-let isSwiping = false; // Whether a touch gesture is currently active
-let swipeRegisterd = false; // Whether current gesture has already triggered a game move
-
-/**
- * TOUCH EVENT LISTENERS - Enable mobile swipe controls
- * Maps touch events to swipe detection functions
- */
-
-// Start swipe detection when user touches screen
-document.addEventListener("touchstart", (event) => {
-  const touches = event.touches[0];
-  onSwipeStart(touches.clientX, touches.clientY);
+window.addEventListener("touchstart", (event) => {
+  const touch = event.touches[0];
+  if (!touch) return;
+  onSwipeStart(touch.clientX, touch.clientY);
 });
 
-// Track finger movement during swipe
-document.addEventListener("touchmove", (event) => {
+window.addEventListener("touchmove", (event) => {
+  event.preventDefault();
   const touches = event.touches[0];
   onSwipeMove(touches.clientX, touches.clientY);
-});
+}, { passive: false });
 
-// End swipe detection when user lifts finger
-document.addEventListener("touchend", onSwipeEnd);
-
-/* #endregion MOBILE TOUCH/SWIPE SUPPORT */
+window.addEventListener("touchend", onSwipeEnd);
