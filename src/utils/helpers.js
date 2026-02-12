@@ -15,4 +15,15 @@ const openDialog = (dialog) => {
   if (!dialog.open) dialog.showModal();
 };
 
-export { printGameArray, $, openDialog };
+const transpose = (matrix) =>
+  matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
+
+const copyMatrix = (target, source) => {
+  for (let i = 0; i < source.length; i++) {
+    for (let j = 0; j < source[i].length; j++) {
+      target[i][j] = source[i][j];
+    }
+  }
+};
+
+export { printGameArray, $, openDialog, transpose, copyMatrix };
