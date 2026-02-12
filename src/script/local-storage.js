@@ -2,11 +2,11 @@ import { state } from "../game/state.js";
 import { setupNewGame } from "./new-game.js";
 import { updateGameField } from "./dom-manipiulation.js";
 
-export const saveGame = () => {
-  localStorage.setItem("game-state", JSON.stringify(state));
+const saveGame = () => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 };
 
-export const loadGame = () => {
+const loadGame = () => {
   const saved = localStorage.getItem("game-state");
 
   if (!saved) {
@@ -16,13 +16,20 @@ export const loadGame = () => {
 
   try {
     const savedState = JSON.parse(saved);
-    Object.assign(state, savedState);
-    updateGameField();
+    if (savedState && typeof savedState === "object") {
+      Object.assign(state, savedState);
+      updateGameField();
+    } else {
+      throw new Error("Saved state is not an object");
+    }
   } catch (err) {
     console.error("Invalid game-state data:", err);
+    setupNewGame();
   }
 };
 
-export const deleteSave = () => {
-  localStorage.setItem("game-state", "");
+const deleteSave = () => {
+  localStorage.removeItem(STORAGE_KEY);
 };
+
+export { saveGame, loadGame, deleteSave };
