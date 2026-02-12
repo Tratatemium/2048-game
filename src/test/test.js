@@ -1,5 +1,5 @@
-import { state } from "./state.js";
-import { updateGameField } from "./dom-manipiulation.js";
+import { state } from "../script/state.js";
+import { updateGameField } from "../script/dom-manipiulation.js";
 
 const testArrays = {
   allTiles: [
