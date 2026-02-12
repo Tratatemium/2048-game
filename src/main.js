@@ -1,6 +1,6 @@
-import { loadGame } from "./local-storage.js";
-import { checkForEndGame } from "./end-game.js";
-import { injectTestArray } from "./test.js";
+import { loadGame } from "./script/local-storage.js";
+import { checkForEndGame } from "./script/end-game.js";
+import { injectTestArray } from "./script/test.js";
 
 const init = ({ initMode = "normal", testMode }) => {
   switch (initMode) {
