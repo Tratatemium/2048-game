@@ -1,3 +1,4 @@
+import { updateTiles } from "../ui/ui.render.js";
 import * as line from "../utils/line.utils.js";
 import { transpose, copyMatrix } from "../utils/helpers.js";
 
@@ -35,7 +36,7 @@ const processMove = (gameArray, direction) => {
     gameArray,
     line.slide,
     direction,
-    updateGameField,
+    updateTiles,
   );
   changed = changed || slideResult.changed;
 
@@ -43,7 +44,7 @@ const processMove = (gameArray, direction) => {
     gameArray,
     line.merge,
     direction,
-    updateGameField,
+    updateTiles,
   );
   changed = changed || mergeResult.changed;
   totalScore += mergeResult.gainedScore || 0;
@@ -51,7 +52,7 @@ const processMove = (gameArray, direction) => {
   return { changed, totalScore };
 };
 
-const move = {
+const makeMove = {
   left: (gameArray) => processMove(gameArray, "left"),
   right: (gameArray) => processMove(gameArray, "right"),
   up: (gameArray) => {
@@ -68,4 +69,4 @@ const move = {
   },
 };
 
-export { move };
+export { makeMove };
