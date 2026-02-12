@@ -24,4 +24,4 @@ const setupUIButtons = () => {
   );
 };
 
-export { restartDialog, aboutGameDialog };
+export { setupUIButtons };

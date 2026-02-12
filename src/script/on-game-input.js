@@ -6,8 +6,11 @@ import {
   merge,
   addNumberAtRundom,
 } from "./dom-manipiulation.js";
-import { restartDialog, aboutGameDialog } from "./event-listeners.js";
 import { saveGame } from "./local-storage.js";
+
+import { $ } from "../utils/helpers.js";
+const restartDialog = $(".restart-dialog");
+const aboutGameDialog = $(".about-game-dialog");
 
 /**
  * Processes a game input direction and executes the corresponding move
