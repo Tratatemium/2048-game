@@ -1,4 +1,4 @@
-import { state } from "../script/state.js";
+import { state } from "../game/state.js";
 import { updateGameField } from "../script/dom-manipiulation.js";
 
 const testArrays = {

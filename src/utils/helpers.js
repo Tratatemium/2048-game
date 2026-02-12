@@ -1,4 +1,4 @@
-import { state } from "../script/state.js";
+import { state } from "../game/state.js";
 
 const printGameArray = () => {
   console.log("-------");

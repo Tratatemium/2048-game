@@ -1,4 +1,4 @@
-import { state } from "./state.js";
+import { state } from "../game/state.js";
 import { setupNewGame } from "./new-game.js";
 import { updateGameField } from "./dom-manipiulation.js";
 

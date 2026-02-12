@@ -2,7 +2,7 @@
 /* #region DOM MANIPULATION                                                                          */
 /* ================================================================================================= */
 
-import { state } from "./state.js";
+import { state } from "../game/state.js";
 
 /**
  * Updates the DOM to reflect the current state of the game array

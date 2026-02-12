@@ -1,4 +1,4 @@
-import { state } from "./state.js";
+import { state } from "../game/state.js";
 import { $ } from "../utils/helpers.js"
 import { updateGameField, addNumberAtRundom } from "./dom-manipiulation.js";
 import { deleteSave } from "./local-storage.js";

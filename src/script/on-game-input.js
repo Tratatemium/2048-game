@@ -1,4 +1,4 @@
-import { state } from "./state.js";
+import { state } from "../game/state.js";
 import { checkForEndGame } from "./end-game.js";
 import {
   updateGameField,

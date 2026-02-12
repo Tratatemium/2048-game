@@ -1,4 +1,4 @@
-import { state } from "./state.js";
+import { state } from "../game/state.js";
 
 /**
  * Checks if the game is over (defeat condition)
