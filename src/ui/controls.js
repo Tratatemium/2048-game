@@ -2,7 +2,7 @@ import { restartDialog, aboutGameDialog } from "../script/event-listeners.js";
 import { onGameInput } from "../script/on-game-input.js";
 
 /* ================================================================================================= */
-/* KEYBOARD CONTROLLS                                                                                */
+/* KEYBOARD CONTROLS                                                                                 */
 /* ================================================================================================= */
 
 const handleDialogs = (event) => {
@@ -37,7 +37,7 @@ const onKeyDown = (event) => {
 window.addEventListener("keydown", onKeyDown);
 
 /* ================================================================================================= */
-/* MOBILE TOUCH/SWIPE CONTROLLS                                                                      */
+/* MOBILE TOUCH/SWIPE CONTROLS                                                                       */
 /* ================================================================================================= */
 
 const swipeTreshold = 25;
@@ -63,12 +63,12 @@ const onSwipeMove = (x, y) => {
 
   if (Math.abs(dx) >= swipeTreshold || Math.abs(dy) >= swipeTreshold) {
     // Determine primary movement direction (horizontal vs vertical)
-    if (Math.abs(dx) > Math.abs(dy)) { // Horizontal movement is dominant
-      onGameInput(dx > 0 ? "Right" : "Left")
-    } else { // Vertical movement is dominant
+    if (Math.abs(dx) > Math.abs(dy)) {
+      onGameInput(dx > 0 ? "Right" : "Left");
+    } else {
       onGameInput(dy > 0 ? "Down" : "Up");
     }
-    
+
     lastX = x;
     lastY = y;
     swipeRegisterd = true;
@@ -86,10 +86,14 @@ window.addEventListener("touchstart", (event) => {
   onSwipeStart(touch.clientX, touch.clientY);
 });
 
-window.addEventListener("touchmove", (event) => {
-  event.preventDefault();
-  const touches = event.touches[0];
-  onSwipeMove(touches.clientX, touches.clientY);
-}, { passive: false });
+window.addEventListener(
+  "touchmove",
+  (event) => {
+    event.preventDefault();
+    const touches = event.touches[0];
+    onSwipeMove(touches.clientX, touches.clientY);
+  },
+  { passive: false },
+);
 
 window.addEventListener("touchend", onSwipeEnd);
