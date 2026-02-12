@@ -1,5 +1,5 @@
 import { setupNewGame } from "./new-game.js";
-import { $ } from "./utils/utils.js"
+import { $ } from "./utils.js"
 
 /**
  * PLAY AGAIN BUTTON - Appears when game ends (replaces restart button)

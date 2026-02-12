@@ -1,4 +1,4 @@
-import { state } from "../state.js";
+import { state } from "./state.js";
 
 const printGameArray = () => {
   console.log("-------");
@@ -11,4 +11,4 @@ const printGameArray = () => {
 
 const $ = (sel) => document.querySelector(sel);
 
-module.exports = { printGameArray, $ };
+export { printGameArray, $ };
