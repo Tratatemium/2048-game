@@ -1,10 +1,10 @@
 const slide = (line) => {
-  const  nonZero = line.filter((tile) => tile.value !== 0);
-  const line =  [
+  const nonZero = line.filter((tile) => tile.value !== 0);
+  const result = [
     ...nonZero,
     ...Array(line.length - nonZero.length).fill({ value: 0, id: null }),
   ];
-  return line;
+  return { line: result };
 };
 
 const merge = (line) => {

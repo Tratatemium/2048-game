@@ -2,7 +2,7 @@ import { CHANCE_OF_4 } from "../config.js";
 
 const getRandomValue = () => (Math.random() > CHANCE_OF_4 ? 2 : 4);
 
-export const addNumberAtRandom = (gameArray) => {
+const addNumberAtRandom = (gameArray) => {
   const emptyTiles = gameArray.flatMap((row, i) =>
     row.map((tile, j) => (tile.value === 0 ? [i, j] : null)).filter(Boolean),
   );
