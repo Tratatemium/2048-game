@@ -23,7 +23,7 @@ const transformRows = (gameArray, transformFn, direction, onChanged) => {
     gameArray[i] = newRow;
   });
 
-  if (changed && onChanged) onChanged();
+  if (changed && onChanged) onChanged(gameArray);
 
   return { changed, gainedScore: totalScore };
 };
