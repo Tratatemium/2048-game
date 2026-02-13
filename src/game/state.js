@@ -1,3 +1,5 @@
+import { STORAGE_KEY, BOARD_SIZE } from "../config.js"
+
 let state = {
   gameArray: [],
   score: 0,
@@ -9,8 +11,6 @@ let state = {
       ),
     ) * 1000,
 };
-
-const STORAGE_KEY = "2048-game-state";
 
 const storage = {
   save: (state) => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)),
@@ -29,8 +29,6 @@ const storage = {
 
   delete: () => localStorage.removeItem(STORAGE_KEY),
 };
-
-const BOARD_SIZE = 4;
 
 const createEmptyBoard = () =>
   Array.from({ length: BOARD_SIZE }, (_, i) =>

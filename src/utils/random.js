@@ -1,4 +1,4 @@
-const CHANCE_OF_4 = 0.2;
+import { CHANCE_OF_4 } from "../config.js";
 
 const getRandomValue = () => (Math.random() > CHANCE_OF_4 ? 2 : 4);
 
