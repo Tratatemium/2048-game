@@ -30,4 +30,16 @@ const storage = {
   delete: () => localStorage.removeItem(STORAGE_KEY),
 };
 
-export { state, storage };
+const BOARD_SIZE = 4;
+
+const createEmptyBoard = () =>
+  Array.from({ length: BOARD_SIZE }, (_, i) =>
+    Array.from({ length: BOARD_SIZE }, (_, j) => ({
+      id: null,
+      value: 0,
+      x: j,
+      y: i,
+    })),
+  );
+
+export { state, storage, createEmptyBoard };

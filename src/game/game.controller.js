@@ -1,23 +1,10 @@
-import { state, storage } from "./state.js";
+import { state, storage, createEmptyBoard } from "./state.js";
 import { animationController } from "./animation.controller.js";
 import { makeMove } from "./moves.js";
 import { addNumberAtRandom } from "../utils/random.js";
 import { updateTiles, updateScore } from "../ui/ui.render.js";
 import { score } from "./score.js";
 import { $ } from "../utils/helpers.js";
-
-
-const BOARD_SIZE = 4;
-
-const createEmptyBoard = () =>
-  Array.from({ length: BOARD_SIZE }, (_, i) =>
-    Array.from({ length: BOARD_SIZE }, (_, j) => ({
-      id: null,
-      value: 0,
-      x: j,
-      y: i,
-    })),
-  );
 
 const setupNewGame = () => {
   storage.delete();
