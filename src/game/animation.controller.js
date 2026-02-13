@@ -1,4 +1,4 @@
-const animationContoller = (() => {
+const animationController = (() => {
   let isAnimating = false;
 
   const getAllTiles = () =>
@@ -37,4 +37,4 @@ const animationContoller = (() => {
   };
 })();
 
-export { animationContoller };
+export { animationController };
