@@ -26,10 +26,10 @@ const setupControls = () => {
     if (handleDialogs(event)) return;
 
     const keyMap = {
-      ArrowLeft: "Left",
-      ArrowRight: "Right",
-      ArrowDown: "Down",
-      ArrowUp: "Up",
+      ArrowLeft: "left",
+      ArrowRight: "right",
+      ArrowDown: "down",
+      ArrowUp: "up",
     };
 
     if (keyMap[event.key]) {
