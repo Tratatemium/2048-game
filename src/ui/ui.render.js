@@ -5,7 +5,7 @@ const setupUI = () => {
   setupUIButtons();
 };
 
-const updateScore = (score) => {
+const renderScore = (score) => {
   $(".current-score-span").textContent = score;
 };
 
@@ -27,7 +27,7 @@ const createTile = (element, gameField) => {
   tileInner.appendChild(tileText);
 };
 
-const updateTiles = (gameArray) => {
+const renderTiles = (gameArray) => {
   const gameField = $(".game-field");
   const tiles = Array.from(document.querySelectorAll(".tile"));
   const tileMap = new Map(tiles.map((tile) => [tile.id, tile]));
@@ -54,4 +54,16 @@ const updateTiles = (gameArray) => {
   });
 };
 
-export { setupUI, updateScore, updateTiles };
+const showEndGame = (result) => {
+  ["main", "header"].forEach(selector =>
+    $(selector).classList.add(result)
+  );
+
+  $(".endgame-message h2").textContent =
+    result === "win" ? "You Won!" : "Game over";
+
+  $(".endgame-score").textContent = state.score;
+  $(".endgame-moves").textContent = state.moves;
+};
+
+export { setupUI, renderScore, renderTiles, showEndGame };

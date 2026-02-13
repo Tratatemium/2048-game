@@ -1,4 +1,4 @@
-import { updateTiles } from "../ui/ui.render.js";
+import { renderTiles } from "../ui/ui.render.js";
 import * as line from "../utils/line.utils.js";
 import { transpose, copyMatrix } from "../utils/helpers.js";
 
@@ -36,7 +36,7 @@ const processMove = (gameArray, direction) => {
     gameArray,
     line.slide,
     direction,
-    updateTiles,
+    renderTiles,
   );
   changed = changed || slideResult.changed;
 
@@ -44,7 +44,7 @@ const processMove = (gameArray, direction) => {
     gameArray,
     line.merge,
     direction,
-    updateTiles,
+    renderTiles,
   );
   changed = changed || mergeResult.changed;
   totalScore += mergeResult.gainedScore || 0;
