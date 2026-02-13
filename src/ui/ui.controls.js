@@ -1,5 +1,5 @@
 import { $ } from "../utils/helpers.js";
-import { onGameInput } from "../script/on-game-input.js";
+import { onGameInput } from "../game/game.controller.js";
 
 const setupControls = () => {
   /* ================================================================================================= */
