@@ -1,9 +1,6 @@
 import { WIN_TILE } from "../config.js";
 import { transpose } from "../utils/helpers.js";
 
-const playerWon = (gameArray) =>
-  gameArray.some((row) => row.some((el) => el.value === WIN_TILE));
-
 const mergesPossibleInRows = (gameArray) => {
   for (const row of gameArray) {
     for (let i = 0; i < row.length - 1; i++) {
@@ -16,8 +13,17 @@ const mergesPossibleInRows = (gameArray) => {
 };
 
 const playerLost = (gameArray) =>
-  !gameArray.some(row => row.some(tile => tile.value === 0)) &&
+  !gameArray.some((row) => row.some((tile) => tile.value === 0)) &&
   !mergesPossibleInRows(gameArray) &&
   !mergesPossibleInRows(transpose(gameArray));
 
-export { playerWon, playerLost };
+const playerWon = (gameArray) =>
+  gameArray.some((row) => row.some((el) => el.value === WIN_TILE));
+
+const getGameResult = (gameArray) => {
+  if (playerWon(gameArray)) return "win";
+  if (playerLost(gameArray)) return "defeat";
+  return null;
+};
+
+export { getGameResult };

@@ -2,8 +2,9 @@ import { state, storage, createEmptyBoard } from "./state.js";
 import { animationController } from "./animation.controller.js";
 import { makeMove } from "./moves.js";
 import { addNumberAtRandom } from "../utils/random.js";
-import { updateTiles, updateScore } from "../ui/ui.render.js";
+import { updateTiles, updateScore, showEndGame } from "../ui/ui.render.js";
 import { score } from "./score.js";
+import { getGameResult } from "./rules.js";
 import { $ } from "../utils/helpers.js";
 
 const setupNewGame = () => {
@@ -48,7 +49,9 @@ const onGameInput = async (direction) => {
   score.add(totalScore);
   updateScore();
   storage.save(state);
-  checkForEndGame();
+
+  const result = getGameResult(state.gameArray);
+  if (result) showEndGame(result);
 };
 
 export { setupNewGame, onGameInput };
