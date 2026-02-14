@@ -1,6 +1,3 @@
-import { state } from "../game/state.js";
-import { updateGameField } from "../script/dom-manipiulation.js";
-
 const testArrays = {
   allTiles: [
     [
@@ -62,8 +59,7 @@ const injectTestArray = (testMode) => {
     throw new Error(
       `injectTestArray() does not have a test mode: ${testMode}.`,
     );
-  state.gameArray = arrayToInject;
-  updateGameField();
+  return arrayToInject;
 };
 
 export { testArrays, injectTestArray };

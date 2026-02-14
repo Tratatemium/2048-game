@@ -4,23 +4,19 @@ let state = {
   gameArray: [],
   score: 0,
   moves: 0,
-  animationDuration:
-    parseFloat(
-      getComputedStyle(document.documentElement).getPropertyValue(
-        "--animation-duration",
-      ),
-    ) * 1000,
 };
 
 const storage = {
-  save: (state) => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)),
+  save: () => localStorage.setItem(STORAGE_KEY, JSON.stringify(state)),
 
   load: () => {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return null;
     try {
       const savedState = JSON.parse(saved);
-      if (savedState && typeof savedState === "object") return savedState;
+      if (savedState && typeof savedState === "object") {
+        state = savedState;
+      };
     } catch (err) {
       console.error("Invalid game-state data:", err);
     }

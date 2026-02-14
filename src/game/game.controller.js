@@ -35,7 +35,7 @@ const finalizeMove = async (moveScore) => {
   score.add(moveScore);
 
   renderScore();
-  storage.save(state);
+  storage.save();
 };
 
 const onGameInput = async (direction) => {
