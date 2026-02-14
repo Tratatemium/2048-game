@@ -44,7 +44,7 @@ const processMove = async (gameArray, direction) => {
   const getOrientedBoard = (board) => (isVertical ? transpose(board) : board);
 
   let workingBoard = getOrientedBoard(gameArray);
-  let totalScore = 0;
+  let moveScore = 0;
   let changed = false;
 
   for (const transformation of [line.slide, line.merge]) {
@@ -54,7 +54,7 @@ const processMove = async (gameArray, direction) => {
       await renderTiles(boardToRender);
       changed = true;
     }
-    totalScore += result.gainedScore || 0;
+    moveScore += result.gainedScore || 0;
   }
 
   if (isVertical) {
@@ -64,7 +64,7 @@ const processMove = async (gameArray, direction) => {
     }
   }
 
-  return { changed, totalScore };
+  return { changed, moveScore };
 };
 
 export { processMove };

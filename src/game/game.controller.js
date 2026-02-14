@@ -41,10 +41,7 @@ const finalizeMove = async (moveScore) => {
 const onGameInput = async (direction) => {
   if (isInputBlocked()) return;
 
-  const { changed, totalScore: moveScore } = await processMove(
-    state.gameArray,
-    direction,
-  );
+  const { changed, moveScore } = await processMove(state.gameArray, direction);
   if (!changed) {
     return; // No move occurred
   }
