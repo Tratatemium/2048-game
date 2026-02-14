@@ -1,3 +1,4 @@
+import { state } from "../game/state.js"
 import { setupUIButtons } from "./ui.buttons.js";
 import { $ } from "../utils/helpers.js";
 
@@ -5,8 +6,8 @@ const setupUI = () => {
   setupUIButtons();
 };
 
-const renderScore = (score) => {
-  $(".current-score-span").textContent = score;
+const renderScore = () => {
+  $(".current-score-span").textContent = state.score;
 };
 
 const createTile = (element, gameField) => {
