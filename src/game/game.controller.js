@@ -20,8 +20,6 @@ const setupNewGame = async () => {
   addNumberAtRandom(state.gameArray);
   addNumberAtRandom(state.gameArray);
 
-  state.save();
-  
   renderScore();
   await renderTiles();
 };
