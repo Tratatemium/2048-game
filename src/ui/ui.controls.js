@@ -20,7 +20,7 @@ const setupControls = () => {
     return false;
   };
 
-  const onKeyDown = (event) => {
+  const onKeyDown = async (event) => {
     if (event.repeat) return;
 
     if (handleDialogs(event)) return;
@@ -34,7 +34,7 @@ const setupControls = () => {
 
     if (keyMap[event.key]) {
       event.preventDefault();
-      onGameInput(keyMap[event.key]);
+      await onGameInput(keyMap[event.key]);
     }
   };
 

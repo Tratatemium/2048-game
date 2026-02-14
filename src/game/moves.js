@@ -2,7 +2,7 @@ import { renderTiles } from "../ui/ui.render.js";
 import * as line from "../utils/line.utils.js";
 import { transpose } from "../utils/helpers.js";
 
-const transformRows = (gameArray, transformFn, direction, onChanged) => {
+const transformRows = async (gameArray, transformFn, direction, onChanged) => {
   let changed = false;
   let totalScore = 0;
 
@@ -26,16 +26,16 @@ const transformRows = (gameArray, transformFn, direction, onChanged) => {
     gameArray[i] = newRow;
   });
 
-  if (changed && onChanged) onChanged();
+  if (changed && onChanged) await onChanged();
 
   return { changed, gainedScore: totalScore };
 };
 
-const processMove = (gameArray, direction) => {
+const processMove = async (gameArray, direction) => {
   let totalScore = 0;
   let changed = false;
 
-  const slideResult = transformRows(
+  const slideResult = await transformRows(
     gameArray,
     line.slide,
     direction,
@@ -43,7 +43,7 @@ const processMove = (gameArray, direction) => {
   );
   changed = changed || slideResult.changed;
 
-  const mergeResult = transformRows(
+  const mergeResult = await transformRows(
     gameArray,
     line.merge,
     direction,
@@ -56,11 +56,11 @@ const processMove = (gameArray, direction) => {
 };
 
 const makeMove = {
-  left: (gameArray) => processMove(gameArray, "left"),
-  right: (gameArray) => processMove(gameArray, "right"),
-  up: (gameArray) => {
+  left: async (gameArray) => await processMove(gameArray, "left"),
+  right: async (gameArray) => await processMove(gameArray, "right"),
+  up: async (gameArray) => {
     const transposed = transpose(gameArray);
-    const { changed, totalScore } = processMove(transposed, "left");
+    const { changed, totalScore } = await processMove(transposed, "left");
 
     const restored = transpose(transposed);
 
@@ -70,9 +70,9 @@ const makeMove = {
 
     return { changed, totalScore };
   },
-  down: (gameArray) => {
+  down: async (gameArray) => {
     const transposed = transpose(gameArray);
-    const { changed, totalScore } = processMove(transposed, "right");
+    const { changed, totalScore } = await processMove(transposed, "right");
 
     const restored = transpose(transposed);
 

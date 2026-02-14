@@ -7,7 +7,7 @@ import { score } from "./score.js";
 import { getGameResult } from "./rules.js";
 import { $, printGameArray } from "../utils/helpers.js";
 
-const setupNewGame = () => {
+const setupNewGame = async () => {
   storage.delete();
 
   state.score = 0;
@@ -22,7 +22,7 @@ const setupNewGame = () => {
   addNumberAtRandom(state.gameArray);
   addNumberAtRandom(state.gameArray);
 
-  renderTiles();
+  await renderTiles();
 };
 
 const inputBlocked = () => {
@@ -41,10 +41,8 @@ const onGameInput = async (direction) => {
   const { changed, totalScore } = makeMove[direction](state.gameArray);
   if (!changed) return;
 
-  await animationController.runTransition();
-
   addNumberAtRandom(state.gameArray);
-  renderTiles();
+  await renderTiles();
   state.moves++;
   score.add(totalScore);
   renderScore();

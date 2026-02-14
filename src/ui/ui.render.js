@@ -1,6 +1,7 @@
 import { state } from "../game/state.js"
 import { setupUIButtons } from "./ui.buttons.js";
 import { $ } from "../utils/helpers.js";
+import { animationController } from "../game/animation.controller.js";
 
 const setupUI = () => {
   setupUIButtons();
@@ -28,7 +29,7 @@ const createTile = (element, gameField, x, y) => {
   tileInner.appendChild(tileText);
 };
 
-const renderTiles = () => {
+const renderTiles = async () => {
   const gameField = $(".game-field");
   const tiles = Array.from(document.querySelectorAll(".tile"));
   const tileMap = new Map(tiles.map((tile) => [tile.id, tile]));
@@ -53,6 +54,8 @@ const renderTiles = () => {
   tiles.forEach((tile) => {
     if (!usedIds.has(tile.id)) tile.remove();
   });
+
+  await animationController.runTransition();
 };
 
 const showEndGame = (result) => {
