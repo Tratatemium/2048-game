@@ -1,4 +1,5 @@
 import { state } from "../game/state.js";
+import { BOARD_SIZE } from "../config.js";
 
 const printGameArray = () => {
   console.log("-------");
@@ -18,12 +19,12 @@ const openDialog = (dialog) => {
 const transpose = (matrix) =>
   matrix[0].map((_, colIndex) => matrix.map((row) => row[colIndex]));
 
-const copyMatrix = (target, source) => {
-  for (let i = 0; i < source.length; i++) {
-    for (let j = 0; j < source[i].length; j++) {
-      target[i][j] = source[i][j];
-    }
-  }
-};
+const createEmptyBoard = () =>
+  Array.from({ length: BOARD_SIZE }, (_, i) =>
+    Array.from({ length: BOARD_SIZE }, (_, j) => ({
+      id: null,
+      value: 0,
+    })),
+  );
 
-export { printGameArray, $, openDialog, transpose, copyMatrix };
+export { printGameArray, $, openDialog, transpose, createEmptyBoard };

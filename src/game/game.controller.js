@@ -1,4 +1,4 @@
-import { state, storage, resetState } from "./state.js";
+import { state } from "./state.js";
 import { animationController } from "./animation.controller.js";
 import { processMove } from "./moves.js";
 import { addNumberAtRandom } from "../utils/random.js";
@@ -11,11 +11,10 @@ import {
 } from "../ui/ui.render.js";
 import { score } from "./score.js";
 import { getGameResult } from "./rules.js";
-import { $, printGameArray } from "../utils/helpers.js";
 
 const setupNewGame = async () => {
-  state.delete();
-  resetState();
+  state.deleteSaved();
+  state.reset();
   resetUI();
 
   addNumberAtRandom(state.gameArray);
