@@ -1,6 +1,6 @@
 import { renderTiles } from "../ui/ui.render.js";
 import * as line from "../utils/line.utils.js";
-import { transpose, copyMatrix } from "../utils/helpers.js";
+import { transpose } from "../utils/helpers.js";
 
 const transformRows = (gameArray, transformFn, direction, onChanged) => {
   let changed = false;
@@ -60,15 +60,27 @@ const makeMove = {
   right: (gameArray) => processMove(gameArray, "right"),
   up: (gameArray) => {
     const transposed = transpose(gameArray);
-    const result = processMove(transposed, "left");
-    copyMatrix(gameArray, transposed);
-    return result;
+    const { changed, totalScore } = processMove(transposed, "left");
+
+    const restored = transpose(transposed);
+
+    for (let i = 0; i < gameArray.length; i++) {
+      gameArray[i] = restored[i];
+    }
+
+    return { changed, totalScore };
   },
   down: (gameArray) => {
     const transposed = transpose(gameArray);
-    const result = processMove(transposed, "right");
-    copyMatrix(gameArray, transposed);
-    return result;
+    const { changed, totalScore } = processMove(transposed, "right");
+
+    const restored = transpose(transposed);
+
+    for (let i = 0; i < gameArray.length; i++) {
+      gameArray[i] = restored[i];
+    }
+
+    return { changed, totalScore };
   },
 };
 
