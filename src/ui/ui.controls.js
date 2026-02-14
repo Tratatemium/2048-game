@@ -68,9 +68,9 @@ const setupControls = () => {
     if (Math.abs(dx) >= swipeTreshold || Math.abs(dy) >= swipeTreshold) {
       // Determine primary movement direction (horizontal vs vertical)
       if (Math.abs(dx) > Math.abs(dy)) {
-        onGameInput(dx > 0 ? "Right" : "Left");
+        onGameInput(dx > 0 ? "right" : "left");
       } else {
-        onGameInput(dy > 0 ? "Down" : "Up");
+        onGameInput(dy > 0 ? "down" : "up");
       }
 
       lastX = x;
