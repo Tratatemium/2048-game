@@ -53,7 +53,7 @@ const testArrays = {
   ],
 };
 
-const injectTestArray = (testMode) => {
+const getTestArray = (testMode) => {
   const arrayToInject = testArrays[testMode];
   if (!arrayToInject)
     throw new Error(
@@ -62,4 +62,4 @@ const injectTestArray = (testMode) => {
   return arrayToInject;
 };
 
-export { testArrays, injectTestArray };
+export { getTestArray };

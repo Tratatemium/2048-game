@@ -9,7 +9,6 @@ import {
   showEndGame,
   isUIBlocked,
 } from "../ui/ui.render.js";
-import { score } from "./score.js";
 import { getGameResult } from "./rules.js";
 
 const setupNewGame = async () => {
@@ -24,6 +23,17 @@ const setupNewGame = async () => {
   await renderTiles();
 };
 
+const setupGame = async () => {
+  const isLoaded = state.load();
+  if (isLoaded) await renderTiles();
+  else await setupNewGame();
+};
+
+const setupTest = async (testMode) => {
+  state.loadTest(testMode);
+  await renderTiles();
+};
+
 const isInputBlocked = () => isUIBlocked() || animationController.isAnimating();
 
 const finalizeMove = async (moveScore) => {
@@ -31,9 +41,9 @@ const finalizeMove = async (moveScore) => {
   await renderTiles();
 
   state.moves++;
-  score.add(moveScore);
-
+  state.addScore(moveScore);
   renderScore();
+
   state.save();
 };
 
@@ -54,4 +64,10 @@ const onGameInput = async (direction) => {
   checkAndHandleEndGame();
 };
 
-export { setupNewGame, onGameInput, checkAndHandleEndGame };
+export {
+  setupNewGame,
+  setupGame,
+  setupTest,
+  onGameInput,
+  checkAndHandleEndGame,
+};

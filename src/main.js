@@ -1,9 +1,10 @@
-import { setupUI, renderTiles, showEndGame } from "./ui/ui.render.js";
+import { setupUI } from "./ui/ui.render.js";
 import { setupControls } from "./ui/ui.controls.js";
-import { state } from "./game/state.js";
-import { setupNewGame, checkAndHandleEndGame } from "./game/game.controller.js";
-import { getGameResult } from "./game/rules.js";
-import { injectTestArray } from "./test/test.js";
+import {
+  setupGame,
+  setupTest,
+  checkAndHandleEndGame,
+} from "./game/game.controller.js";
 
 const init = async ({ initMode = "normal", testMode } = {}) => {
   setupUI();
@@ -11,17 +12,14 @@ const init = async ({ initMode = "normal", testMode } = {}) => {
 
   switch (initMode) {
     case "normal":
-      const isLoaded = state.load();
-      if (isLoaded) await renderTiles();
-      else setupNewGame();
+      await setupGame();
       break;
     case "test":
-      state.gameArray = injectTestArray(testMode);
-      await renderTiles();
+      await setupTest(testMode);
       break;
     default:
       throw new Error('init(): mode must be "normal" or "test"');
-  } 
+  }
 
   checkAndHandleEndGame();
 };

@@ -1,10 +1,15 @@
 import { STORAGE_KEY } from "../config.js";
 import { createEmptyBoard } from "../utils/helpers.js";
+import { getTestArray } from "../test/test.js";
 
 const state = {
   gameArray: [],
   score: 0,
   moves: 0,
+
+  addScore(score) {
+    this.score += score;
+  },
 
   save() {
     localStorage.setItem(
@@ -29,10 +34,16 @@ const state = {
   },
 
   reset() {
-    state.score = 0;
-    state.moves = 0;
-    state.gameArray = createEmptyBoard();
-  }
+    this.score = 0;
+    this.moves = 0;
+    this.gameArray = createEmptyBoard();
+  },
+
+  loadTest(testMode) {
+    this.score = 0;
+    this.moves = 0;
+    this.gameArray = getTestArray(testMode);
+  },
 };
 
 export { state };
