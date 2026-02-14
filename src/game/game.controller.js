@@ -5,7 +5,7 @@ import { addNumberAtRandom } from "../utils/random.js";
 import { renderTiles, renderScore, showEndGame } from "../ui/ui.render.js";
 import { score } from "./score.js";
 import { getGameResult } from "./rules.js";
-import { $ } from "../utils/helpers.js";
+import { $, printGameArray } from "../utils/helpers.js";
 
 const setupNewGame = () => {
   storage.delete();
@@ -49,6 +49,8 @@ const onGameInput = async (direction) => {
   score.add(totalScore);
   renderScore();
   storage.save(state);
+
+  printGameArray();
 
   const result = getGameResult(state.gameArray);
   if (result) showEndGame(result);
