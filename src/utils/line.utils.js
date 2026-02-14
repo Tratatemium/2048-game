@@ -20,13 +20,11 @@ const merge = (line) => {
 
     if (current.value !== 0 && current.value === next.value) {
       result[i] = {
-        ...current,
         value: current.value * 2,
         id: crypto.randomUUID(),
       };
 
       result[i + 1] = {
-        ...next,
         value: 0,
         id: null,
       };

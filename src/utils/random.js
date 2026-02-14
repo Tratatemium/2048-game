@@ -12,7 +12,6 @@ const addNumberAtRandom = (gameArray) => {
     const [i, j] = emptyTiles[randomIndex];
 
     gameArray[i][j] = {
-      ...gameArray[i][j],
       value: getRandomValue(),
       id: crypto.randomUUID(),
     };
