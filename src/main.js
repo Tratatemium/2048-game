@@ -24,6 +24,6 @@ const init = async ({ initMode = "normal", testMode } = {}) => {
   checkAndHandleEndGame();
 };
 
-init();
+// init();
 // init({initMode: "test", testMode: "allTiles"});
-// init({initMode: "test", testMode: "winLoose"});
+init({initMode: "test", testMode: "winLoose"});
