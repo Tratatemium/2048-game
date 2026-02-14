@@ -28,13 +28,13 @@ const createTile = (element, gameField) => {
   tileInner.appendChild(tileText);
 };
 
-const renderTiles = (gameArray) => {
+const renderTiles = () => {
   const gameField = $(".game-field");
   const tiles = Array.from(document.querySelectorAll(".tile"));
   const tileMap = new Map(tiles.map((tile) => [tile.id, tile]));
   const usedIds = new Set();
 
-  for (const row of gameArray) {
+  for (const row of state.gameArray) {
     for (const element of row) {
       if (!element.id) continue;
 

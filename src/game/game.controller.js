@@ -22,7 +22,7 @@ const setupNewGame = () => {
   addNumberAtRandom(state.gameArray);
   addNumberAtRandom(state.gameArray);
 
-  renderTiles(state.gameArray);
+  renderTiles();
 };
 
 const inputBlocked = () => {
@@ -44,7 +44,7 @@ const onGameInput = async (direction) => {
   await animationController.runTransition();
 
   addNumberAtRandom(state.gameArray);
-  renderTiles(state.gameArray);
+  renderTiles();
   state.moves++;
   score.add(totalScore);
   renderScore();
