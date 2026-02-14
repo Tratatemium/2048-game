@@ -49,7 +49,7 @@ const processMove = async (gameArray, direction) => {
     const result = transformRows(workingBoard, transformation, rowDirection);
     if (result.changed) {
       const boardToRender = getOrientedBoard(workingBoard);
-      await renderTiles(getRenderedBoard(boardToRender));
+      await renderTiles(boardToRender);
       changed = true;
     }
     totalScore += result.gainedScore || 0;
