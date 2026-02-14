@@ -8,7 +8,10 @@ const transformRows = (gameArray, transformFn, direction, onChanged) => {
 
   const transform = {
     left: (row) => transformFn(row),
-    right: (row) => transformFn([...row].reverse()).reverse(),
+    right: (row) => {
+      const { line, gainedScore } = transformFn([...row].reverse());
+      return { line: line.reverse(), gainedScore };
+    },
   };
 
   gameArray.forEach((row, i) => {

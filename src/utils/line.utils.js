@@ -4,7 +4,10 @@ const slide = (line) => {
     ...nonZero,
     ...Array(line.length - nonZero.length).fill({ value: 0, id: null }),
   ];
-  return { line: result };
+  return {
+    line: result,
+    gainedScore: 0,
+  };
 };
 
 const merge = (line) => {
@@ -33,8 +36,10 @@ const merge = (line) => {
     }
   }
 
+  const { line: slided } = slide(result);
+
   return {
-    line: slide(result),
+    line: slided,
     gainedScore,
   };
 };
