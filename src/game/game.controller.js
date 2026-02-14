@@ -1,6 +1,6 @@
 import { state, storage, createEmptyBoard } from "./state.js";
 import { animationController } from "./animation.controller.js";
-import { makeMove } from "./moves.js";
+import { processMove } from "./moves.js";
 import { addNumberAtRandom } from "../utils/random.js";
 import { renderTiles, renderScore, showEndGame } from "../ui/ui.render.js";
 import { score } from "./score.js";
@@ -38,9 +38,8 @@ const inputBlocked = () => {
 const onGameInput = async (direction) => {
   if (inputBlocked()) return;
 
-  const { changed, totalScore } = makeMove[direction](state.gameArray);
+  const { changed, totalScore } = await processMove(state.gameArray, direction);
   if (!changed) return;
-
   addNumberAtRandom(state.gameArray);
   await renderTiles();
   state.moves++;

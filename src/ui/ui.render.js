@@ -29,13 +29,13 @@ const createTile = (element, gameField, x, y) => {
   tileInner.appendChild(tileText);
 };
 
-const renderTiles = async () => {
+const renderTiles = async (gameArray = state.gameArray) => {
   const gameField = $(".game-field");
   const tiles = Array.from(document.querySelectorAll(".tile"));
   const tileMap = new Map(tiles.map((tile) => [tile.id, tile]));
   const usedIds = new Set();
 
-  state.gameArray.forEach((row, y) => {
+  gameArray.forEach((row, y) => {
     row.forEach((element, x) => {
       if (!element.id) return;
 
