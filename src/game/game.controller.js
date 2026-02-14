@@ -1,27 +1,21 @@
-import { state, storage, createEmptyBoard } from "./state.js";
+import { state, storage, resetState } from "./state.js";
 import { animationController } from "./animation.controller.js";
 import { processMove } from "./moves.js";
 import { addNumberAtRandom } from "../utils/random.js";
-import { renderTiles, renderScore, showEndGame } from "../ui/ui.render.js";
+import { resetUI, renderTiles, renderScore, showEndGame } from "../ui/ui.render.js";
 import { score } from "./score.js";
 import { getGameResult } from "./rules.js";
 import { $, printGameArray } from "../utils/helpers.js";
 
 const setupNewGame = async () => {
   storage.delete();
+  resetState();
+  resetUI();
 
-  state.score = 0;
+  addNumberAtRandom(state.gameArray);
+  addNumberAtRandom(state.gameArray);
+
   renderScore();
-  state.moves = 0;
-
-  ["main", "header"].forEach((selector) =>
-    $(selector).classList.remove("win", "defeat"),
-  );
-
-  state.gameArray = createEmptyBoard();
-  addNumberAtRandom(state.gameArray);
-  addNumberAtRandom(state.gameArray);
-
   await renderTiles();
 };
 

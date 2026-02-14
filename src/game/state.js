@@ -38,4 +38,10 @@ const createEmptyBoard = () =>
     })),
   );
 
-export { state, storage, createEmptyBoard };
+const resetState = () => {
+  state.score = 0;
+  state.moves = 0;
+  state.gameArray = createEmptyBoard();
+};
+
+export { state, storage, resetState };

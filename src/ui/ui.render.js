@@ -7,6 +7,12 @@ const setupUI = () => {
   setupUIButtons();
 };
 
+const resetUI = () => {
+  ["main", "header"].forEach(selector =>
+    $(selector).classList.remove("win", "defeat")
+  );
+};
+
 const renderScore = () => {
   $(".current-score-span").textContent = state.score;
 };
@@ -70,4 +76,4 @@ const showEndGame = (result) => {
   $(".endgame-moves").textContent = state.moves;
 };
 
-export { setupUI, renderScore, renderTiles, showEndGame };
+export { setupUI, resetUI, renderScore, renderTiles, showEndGame };
