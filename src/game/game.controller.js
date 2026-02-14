@@ -34,23 +34,12 @@ const setupTest = async (testMode) => {
   await renderTiles();
 };
 
-const isInputBlocked = () => isUIBlocked() || animationController.isAnimating();
-
-const finalizeMove = async (moveScore) => {
-  addNumberAtRandom(state.gameArray);
-  await renderTiles();
-
-  state.moves++;
-  state.addScore(moveScore);
-  renderScore();
-
-  state.save();
-};
-
 const checkAndHandleEndGame = () => {
   const result = getGameResult(state.gameArray);
   if (result) showEndGame(result);
 };
+
+const isInputBlocked = () => isUIBlocked() || animationController.isAnimating();
 
 const onGameInput = async (direction) => {
   if (isInputBlocked()) return;
@@ -60,14 +49,24 @@ const onGameInput = async (direction) => {
     return; // No move occurred
   }
 
-  await finalizeMove(moveScore);
+  state.moves++;
+  state.addScore(moveScore);
+  renderScore();
+
+  const resultAfterMerge = getGameResult(state.gameArray);
+
+  if (resultAfterMerge === "win") {
+    showEndGame("win");
+    state.save();
+    return; // STOP HERE
+  }
+
+  addNumberAtRandom(state.gameArray);
+  await renderTiles();
+
   checkAndHandleEndGame();
+
+  state.save();
 };
 
-export {
-  setupNewGame,
-  setupGame,
-  setupTest,
-  onGameInput,
-  checkAndHandleEndGame,
-};
+export { setupNewGame, setupGame, setupTest, checkAndHandleEndGame, onGameInput };
