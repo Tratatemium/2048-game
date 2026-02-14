@@ -1,6 +1,6 @@
 import { setupUI, renderTiles, showEndGame } from "./ui/ui.render.js";
 import { setupControls } from "./ui/ui.controls.js";
-import { state, storage } from "./game/state.js";
+import { state } from "./game/state.js";
 import { getGameResult } from "./game/rules.js";
 import { injectTestArray } from "./test/test.js";
 
