@@ -10,7 +10,7 @@ const init = async ({ initMode = "normal", testMode }) => {
 
   switch (initMode) {
     case "normal":
-      storage.load();
+      state.load();
       break;
     case "test":
       state.gameArray = injectTestArray(testMode);

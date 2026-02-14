@@ -14,7 +14,7 @@ import { getGameResult } from "./rules.js";
 import { $, printGameArray } from "../utils/helpers.js";
 
 const setupNewGame = async () => {
-  storage.delete();
+  state.delete();
   resetState();
   resetUI();
 
@@ -35,7 +35,7 @@ const finalizeMove = async (moveScore) => {
   score.add(moveScore);
 
   renderScore();
-  storage.save();
+  state.save();
 };
 
 const onGameInput = async (direction) => {
