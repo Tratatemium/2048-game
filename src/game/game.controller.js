@@ -37,6 +37,11 @@ const finalizeMove = async (moveScore) => {
   state.save();
 };
 
+const checkAndHandleEndGame = () => {
+  const result = getGameResult(state.gameArray);
+  if (result) showEndGame(result);
+};
+
 const onGameInput = async (direction) => {
   if (isInputBlocked()) return;
 
@@ -46,8 +51,7 @@ const onGameInput = async (direction) => {
   }
 
   await finalizeMove(moveScore);
-  const result = getGameResult(state.gameArray);
-  if (result) showEndGame(result);
+  checkAndHandleEndGame();
 };
 
-export { setupNewGame, onGameInput };
+export { setupNewGame, onGameInput, checkAndHandleEndGame };
