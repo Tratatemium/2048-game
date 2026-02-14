@@ -6,24 +6,26 @@ const transformRows = (gameArray, transformation, direction) => {
   let changed = false;
   let totalScore = 0;
 
-  const transform = {
-    left: (row) => transformation(row),
-    right: (row) => {
+  const applyDirection = (row) => {
+    if (direction === "left") {
+      return transformation(row);
+    } else if (direction === "right") {
       const { line, gainedScore } = transformation([...row].reverse());
       return { line: line.reverse(), gainedScore };
-    },
+    }
+    throw new Error(`Unknown direction: ${direction}`);
   };
 
   gameArray.forEach((row, i) => {
-    const { line: newRow, gainedScore } = transform[direction](row);
+    const { line: transformedRow, gainedScore } = applyDirection(row);
     totalScore += gainedScore;
 
-    const rowChanged = newRow.some(
+    const rowChanged = transformedRow.some(
       (tile, index) => tile.value !== row[index].value,
     );
     if (rowChanged) changed = true;
 
-    gameArray[i] = newRow;
+    gameArray[i] = transformedRow;
   });
 
   return { changed, gainedScore: totalScore };
