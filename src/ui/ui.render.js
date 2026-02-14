@@ -1,4 +1,4 @@
-import { state } from "../game/state.js"
+import { state } from "../game/state.js";
 import { setupUIButtons } from "./ui.buttons.js";
 import { $ } from "../utils/helpers.js";
 import { animationController } from "../game/animation.controller.js";
@@ -8,8 +8,8 @@ const setupUI = () => {
 };
 
 const resetUI = () => {
-  ["main", "header"].forEach(selector =>
-    $(selector).classList.remove("win", "defeat")
+  ["main", "header"].forEach((selector) =>
+    $(selector).classList.remove("win", "defeat"),
   );
 };
 
@@ -65,9 +65,7 @@ const renderTiles = async (gameArray = state.gameArray) => {
 };
 
 const showEndGame = (result) => {
-  ["main", "header"].forEach(selector =>
-    $(selector).classList.add(result)
-  );
+  ["main", "header"].forEach((selector) => $(selector).classList.add(result));
 
   $(".endgame-message h2").textContent =
     result === "win" ? "You Won!" : "Game over";
@@ -76,4 +74,14 @@ const showEndGame = (result) => {
   $(".endgame-moves").textContent = state.moves;
 };
 
-export { setupUI, resetUI, renderScore, renderTiles, showEndGame };
+const isUIBlocked = () => {
+  const main = $("main");
+  return (
+    window.getComputedStyle(main).display === "none" ||
+    main.classList.contains("win") ||
+    $(".restart-dialog").open ||
+    $(".about-game-dialog").open
+  );
+};
+
+export { setupUI, resetUI, renderScore, renderTiles, showEndGame, isUIBlocked };

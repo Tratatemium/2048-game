@@ -1,5 +1,3 @@
-import { $ } from "../utils/helpers.js";
-
 const animationController = (() => {
   let isAnimating = false;
 
