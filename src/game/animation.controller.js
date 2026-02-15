@@ -12,14 +12,17 @@ const animationController = (() => {
 
   const waitForAnimations = async () => {
     const tiles = getAllTiles();
+
     const animationPromises = tiles.flatMap((tile) =>
       tile.getAnimations().map((anim) => anim.finished),
     );
 
-    await Promise.all(animationPromises);
-
-    getAllTiles().forEach((tile) => tile.classList.remove("transition"));
-    isAnimating = false;
+    try {
+      await Promise.all(animationPromises);
+    } finally {
+      tiles.forEach((tile) => tile.classList.remove("transition"));
+      isAnimating = false;
+    }
   };
 
   return {
