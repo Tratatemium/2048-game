@@ -25,8 +25,14 @@ const state = {
   load() {
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) return false;
-    Object.assign(this, JSON.parse(saved));
-    return true;
+    try {
+      const parsed = JSON.parse(saved);
+      Object.assign(this, parsed);
+      return true;
+    } catch (err) {
+      this.deleteSaved();
+      return false;
+    }
   },
 
   deleteSaved() {
