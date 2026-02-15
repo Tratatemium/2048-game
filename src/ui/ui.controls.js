@@ -1,3 +1,4 @@
+import { SWIPE_THRESHOLD } from "../config.js";
 import { $ } from "../utils/helpers.js";
 import { onGameInput } from "../game/game.controller.js";
 
@@ -44,28 +45,27 @@ const setupControls = () => {
   /* MOBILE TOUCH/SWIPE CONTROLS                                                                       */
   /* ================================================================================================= */
 
-  const swipeTreshold = 25;
   let startX,
     startY = 0;
   let lastX,
     lastY = 0;
   let isSwiping = false;
-  let swipeRegisterd = false;
+  let swipeRegistered = false;
 
   const onSwipeStart = (x, y) => {
     startX = lastX = x;
     startY = lastY = y;
     isSwiping = true;
-    swipeRegisterd = false; // reset for a new swipe
+    swipeRegistered = false; // reset for a new swipe
   };
 
   const onSwipeMove = (x, y) => {
-    if (!isSwiping || swipeRegisterd) return;
+    if (!isSwiping || swipeRegistered) return;
 
     const dx = x - startX;
     const dy = y - startY;
 
-    if (Math.abs(dx) >= swipeTreshold || Math.abs(dy) >= swipeTreshold) {
+    if (Math.abs(dx) >= SWIPE_THRESHOLD || Math.abs(dy) >= SWIPE_THRESHOLD) {
       // Determine primary movement direction (horizontal vs vertical)
       if (Math.abs(dx) > Math.abs(dy)) {
         onGameInput(dx > 0 ? "right" : "left");
@@ -75,13 +75,13 @@ const setupControls = () => {
 
       lastX = x;
       lastY = y;
-      swipeRegisterd = true;
+      swipeRegistered = true;
     }
   };
 
   const onSwipeEnd = () => {
     isSwiping = false;
-    swipeRegisterd = false;
+    swipeRegistered = false;
   };
 
   window.addEventListener("touchstart", (event) => {
