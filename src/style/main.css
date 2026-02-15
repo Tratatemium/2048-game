@@ -1,0 +1,9 @@
+@import "./reset.css";
+@import "./variables.css";
+@import "./styles.css";
+@import "./game-board.css";
+@import "./tiles.css";
+@import "./ui-controls.css";
+@import "./win-defeat.css";
+@import "./dialogs.css";
+@import "./layout.css";

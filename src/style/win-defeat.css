@@ -27,8 +27,8 @@ h2 {
 /**
  * GAME BOARD SCALING - Shrink board during endgame for visual emphasis
  */
-.win .game-backgroud,
-.defeat .game-backgroud {
+.win .game-background,
+.defeat .game-background {
   transform: scale(0.7); /* Scale down game board */
 }
 
