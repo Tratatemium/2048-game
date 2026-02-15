@@ -77,7 +77,7 @@
   border: 1px solid var(--empty-slot);
   border-radius: 0.5em;
   box-shadow: var(--neon-shadow);
-  animation: fadeIn calc(2 * var(--animation-duration)) ease-in-out forwards; /* Fade-in animation for new tiles */
+  animation: fadeIn calc(1.5 * var(--animation-duration)) ease-in-out forwards; /* Fade-in animation for new tiles */
 }
 
 /**
