@@ -25,13 +25,16 @@ const setupNewGame = async () => {
 
 const setupGame = async () => {
   const isLoaded = state.load();
-  if (isLoaded) await renderTiles();
-  else await setupNewGame();
+  if (isLoaded) {
+    await renderTiles();
+    renderScore();
+  } else await setupNewGame();
 };
 
 const setupTest = async (testMode) => {
   state.loadTest(testMode);
   await renderTiles();
+  renderScore();
 };
 
 const checkAndHandleEndGame = () => {
@@ -69,4 +72,10 @@ const onGameInput = async (direction) => {
   state.save();
 };
 
-export { setupNewGame, setupGame, setupTest, checkAndHandleEndGame, onGameInput };
+export {
+  setupNewGame,
+  setupGame,
+  setupTest,
+  checkAndHandleEndGame,
+  onGameInput,
+};
