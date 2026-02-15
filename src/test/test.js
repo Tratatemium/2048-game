@@ -57,7 +57,7 @@ const getTestArray = (testMode) => {
   const arrayToInject = testArrays[testMode];
   if (!arrayToInject)
     throw new Error(
-      `injectTestArray() does not have a test mode: ${testMode}.`,
+      `getTestArray() does not have a test mode: ${testMode}.`,
     );
   return arrayToInject;
 };
