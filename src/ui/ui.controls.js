@@ -94,8 +94,9 @@ const setupControls = () => {
     "touchmove",
     (event) => {
       event.preventDefault();
-      const touches = event.touches[0];
-      onSwipeMove(touches.clientX, touches.clientY);
+      const touch = event.touches[0];
+      if (!touch) return;
+      onSwipeMove(touch.clientX, touch.clientY);
     },
     { passive: false },
   );
